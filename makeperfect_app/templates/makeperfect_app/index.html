@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+{% if song_list %}
+    <div>
+        <ul id = "master-song-list">
+        {% for song in song_list %}
+            <li><a href="/makeperfect_app/{{ song.id }}/">{{ song.song_title }}</a></li>
+        {% endfor %}
+        </ul>
+{% else %}
+    <p>No songs available.</p>
+    </div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,45 @@
+body {
+    background: black;
+    color: turquoise;
+    font-family: 'Geneva', sans-serif;
+}
+
+/*--------------------------------------------
+LINK STYLES
+---------------------------------------------*/
+
+a {
+    color: turquoise;
+    text-decoration: none;
+}
+
+a:hover {
+    color: greenyellow;
+}
+
+
+/*--------------------------------------------
+LIST STYLES
+---------------------------------------------*/
+
+/*removes styling, padding, and margin from unordered lists*/
+ul {
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+/*controls the padding and indentation of each list element*/
+li {
+    padding-left: 1.35em;
+    text-indent: -.7em;
+}
+
+/*this creates the shape before each list element*/
+li:before {
+  /*CSS character code for a circle*/
+/*    content: "\002022"; font-family:"Arial Black";
+*/    /*character code for a heart*/
+    content: "\2665"; font-family:"Arial Black";
+    color: hotpink;
+    padding-right: 5px;
+}
