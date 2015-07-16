@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <h1>
+            Edit Song:
+        </h1>
+        <input value="{{ song.song_title }}" name="song_title">
+        <br>
+        <input value="{{ song.artist }}" name="artist">
+        <br>
+        <input value="{{ song.key }}" name="key">
+        <br>
+        <input value="{{ song.chords }}" name="chords">
+        <br>
+        <input value="{{ song.lyrics }}" name="lyrics">
+        <br>
+        <input value="{{ song.notes }}" name="notes">
+        <br>
+        <input type="submit" value="SAVE"/>
+    </form>
+
+{#    <br><br>#}
+{#    {% for choice in question.choice_set.all %}#}
+{#    {{ choice.choice_text }}#}
+{#    <a href="/edit/choice/{{ choice.id }}/">#}
+{#        edit#}
+{#    </a>#}
+    <br/>
+{% endblock %}

@@ -20,3 +20,9 @@ def index(request):
 def details(request, song_id):
     song = get_object_or_404(Song, pk=song_id)
     return render(request, 'makeperfect_app/details.html', {'song': song})
+
+
+def edit(request, song_id):
+    song = get_object_or_404(Song, pk=song_id)
+    return render(request, 'makeperfect_app/edit.html', {'song': song})
+
