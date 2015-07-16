@@ -17,8 +17,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from makeperfect_app import views
 
-
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
+    url(r'^song/(?P<song_id>[0-9]+)/$', views.details, name='details'),
 ]

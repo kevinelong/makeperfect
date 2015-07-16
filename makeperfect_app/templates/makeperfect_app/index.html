@@ -5,9 +5,11 @@
 
 {% if song_list %}
     <div>
+
         <ul id = "master-song-list">
+        <h1>Song List</h1>
         {% for song in song_list %}
-            <li><a href="/makeperfect_app/{{ song.id }}/">{{ song.song_title }}</a></li>
+            <li><a href="/song/{{ song.id }}/">{{ song.song_title }}</a></li>
         {% endfor %}
         </ul>
 {% else %}

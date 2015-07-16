@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div id="song-details">
+        <h1>{{ song.song_title }}</h1>
+        <p><strong>Original Artist:</strong>   {{ song.artist }}
+        <br>
+        <strong>Key:</strong>   {{ song.key }}</p>
+    </div>
+        <div id="chords">
+        <h2>chords:</h2>
+        <pre>{{ song.chords }}</pre>
+    </div>
+    <div id="lyrics">
+        <h2>lyrics:</h2>
+        <pre>{{ song.lyrics }} </pre>
+    </div>
+
+{% endblock %}

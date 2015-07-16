@@ -1,9 +1,43 @@
 body {
     background: black;
-    color: turquoise;
-    font-family: 'Geneva', sans-serif;
+    color: aquamarine;
+    font-family: 'Dosis', sans-serif;
+    margin: auto;
+    box-sizing: border-box;
+    padding-top: 25px;
+    width: auto;
 }
 
+header {
+    background: black;
+    padding: 5px 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+header span {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+div {
+    padding: 1px 25px;
+}
+
+/*--------------------------------------------
+ HEADING STYLES
+---------------------------------------------*/
+
+h1 {
+    font-size: 24px;
+    color: greenyellow;
+}
+
+h2 {
+    font-size: 20px;
+}
 /*--------------------------------------------
 LINK STYLES
 ---------------------------------------------*/
@@ -39,7 +73,31 @@ li:before {
   /*CSS character code for a circle*/
 /*    content: "\002022"; font-family:"Arial Black";
 */    /*character code for a heart*/
-    content: "\2665"; font-family:"Arial Black";
-    color: hotpink;
+    content: "\266B"; font-family:"Arial Black";
+    color: orchid;
     padding-right: 5px;
+}
+
+#master-song-list {
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+  }
+
+#lyrics {
+    background: white;
+    color: black;
+    margin: auto;
+    min-width: 500px;
+}
+
+#chords {
+    background: aquamarine;
+    color: black;
+    margin: auto;
+    min-width: 500px;
+}
+
+pre {
+    white-space: pre-wrap;
 }
