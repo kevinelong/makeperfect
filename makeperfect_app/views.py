@@ -23,6 +23,23 @@ def details(request, song_id):
 
 
 def edit(request, song_id):
-    song = get_object_or_404(Song, pk=song_id)
-    return render(request, 'makeperfect_app/edit.html', {'song': song})
+    filtered_song_list = Song.objects.filter(id=song_id)
 
+    if len(filtered_song_list) > 0:
+        print("FOUND")
+        song = filtered_song_list[0]
+    else:
+        print("NEW")
+        song = Song()
+
+    if request.POST:
+        print(request.POST)
+        song.song_title = request.POST["song_title"]
+        song.artist = request.POST["artist"]
+        song.key = request.POST["key"]
+        song.chords = request.POST["chords"]
+        song.lyrics = request.POST["lyrics"]
+        song.notes = request.POST["notes"]
+        song.save()
+        return HttpResponseRedirect("/song/" + str(song.id) + "/")
+    return render(request, 'makeperfect_app/edit.html', {'song': song})
