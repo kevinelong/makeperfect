@@ -1,10 +1,11 @@
 body {
     background: black;
-    color: aquamarine;
+    color: #A5FDE4;
     font-family: 'Dosis', sans-serif;
+    font-size: 20px;
     margin: auto;
     box-sizing: border-box;
-    padding-top: 25px;
+    padding-top: 50px;
     width: auto;
 }
 
@@ -18,32 +19,52 @@ header {
 }
 
 header span {
-    font-size: 25px;
+    font-size: 36px;
     font-weight: bold;
+}
+
+span:before {
+    content: "\2669"; font-family:"Arial Black";
+    color: greenyellow;
+    padding-right: 5px;
+}
+
+span:after {
+    content: "\2669"; font-family:"Arial Black";
+    color: greenyellow;
+    padding-left: 5px;
 }
 
 div {
     padding: 1px 25px;
 }
 
+
+#master-song-list {
+    width: 400px;
+    margin: auto;
+    padding: 10px;
+  }
+
 /*--------------------------------------------
  HEADING STYLES
 ---------------------------------------------*/
 
 h1 {
-    font-size: 24px;
+    font-size: 30px;
     color: greenyellow;
 }
 
+
 h2 {
-    font-size: 20px;
+    font-size: 22px;
 }
 /*--------------------------------------------
 LINK STYLES
 ---------------------------------------------*/
 
 a {
-    color: turquoise;
+    color: #A5FDE4;
     text-decoration: none;
 }
 
@@ -78,26 +99,67 @@ li:before {
     padding-right: 5px;
 }
 
-#master-song-list {
-    width: 400px;
-    margin: auto;
-    padding: 20px;
-  }
 
-#lyrics {
-    background: white;
-    color: black;
-    margin: auto;
-    min-width: 500px;
+/*--------------------------------------------
+SONG DETAIL STYLES
+---------------------------------------------*/
+#song-details h2, #chords h2, #lyrics h2, #notes h2 {
+    font-weight: bold;
+    padding-right: 10px;
+    color: orchid;
 }
 
-#chords {
-    background: aquamarine;
-    color: black;
-    margin: auto;
-    min-width: 500px;
+#song-details h2 {
+    display: inline;
 }
 
 pre {
     white-space: pre-wrap;
 }
+
+#lyrics pre, #notes pre {
+        font-family: 'Dosis', sans-serif;
+}
+
+
+/*--------------------------------------------
+BUTTON AND FORM STYLES
+---------------------------------------------*/
+
+button, #save-button {
+    background: orchid;
+    color: black;
+    border: 10px dotted;
+    font-weight: bold;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 5px;
+}
+
+button:hover, #save-button:hover{
+    background: greenyellow;
+}
+
+#save-button {
+    width: 75px;
+}
+
+input, textarea {
+    margin: 10px;
+    background: #A5FDE4;
+    font-size: 15px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 500px;
+    font-family: 'Dosis', sans-serif;
+}
+
+textarea {
+    height: 400px;
+}
+
+label {
+    color: lightcyan;
+    font-size: 18px;
+}
+
