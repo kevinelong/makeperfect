@@ -23,15 +23,18 @@ class Song(models.Model):
 
     # checklist for practicing (what to focus on, i.e. memorize/transpose/arrange)
 
-
     def __str__(self): # __unicode__ on Python 2
         return self.song_title
 
     def __unicode__(self): # __
         return self.song_title
 
-# class Repertoire(models.Model):
-#
-#
-# class SetList(models.Model):
-    # a set list is a subset of one's Repertoire
+class SetHeader(models.Model):
+    set_name = models.CharField(max_length=200)
+
+class SetListItem(models.Model):
+    song = models.ForeignKey(Song)
+    set = models.ForeignKey(SetHeader)
+    ordinal = models.IntegerField(default=0)
+
+
