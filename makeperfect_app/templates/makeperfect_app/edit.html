@@ -2,26 +2,42 @@
 {% load staticfiles %}
 
 {% block content %}
-
-    <form method="post">
+<div>
+    <form id="edit-song" method="post">
         {% csrf_token %}
+        <br>
         <h1>
-            Edit Song:
+            <strong>Edit Song:</strong>
         </h1>
-        <input value="{{ song.song_title }}" name="song_title">
+
+        <label for="edit-title">Song Title:</label>
         <br>
-        <input value="{{ song.artist }}" name="artist">
+        <input id='edit-title' value="{{ song.song_title }}" type="text" name="song_title">
         <br>
-        <input value="{{ song.key }}" name="key">
+        <label for="edit-artist">Original Artist:</label>
         <br>
-        <input value="{{ song.chords }}" name="chords">
+        <input id='edit-artist' value="{{ song.artist }}" name="artist">
         <br>
-        <input value="{{ song.lyrics }}" name="lyrics">
+        <label for="edit-key">Key:</label>
         <br>
-        <input value="{{ song.notes }}" name="notes">
+        <input id='edit-key' value="{{ song.key }}" name="key">
         <br>
-        <input type="submit" value="SAVE"/>
+        <label for="edit-chords">Chords:</label>
+        <br>
+        <textarea id="edit-chords" name="chords">{{ song.chords }}</textarea>
+        <br>
+        <label for="edit-lyrics">Lyrics:</label>
+        <br>
+        <textarea id="edit-lyrics" name="lyrics">{{ song.lyrics }}</textarea>
+        <br>
+        <label for="edit-notes">Notes:</label>
+        <br>
+        <textarea id="edit-notes" name="notes">{{ song.notes }}</textarea>
+        <br>
+        <input id='save-button' type="submit" value="SAVE"/>
     </form>
+
+</div>
 
 {#    <br><br>#}
 {#    {% for choice in question.choice_set.all %}#}

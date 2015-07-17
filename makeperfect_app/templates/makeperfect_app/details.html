@@ -5,11 +5,11 @@
 
     <div id="song-details">
         <h1>{{ song.song_title }}</h1>
-        <p><strong>Original Artist:</strong>   {{ song.artist }}
+        <p><h2>original artist:</h2>   {{ song.artist }}
         <br>
-        <strong>Key:</strong>   {{ song.key }}</p>
+        <h2>key:</h2>   {{ song.key }}</p>
     </div>
-        <div id="chords">
+    <div id="chords">
         <h2>chords:</h2>
         <pre>{{ song.chords }}</pre>
     </div>
@@ -17,5 +17,13 @@
         <h2>lyrics:</h2>
         <pre>{{ song.lyrics }} </pre>
     </div>
+    <div id="notes">
+        <h2>notes:</h2>
+        <pre>{{ song.notes }} </pre>
+    </div>
+    <div>
+        <a href="/edit/{{ song.id }}/"><button>EDIT</button></a>
+    </div>
+
 
 {% endblock %}
