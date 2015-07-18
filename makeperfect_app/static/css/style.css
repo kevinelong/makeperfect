@@ -1,49 +1,57 @@
 body {
-    background: black;
-    color: #A5FDE4;
-    font-family: 'Dosis', sans-serif;
+    background: #E0E0E0;
+    color: black;
+    font-family: 'Roboto Condensed', sans-serif;
     font-size: 20px;
     margin: auto;
     box-sizing: border-box;
-    padding-top: 50px;
+    padding-top: 75px;
     width: auto;
-}
-
-header {
-    background: black;
-    padding: 5px 25px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
-
-header span {
-    font-size: 36px;
-    font-weight: bold;
-}
-
-span:before {
-    content: "\2669"; font-family:"Arial Black";
-    color: greenyellow;
-    padding-right: 5px;
-}
-
-span:after {
-    content: "\2669"; font-family:"Arial Black";
-    color: greenyellow;
-    padding-left: 5px;
 }
 
 div {
     padding: 1px 25px;
 }
 
+/*--------------------------------------------
+HEADER STYLES
+---------------------------------------------*/
+
+header {
+    background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);
+    padding: 5px 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+}
+
+header span {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+}
+
+header span:before {
+    content: "\1D106"; font-family:"Arial Black";
+    color: whitesmoke;
+    padding-right: 10px;
+    font-size: 50px;
+}
+
+header span:after {
+    content: "\1D107"; font-family:"Arial Black";
+    color: whitesmoke;
+    padding-left: 10px;
+    font-size: 50px;
+}
 
 #master-song-list {
-    width: 400px;
+    width: 600px;
     margin: auto;
     padding: 10px;
+    font-size: 24px;
   }
 
 /*--------------------------------------------
@@ -52,7 +60,7 @@ div {
 
 h1 {
     font-size: 30px;
-    color: greenyellow;
+    color: #26ABB0;
 }
 
 
@@ -64,14 +72,16 @@ LINK STYLES
 ---------------------------------------------*/
 
 a {
-    color: #A5FDE4;
+    color: black;
     text-decoration: none;
 }
 
 a:hover {
-    color: greenyellow;
+    background: linear-gradient(30deg, purple, mediumaquamarine, #26ABB0, orchid);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-top: 20px;
 }
-
 
 /*--------------------------------------------
 LIST STYLES
@@ -95,7 +105,8 @@ li:before {
 /*    content: "\002022"; font-family:"Arial Black";
 */    /*character code for a heart*/
     content: "\266B"; font-family:"Arial Black";
-    color: orchid;
+    font-size: 15px;
+    color: purple;
     padding-right: 5px;
 }
 
@@ -103,10 +114,13 @@ li:before {
 /*--------------------------------------------
 SONG DETAIL STYLES
 ---------------------------------------------*/
+#song-details h1 {
+    color: purple;
+}
 #song-details h2, #chords h2, #lyrics h2, #notes h2 {
     font-weight: bold;
     padding-right: 10px;
-    color: orchid;
+    color: #26ABB0;
 }
 
 #song-details h2 {
@@ -115,43 +129,46 @@ SONG DETAIL STYLES
 
 pre {
     white-space: pre-wrap;
+    font-family: 'Roboto Condensed', sans-serif;
 }
-
-#lyrics pre, #notes pre {
-        font-family: 'Dosis', sans-serif;
-}
-
 
 /*--------------------------------------------
 BUTTON AND FORM STYLES
 ---------------------------------------------*/
-
 button, #save-button {
-    background: orchid;
+    background: #26ABB0;
     color: black;
-    border: 10px dotted;
+    border: 0;
     font-weight: bold;
     border-radius: 15px;
     font-size: 12px;
-    padding: 5px;
+    padding: 10px 20px;
 }
 
 button:hover, #save-button:hover{
-    background: greenyellow;
+    background: darkorchid;
+    -webkit-text-fill-color: black;
 }
 
 #save-button {
     width: 75px;
 }
 
+#edit-button {
+    position: fixed;
+    top: 75px;
+    right: 0;
+    margin: 25px;
+}
 input, textarea {
     margin: 10px;
-    background: #A5FDE4;
+    background: lightgray;
+    border: none;
     font-size: 15px;
     border-radius: 10px;
     padding: 10px;
     width: 500px;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 textarea {
@@ -159,7 +176,7 @@ textarea {
 }
 
 label {
-    color: lightcyan;
+    color: purple;
     font-size: 18px;
 }
 
