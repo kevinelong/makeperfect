@@ -47,7 +47,7 @@ header span:after {
 }
 
 .main-content {
-    margin: 75px 10px 100px 10px;
+    margin: 100px 10px 100px 10px;
 }
 
 footer {
@@ -172,7 +172,7 @@ pre {
 /*--------------------------------------------
 BUTTON AND FORM STYLES
 ---------------------------------------------*/
-button, #save-button {
+button, .save-button {
     background: #26ABB0;
     color: black;
     border: 0;
@@ -182,12 +182,12 @@ button, #save-button {
     padding: 10px;
 }
 
-button:hover, #save-button:hover{
+button:hover, .save-button:hover{
     background: white;
     -webkit-text-fill-color: black;
 }
 
-#save-button {
+.save-button {
     width: 75px;
 }
 

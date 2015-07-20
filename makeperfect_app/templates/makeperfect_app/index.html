@@ -9,16 +9,15 @@
             {% for list in lists %}
                 <li><a href="#">{{ list.list_name }}</a></li>
                     {% for list_item in list.listitem_set.all %}
-                       <li class="list-items"><a href="#">{{ list_item.song.song_title }}</a></li>
+                       <li class="list-items"><a href="/song/{{ list_item.song.id }}/">{{ list_item.song.song_title }}</a></li>
                     {% endfor %}
             {% endfor %}
         {% else %}
             <p>No song lists available.</p>
         {% endif %}
         <br>
-        <a href="#"><button>NEW SONG LIST</button></a>
+    <a href="/editlist/0/"><button>ADD NEW SONG LIST</button></a>
     </ul>
-    <br>
     <div>
 
     <ul id = "master-song-list">
@@ -32,7 +31,7 @@
     {% endif %}
 
     <br>
-    <a href="/edit/0/"><button>NEW SONG</button></a>
+    <a href="/edit/0/"><button>ADD NEW SONG</button></a>
     </ul>
 
     </div>

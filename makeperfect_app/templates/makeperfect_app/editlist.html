@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="main-content">
+    <form id="edit-song-list" method="post">
+        {% csrf_token %}
+         <label for="edit-song-list">Add new list:</label>
+         <input id='edit-song-list' value="{{ list.list_name }}" type="text" name="list_name">
+        <br>
+        <input class='save-button' type="submit" value="SAVE"/>
+    </form>
+</div>
+    <br/>
+{% endblock %}
