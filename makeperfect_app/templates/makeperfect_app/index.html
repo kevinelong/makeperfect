@@ -2,21 +2,32 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<div class = "main-content">
 {% if song_list %}
     <div>
         <ul id = "master-song-list">
-        <h1>Song List</h1>
+        <h1>Songs</h1>
         {% for song in song_list %}
-            <li><a href="/song/{{ song.id }}/"> - {{ song.song_title }}</a></li>
+            <li><a href="/song/{{ song.id }}/">{{ song.song_title }}</a></li>
         {% endfor %}
 
 {% else %}
     <p>No songs available.</p>
 
 {% endif %}
-    <br>
-    <a href="/edit/0/"><button>ADD</button></a>
-    </ul>
+            <br>
+            <a href="/edit/0/"><button>ADD SONG</button></a>
+            <a href="#"><button>ADD SONG TO LIST</button></a>
+        </ul>
+
+        <ul id='song-lists'>
+        <h1>Song Lists</h1>
+            <li><a href="#">Lists of songs will live here.</a></li>
+            <br>
+            <a href="#"><button>CREATE SONG LIST</button></a>
+        </ul>
+        <br>
     </div>
+</div>
+
 {% endblock %}

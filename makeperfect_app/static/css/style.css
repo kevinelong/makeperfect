@@ -2,15 +2,14 @@ body {
     background: #E0E0E0;
     color: black;
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 20px;
+    font-size: 24px;
     margin: auto;
     box-sizing: border-box;
-    padding-top: 75px;
-    width: auto;
+    width: 100%;
 }
 
 div {
-    padding: 1px 25px;
+    padding: 1px 20px;
 }
 
 /*--------------------------------------------
@@ -47,7 +46,27 @@ header span:after {
     font-size: 50px;
 }
 
+.main-content {
+    margin: 75px 50px 100px 50px;
+}
+
+footer {
+    background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);
+    color: white;
+    padding: 5px 25px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 #master-song-list {
+    width: 600px;
+    margin: auto;
+    padding: 10px;
+    font-size: 24px;
+  }
+
+#song-lists {
     width: 600px;
     margin: auto;
     padding: 10px;
@@ -57,7 +76,6 @@ header span:after {
 /*--------------------------------------------
  HEADING STYLES
 ---------------------------------------------*/
-
 h1 {
     font-size: 30px;
     color: #26ABB0;
@@ -65,12 +83,11 @@ h1 {
 
 
 h2 {
-    font-size: 22px;
+    font-size: 28px;
 }
 /*--------------------------------------------
 LINK STYLES
 ---------------------------------------------*/
-
 a {
     color: black;
     text-decoration: none;
@@ -86,7 +103,6 @@ a:hover {
 /*--------------------------------------------
 LIST STYLES
 ---------------------------------------------*/
-
 /*removes styling, padding, and margin from unordered lists*/
 ul {
     list-style: none;
@@ -132,6 +148,15 @@ pre {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+#chords {
+    background: white;
+    margin: 0 50px 10px 25px;
+    padding-left: 40px;
+    float: right;
+    border-radius: 15px;
+    min-width: 25%;
+}
+
 /*--------------------------------------------
 BUTTON AND FORM STYLES
 ---------------------------------------------*/
@@ -142,11 +167,11 @@ button, #save-button {
     font-weight: bold;
     border-radius: 15px;
     font-size: 12px;
-    padding: 10px 20px;
+    padding: 10px;
 }
 
 button:hover, #save-button:hover{
-    background: darkorchid;
+    background: white;
     -webkit-text-fill-color: black;
 }
 
@@ -155,10 +180,7 @@ button:hover, #save-button:hover{
 }
 
 #edit-button {
-    position: fixed;
-    top: 75px;
-    right: 0;
-    margin: 25px;
+
 }
 input, textarea {
     margin: 10px;
