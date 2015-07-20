@@ -1,6 +1,10 @@
 from django.contrib import admin
 
 from .models import Song
-admin.site.register(Song)
+from .models import List
+from .models import ListItem
 
-# Register your models here.
+admin.site.register(Song)
+admin.site.register(List)
+admin.site.register(ListItem)
+

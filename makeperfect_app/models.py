@@ -29,12 +29,23 @@ class Song(models.Model):
     def __unicode__(self): # __
         return self.song_title
 
-class SetHeader(models.Model):
-    set_name = models.CharField(max_length=200)
+class List(models.Model):
+    list_name = models.CharField(max_length=200)
 
-class SetListItem(models.Model):
+    def __str__(self): # __unicode__ on Python 2
+        return self.list_name
+
+    def __unicode__(self): # __
+        return self.list_name
+
+class ListItem(models.Model):
+    list_name = models.ForeignKey(List)
     song = models.ForeignKey(Song)
-    set = models.ForeignKey(SetHeader)
-    ordinal = models.IntegerField(default=0)
+    position = models.IntegerField(default=0)
+    def __str__(self): # __unicode__ on Python 2
+        return self.song, self.list_name
+
+    def __unicode__(self): # __
+        return self.song, self.list_name
 
 

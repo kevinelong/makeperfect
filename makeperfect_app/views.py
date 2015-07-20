@@ -1,8 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
-from django.core.urlresolvers import reverse
-from .models import Song
+from .models import Song, List, ListItem
 
 import json
 
@@ -10,9 +9,13 @@ import json
 
 def index(request):
     song_list = Song.objects.all()
+    lists = List.objects.all()
+    list_items = ListItem.objects.all()
     template = loader.get_template('makeperfect_app/index.html')
     context = RequestContext(request, {
         'song_list': song_list,
+        'lists': lists,
+        'list_items': list_items,
     })
     return HttpResponse(template.render(context))
 

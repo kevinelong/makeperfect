@@ -3,29 +3,38 @@
 
 {% block content %}
 <div class = "main-content">
-{% if song_list %}
+    <ul id='song-lists'>
+        <h1>Song Lists</h1>
+        {% if lists %}
+            {% for list in lists %}
+                <li><a href="#">{{ list.list_name }}</a></li>
+                    {% for list_item in list.listitem_set.all %}
+                       <li class="list-items"><a href="#">{{ list_item.song.song_title }}</a></li>
+                    {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>No song lists available.</p>
+        {% endif %}
+        <br>
+        <a href="#"><button>NEW SONG LIST</button></a>
+    </ul>
+    <br>
     <div>
-        <ul id = "master-song-list">
-        <h1>Songs</h1>
+
+    <ul id = "master-song-list">
+    <h1>Songs</h1>
+        {% if song_list %}
         {% for song in song_list %}
             <li><a href="/song/{{ song.id }}/">{{ song.song_title }}</a></li>
         {% endfor %}
-
-{% else %}
+    {% else %}
     <p>No songs available.</p>
+    {% endif %}
 
-{% endif %}
-            <br>
-            <a href="/edit/0/"><button>ADD SONG</button></a>
-        </ul>
+    <br>
+    <a href="/edit/0/"><button>NEW SONG</button></a>
+    </ul>
 
-        <ul id='song-lists'>
-        <h1>Song Lists</h1>
-            <li><a href="#">Lists of songs will live here.</a></li>
-            <br>
-            <a href="#"><button>CREATE SONG LIST</button></a>
-        </ul>
-        <br>
     </div>
 </div>
 
