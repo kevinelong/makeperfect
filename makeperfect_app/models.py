@@ -42,10 +42,11 @@ class ListItem(models.Model):
     list_name = models.ForeignKey(List)
     song = models.ForeignKey(Song)
     position = models.IntegerField(default=0)
+
     def __str__(self): # __unicode__ on Python 2
-        return self.song, self.list_name
+        return "List: " + str(self.list_name) + "; Song: " + str(self.song)
 
     def __unicode__(self): # __
-        return self.song, self.list_name
+        return "List: " + str(self.list_name) + "; Song: " + str(self.song)
 
 
