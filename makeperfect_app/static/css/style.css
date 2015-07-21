@@ -155,6 +155,10 @@ SONG DETAIL STYLES
     display: inline;
 }
 
+#lyrics {
+    font-size: 16px;
+}
+
 pre {
     white-space: pre-wrap;
     font-family: 'Roboto Condensed', sans-serif;
@@ -166,7 +170,8 @@ pre {
     padding-left: 40px;
     float: right;
     border-radius: 15px;
-    min-width: 25%;
+    min-width: 30%;
+    font-size: 20px;
 }
 
 /*--------------------------------------------

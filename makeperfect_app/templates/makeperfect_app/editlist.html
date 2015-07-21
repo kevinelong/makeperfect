@@ -8,16 +8,17 @@
          <label for="edit-song-list">Add/edit list name:</label>
         <br>
          <input id='edit-song-list' value="{{ list.list_name }}" type="text" name="list_name">
+        <input class='save-button' type="submit" value="SAVE"/>
         <br>
-        <label for="song-select-list">Add song to list:</label>
+            <label for="song-select-list">Add song to list:</label>
         <br>
         <select id = "song-select-list">
             {% for song in songs %}
+            <option value="--------"></option>
             <option value = "song.song_title">{{ song.song_title }}</option>
             {% endfor %}
         </select>
-        <br>
-        <input class='save-button' type="submit" value="SAVE"/>
+        <a href="#"><button>ADD SONG</button></a>
     </form>
 </div>
     <br/>
