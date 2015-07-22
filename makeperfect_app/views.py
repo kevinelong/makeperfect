@@ -50,6 +50,7 @@ def edit(request, song_id):
 def editlist(request, list_id):
     songs = Song.objects.all().order_by('song_title')
     filtered_list_of_lists = List.objects.filter(id=list_id)
+    list_items = ListItem.objects.all()
 
     if len(filtered_list_of_lists) > 0:
         print("FOUND")
@@ -62,5 +63,5 @@ def editlist(request, list_id):
         print(request.POST)
         list.list_name = request.POST["list_name"]
         list.save()
-        return HttpResponseRedirect("/")
-    return render(request, 'makeperfect_app/editlist.html', {'list': list, 'songs': songs,})
+        return HttpResponseRedirect("/editlist/" + str(list.id) + "/")
+    return render(request, 'makeperfect_app/editlist.html', {'list': list, 'songs': songs, 'list_items': list_items})

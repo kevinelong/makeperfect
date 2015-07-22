@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="main-content">
+    <h1>{{ list.list_name }}</h1>
     <form id="edit-song-list" method="post">
         {% csrf_token %}
          <label for="edit-song-list">Add/edit list name:</label>
@@ -12,14 +13,28 @@
         <br>
             <label for="song-select-list">Add song to list:</label>
         <br>
+
+    </form>
+
         <select id = "song-select-list">
             {% for song in songs %}
-            <option value="--------"></option>
-            <option value = "song.song_title">{{ song.song_title }}</option>
+            <option value = "song.song_title"  name="list_item">{{ song.song_title }}</option>
             {% endfor %}
         </select>
-        <a href="#"><button>ADD SONG</button></a>
-    </form>
+        <a href=""><button>ADD SONG</button></a>
+
+<h1>Songs in List</h1>
+
+        {% for list_item in list.listitem_set.all %}
+            <div id="list-items-div">
+            <ul>
+                <li class="list-items">
+                    <a href="/song/{{ list_item.song.id }}/">
+                        {{ list_item.song.song_title }}</a>
+                </li>
+            </ul>
+            </div>
+        {% endfor %}
 </div>
     <br/>
 {% endblock %}
