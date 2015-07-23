@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^song/(?P<song_id>[0-9]+)/$', views.details, name='details'),
     url(r'^edit/(?P<song_id>[0-9]+)/$', views.edit, name='edit'),
+    # url(r'^list/(?P<list_id>[0-9]+)/$', views.list, name='list'),
     url(r'^editlist/(?P<list_id>[0-9]+)/$', views.editlist, name='editlist'),
 ]

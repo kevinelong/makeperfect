@@ -2,26 +2,14 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class = "main-content">
+<div class = "side-bar">
     <ul id='song-lists'>
         <h1>Song Lists</h1>
+        <li class="song-list"><a href="/"> All Songs</a></li>
         {% if lists %}
             {% for list in lists %}
-                <li id="song-list-{{ list.id }}">
-                    <a href="#" class="song-list">
-                       {{ list.list_name }}
-                    </a>
-                    <a href="/editlist/{{ list.id }}/">
-                        <button class="edit-list-button">EDIT LIST</button>
-                    </a>
-                    <ul id="song-list">
-                    {% for list_item in list.listitem_set.all %}
-                        <li class="list-items">
-                            <a href="/song/{{ list_item.song.id }}/">
-                                {{ list_item.song.song_title }}</a>
-                        </li>
-                    {% endfor %}
-                    </ul>
+                <li class="song-list">
+                    <a href="#" >{{ list.list_name }}</a>
                 </li>
             {% endfor %}
         {% else %}
@@ -30,21 +18,21 @@
         <br>
         <a href="/editlist/0/"><button>ADD NEW SONG LIST</button></a>
     </ul>
-    <div>
-        <ul id = "master-song-list">
-            <h1>Songs</h1>
-                {% if song_list %}
-                {% for song in song_list %}
-                    <li><a href="/song/{{ song.id }}/">{{ song.song_title }}</a></li>
-                {% endfor %}
-            {% else %}
-            <p>No songs available.</p>
-            {% endif %}
-
-            <br>
-            <a href="/edit/0/"><button>ADD NEW SONG</button></a>
-        </ul>
-    </div>
 </div>
 
+<div class="main-content">
+    <ul>
+            {% if song_list %}
+            {% for song in song_list %}
+                <li><a href="/song/{{ song.id }}/" class="list-items">{{ song.song_title }}</a></li>
+            {% endfor %}
+        {% else %}
+        <p>No songs available.</p>
+        {% endif %}
+
+        <br>
+<a href="/edit/0/"><button>ADD NEW SONG</button></a>
+    </ul>
+</div>
 {% endblock %}
+

@@ -50,7 +50,7 @@ def edit(request, song_id):
 def editlist(request, list_id):
     songs = Song.objects.all().order_by('song_title')
     filtered_list_of_lists = List.objects.filter(id=list_id)
-    list_items = ListItem.objects.all()
+
 
     if len(filtered_list_of_lists) > 0:
         print("FOUND")
@@ -59,9 +59,24 @@ def editlist(request, list_id):
         print("NEW")
         list = List()
 
+    list_items = ListItem.objects.filter(list_name=list)
+
+    for song in songs:
+        for list_item in list_items:
+            if list_item.song == song:
+                song.selected = True;
+
     if request.POST:
         print(request.POST)
         list.list_name = request.POST["list_name"]
         list.save()
+        for song in songs:
+            if "cb_" + str(song.id) in request.POST:
+                print ("create relationship if no relationship exists")
+            else:
+                print ("remove relationship if it exists")
+
         return HttpResponseRedirect("/editlist/" + str(list.id) + "/")
+
+
     return render(request, 'makeperfect_app/editlist.html', {'list': list, 'songs': songs, 'list_items': list_items})

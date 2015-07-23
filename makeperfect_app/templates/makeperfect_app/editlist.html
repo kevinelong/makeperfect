@@ -6,35 +6,30 @@
     <h1>{{ list.list_name }}</h1>
     <form id="edit-song-list" method="post">
         {% csrf_token %}
-         <label for="edit-song-list">Add/edit list name:</label>
+         <label for="edit-song-list-title">Add/edit list name:</label>
         <br>
-         <input id='edit-song-list' value="{{ list.list_name }}" type="text" name="list_name">
-        <input class='save-button' type="submit" value="SAVE"/>
-        <br>
-            <label for="song-select-list">Add song to list:</label>
+         <input id='edit-song-list-title' value="{{ list.list_name }}" type="text" name="list_name">
+
         <br>
 
-    </form>
 
-        <select id = "song-select-list">
-            {% for song in songs %}
-            <option value = "song.song_title"  name="list_item">{{ song.song_title }}</option>
-            {% endfor %}
-        </select>
-        <a href=""><button>ADD SONG</button></a>
-
-<h1>Songs in List</h1>
-
+    <h1>Songs in List</h1>
+    <ul>
         {% for list_item in list.listitem_set.all %}
-            <div id="list-items-div">
-            <ul>
                 <li class="list-items">
                     <a href="/song/{{ list_item.song.id }}/">
                         {{ list_item.song.song_title }}</a>
                 </li>
-            </ul>
-            </div>
         {% endfor %}
+    </ul>
+
+    <h1>All Songs</h1>
+    <ul>
+{% for song in songs %}<li>{% if song.selected %}<input type="checkbox" checked="checked" name="cb_{{ song.id }}">
+{% else %}<input type="checkbox" name="cb_{{ song.id }}">{% endif %}<a href="/song/{{ song.id }}/">{{ song.song_title }}</a></li>{% endfor %}
+    </ul>
+        <input class='save-button' type="submit" value="SAVE"/>
+    </form>
 </div>
-    <br/>
 {% endblock %}
+
