@@ -9,13 +9,10 @@ body {
     height: 100%;
 }
 
-div {
-    padding: 1px 20px;
-}
-
 .main-content {
     margin: 0;
-    padding: 100px 30px 200px 300px;
+    padding: 80px 30px 200px 310px;
+    display: none;
 }
 
 .side-bar {
@@ -23,9 +20,11 @@ div {
     margin: 0;
     position: fixed;
     top: 81px;
-    width: 200px;
+    width: 250px;
     height: 100%;
     overflow: auto;
+    padding: 0 20px 20px 20px;
+    font-size: 16px;
 }
 /*--------------------------------------------
 HEADER STYLES
@@ -100,9 +99,10 @@ a:hover {
 /*--------------------------------------------
 SONG DETAIL STYLES
 ---------------------------------------------*/
-#song-details h1 {
+#song-details h1, #all-songs h1 {
     color: purple;
 }
+
 #song-details h2, #chords h2, #lyrics h2, #notes h2 {
     font-weight: bold;
     padding-right: 10px;
@@ -113,10 +113,6 @@ SONG DETAIL STYLES
     display: inline;
 }
 
-#lyrics {
-    font-size: 16px;
-}
-
 pre {
     white-space: pre-wrap;
     font-family: 'Roboto Condensed', sans-serif;
@@ -125,7 +121,7 @@ pre {
 #chords {
     background: white;
     margin: 0 50px 10px 25px;
-    padding-left: 40px;
+    padding: 20px;
     float: right;
     border-radius: 15px;
     min-width: 30%;
@@ -135,39 +131,8 @@ pre {
 /*--------------------------------------------
 BUTTON AND FORM STYLES
 ---------------------------------------------*/
-button, .save-button {
-    background: #26ABB0;
-    color: black;
-    border: 0;
-    font-weight: bold;
-    border-radius: 15px;
-    font-size: 12px;
-    padding: 5px 10px;
-}
 
-button:hover, .save-button:hover{
-    background: mediumpurple;
-    -webkit-text-fill-color: black;
-}
-
-.save-button {
-    width: 75px;
-}
-
-.edit-list-button {
-    background: transparent;
-    display: none;
-}
-
-.add-to-list {
-    font-weight: bold;
-    font-size: 15px;
-    padding: 2px 15px;
-    background: white;
-    border-radius: 10px;
-    margin-right: 15px;
-}
-#edit-song input, #edit-song textarea, #edit-song-list-title {
+#edit-song-form input, #edit-song-form textarea, #edit-song-list-title {
     background: lightgray;
     border: none;
     width: 500px;
@@ -179,12 +144,35 @@ button:hover, .save-button:hover{
 
 textarea {
     height: 400px;
-
 }
 
 label {
     color: purple;
     font-size: 18px;
+}
+
+button {
+    background: #26ABB0;
+    color: black;
+    border: 0;
+    font-weight: bold;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+button:hover {
+    background: mediumpurple;
+    -webkit-text-fill-color: black;
+}
+
+.add-to-list {
+    font-weight: bold;
+    font-size: 15px;
+    padding: 2px 15px;
+    background: white;
+    border-radius: 10px;
+    margin-right: 15px;
 }
 
 #song-select-list {
@@ -211,26 +199,31 @@ ul {
     padding:0;
     margin:0;
 }
-/*/!*controls the padding and indentation of each list element*!/*/
-/*li {*/
-    /*padding-left: 1.35em;*/
-    /*text-indent: -.7em;*/
-/*}*/
+/*controls the padding and indentation of each list element*/
+li {
+    padding-left: 1.35em;
+    text-indent: -.7em;
+}
 
-/*/!*this creates the shape before each list element*!/*/
-/*.song-list:before {*/
-  /*/!*CSS character code for a circle*!/*/
-/*/!*    content: "\002022"; font-family:"Arial Black";*/
-/**!/    /!*character code for a heart*!/*/
-    /*content: "\266B"; font-family:"Arial Black";*/
-    /*font-size: 15px;*/
-    /*color: purple;*/
-    /*padding-right: 5px;*/
-/*}*/
+/*this creates the shape before each list element*/
+.song-list:before {
+  /*CSS character code for a circle*/
+/*    content: "\002022"; font-family:"Arial Black";
+*/    /*character code for a heart*/
+    content: "\266B"; font-family:"Arial Black";
+    font-size: 15px;
+    color: purple;
+    padding-right: 5px;
+}
 
-/*.list-items:before {*/
-    /*content: "\266A"; font-family:"Arial Black";*/
-    /*padding-left: 20px;*/
-    /*color: white;*/
-    /*padding-right: 10px;*/
-/*}*/
+.list-items:before {
+    content: "\266A"; font-family:"Arial Black";
+    padding-left: 20px;
+    color: white;
+    padding-right: 10px;
+}
+
+#sidebar-all-songs {
+    font-size: 12px;
+    display: none;
+}
