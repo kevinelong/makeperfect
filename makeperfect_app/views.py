@@ -14,9 +14,28 @@ def index(request):
         'song_list': song_list,
         'lists': lists,
         'list_items': list_items,
+        'song' : 'song',
     })
     return HttpResponse(template.render(context))
 
+def api_details(request, song_id):
+    song = get_object_or_404(Song, pk=song_id)
+    song_data = {"id":song.id, "name":song.song_title, "key": song.key, "lyrics": song.lyrics, "chords":song.chords, "artist": song.artist, "notes": song.notes}
+    return HttpResponse(json.dumps(song_data))
+
+def api_list(request, list_id):
+    songs = Song.objects.all().order_by('song_title')
+    filtered_list_of_lists = List.objects.filter(id=list_id)
+    list = filtered_list_of_lists[0]
+    list_items = ListItem.objects.filter(list_name=list)
+    data_list = []
+
+    for song in songs:
+        for list_item in list_items:
+            if list_item.song == song:
+                song_data = {"id":song.id, "name":song.song_title}
+                data_list.append(song_data)
+    return HttpResponse(json.dumps(data_list))
 
 def details(request, song_id):
     song = get_object_or_404(Song, pk=song_id)
