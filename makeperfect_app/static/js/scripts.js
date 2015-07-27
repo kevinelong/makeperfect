@@ -21,6 +21,7 @@ function reqListener(){
     console.log(this.responseText);
     song = JSON.parse(this.responseText);
     console.log(song);
+    console.log("Song List Name = ", song.list);
     document.getElementById("song-title").innerHTML=song.name;
     document.getElementById("artist").innerHTML=song.artist;
     document.getElementById("key").innerHTML=song.key;
@@ -36,6 +37,26 @@ function reqListener(){
     document.getElementById("edit-notes").innerHTML=song.notes;
 }
 
+function reqListListener() {
+    console.log(this.responseText);
+    list = JSON.parse(this.responseText);
+    document.getElementById("list-title").innerHTML=list.name;
+    var songList = document.getElementById("songs-in-list");
+    songList.innerHTML="";
+
+    for (i=0; i <list.songs.length; i++) {
+        var song = document.createElement("a");
+        id = list.songs[i].id;
+        song.setAttribute("href", "#");
+        song.setAttribute("data-id", id);
+        song.addEventListener("click", function(e){
+            showSongDetails(e.target.getAttribute("data-id"));
+        });
+        song.innerHTML=list.songs[i].name;
+        songList.appendChild(song);
+    }
+}
+
 function showSongDetails(id) {
     var content = document.getElementById("song-details");
     var otherContent = document.getElementsByClassName("main-content");
@@ -43,12 +64,12 @@ function showSongDetails(id) {
         otherContent[i].style.display = 'none';
     }
     content.style.display = 'block';
+    window.scrollTo(0, 0);
     var xhr = new XMLHttpRequest();
     xhr.onload = reqListener;
     xhr.open("get", "/api_details/" + id);
     xhr.send();
 }
-
 
 function showSongEditForm(id) {
     var content = document.getElementById("edit-song");
@@ -58,9 +79,22 @@ function showSongEditForm(id) {
     }
     content.style.display = 'block';
     window.scrollTo(0, 0);
-    console.log(id);
     var xhr = new XMLHttpRequest();
     xhr.onload = reqListener;
     xhr.open("get", "/api_details/" + id);
+    xhr.send();
+}
+
+function showListDetails(id) {
+    var content = document.getElementById("song-list");
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i=0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    content.style.display = 'block';
+    window.scrollTo(0, 0);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListListener;
+    xhr.open("get", "/api_list/" + id);
     xhr.send();
 }

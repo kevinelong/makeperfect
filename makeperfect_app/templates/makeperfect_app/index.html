@@ -23,7 +23,7 @@
         {% if lists %}
             {% for list in lists %}
                 <li class="song-list">
-                    <a href="#" >{{ list.list_name }}</a>
+                    <a href="#" id="\list\{{ list.id }}" onclick="showListDetails({{ list.id }})" >{{ list.list_name }}</a>
                 </li>
             {% endfor %}
         {% else %}
@@ -122,5 +122,19 @@
         <button type="submit">SAVE</button>
     </form>
 </div>
+
+
+<div class="main-content" id="song-list">
+    <h1 id="list-title"></h1>
+    <ul id="songs-in-list">
+
+    </ul>
+<div>
+    <br>
+    <a href=""><button>EDIT LIST</button></a>
+</div>
+
+</div>
+
 {% endblock %}
 

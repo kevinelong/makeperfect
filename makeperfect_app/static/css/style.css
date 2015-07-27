@@ -26,6 +26,8 @@ body {
     padding: 0 20px 20px 20px;
     font-size: 16px;
 }
+
+
 /*--------------------------------------------
 HEADER STYLES
 ---------------------------------------------*/
@@ -91,7 +93,10 @@ a {
 
 a:hover {
     color: darkorange;
-    padding-top: 20px;
+}
+
+#songs-in-list a {
+    display: block;
 }
 
 /*--------------------------------------------
@@ -217,3 +222,4 @@ li {
     font-size: 12px;
     display: none;
 }
+

@@ -29,13 +29,14 @@ def api_list(request, list_id):
     list = filtered_list_of_lists[0]
     list_items = ListItem.objects.filter(list_name=list)
     data_list = []
-
+    data_object = {"name": list.list_name}
     for song in songs:
         for list_item in list_items:
             if list_item.song == song:
-                song_data = {"id":song.id, "name":song.song_title}
+                song_data = {"id":song.id, "name":song.song_title, "list":list.list_name}
                 data_list.append(song_data)
-    return HttpResponse(json.dumps(data_list))
+    data_object["songs"] = data_list
+    return HttpResponse(json.dumps(data_object))
 
 def details(request, song_id):
     song = get_object_or_404(Song, pk=song_id)
