@@ -19,7 +19,7 @@ body {
     background: white;
     margin: 0;
     position: fixed;
-    top: 81px;
+    top: 81.5px;
     width: 250px;
     height: 100%;
     overflow: auto;
@@ -31,7 +31,8 @@ HEADER STYLES
 ---------------------------------------------*/
 
 header {
-    background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);
+    /*background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);*/
+    background: black;
     padding: 5px 25px;
     position: fixed;
     top: 0;
@@ -61,7 +62,8 @@ header span:after {
 }
 
 footer {
-    background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);
+    /*background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);*/
+    background: black;
     color: white;
     padding: 5px 25px;
     position: fixed;
@@ -74,39 +76,30 @@ footer {
 ---------------------------------------------*/
 h1 {
     font-size: 30px;
-    color: #26ABB0;
 }
 
 h2 {
     font-size: 26px;
-    color: purple;
 }
 /*--------------------------------------------
 LINK STYLES
 ---------------------------------------------*/
 a {
-    color: black;
+    color: dimgrey;
     text-decoration: none;
 }
 
 a:hover {
-    background: linear-gradient(30deg, purple, mediumaquamarine, #26ABB0, orchid);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: darkorange;
     padding-top: 20px;
 }
 
 /*--------------------------------------------
 SONG DETAIL STYLES
 ---------------------------------------------*/
-#song-details h1, #all-songs h1 {
-    color: purple;
-}
-
 #song-details h2, #chords h2, #lyrics h2, #notes h2 {
     font-weight: bold;
     padding-right: 10px;
-    color: #26ABB0;
 }
 
 #song-details h2 {
@@ -133,13 +126,14 @@ BUTTON AND FORM STYLES
 ---------------------------------------------*/
 
 #edit-song-form input, #edit-song-form textarea, #edit-song-list-title {
-    background: lightgray;
+    background: white;
     border: none;
     width: 500px;
     font-size: 15px;
     border-radius: 10px;
     padding: 10px;
     font-family: 'Roboto Condensed', sans-serif;
+    margin: 10px;
 }
 
 textarea {
@@ -147,12 +141,11 @@ textarea {
 }
 
 label {
-    color: purple;
     font-size: 18px;
 }
 
 button {
-    background: #26ABB0;
+    background: lightgray;
     color: black;
     border: 0;
     font-weight: bold;
@@ -162,8 +155,8 @@ button {
 }
 
 button:hover {
-    background: mediumpurple;
-    -webkit-text-fill-color: black;
+    background: darkorange;
+    /*-webkit-text-fill-color: black;*/
 }
 
 .add-to-list {
@@ -207,12 +200,9 @@ li {
 
 /*this creates the shape before each list element*/
 .song-list:before {
-  /*CSS character code for a circle*/
-/*    content: "\002022"; font-family:"Arial Black";
-*/    /*character code for a heart*/
     content: "\266B"; font-family:"Arial Black";
     font-size: 15px;
-    color: purple;
+    color: dimgray;
     padding-right: 5px;
 }
 
