@@ -19,7 +19,7 @@ function toggleSongList() {
 
 function reqListener(){
     console.log(this.responseText);
-    song = JSON.parse(this.responseText);
+    var song = JSON.parse(this.responseText);
     console.log(song);
     console.log("Song List Name = ", song.list);
     document.getElementById("song-title").innerHTML=song.name;
@@ -39,7 +39,9 @@ function reqListener(){
 
 function reqListListener() {
     console.log(this.responseText);
-    list = JSON.parse(this.responseText);
+    var list = JSON.parse(this.responseText);
+
+    // List details
     document.getElementById("list-title").innerHTML=list.name;
     var songList = document.getElementById("songs-in-list");
     songList.innerHTML="";
@@ -54,6 +56,22 @@ function reqListListener() {
         });
         song.innerHTML=list.songs[i].name;
         songList.appendChild(song);
+    }
+    // edit list form
+    document.getElementById("edit-list-title").innerHTML=list.name;
+    document.getElementById("edit-song-list-title").value=list.name;
+    var editSongList = document.getElementById("songs-in-edit-list-form");
+    editSongList.innerHTML="";
+    for (i=0; i <list.songs.length; i++) {
+        var listSong = document.createElement("a");
+        id = list.songs[i].id;
+        listSong.setAttribute("href", "#");
+        listSong.setAttribute("data-id", id);
+        listSong.addEventListener("click", function(e){
+            showSongDetails(e.target.getAttribute("data-id"));
+        });
+        listSong.innerHTML=list.songs[i].name;
+        editSongList.appendChild(listSong);
     }
 }
 
@@ -87,6 +105,20 @@ function showSongEditForm(id) {
 
 function showListDetails(id) {
     var content = document.getElementById("song-list");
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i=0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    content.style.display = 'block';
+    window.scrollTo(0, 0);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListListener;
+    xhr.open("get", "/api_list/" + id);
+    xhr.send();
+}
+
+function showListEditForm(id) {
+    var content = document.getElementById("edit-song-list-details");
     var otherContent = document.getElementsByClassName("main-content");
     for (i=0; i < otherContent.length; i++) {
         otherContent[i].style.display = 'none';

@@ -2,9 +2,13 @@
 {% load staticfiles %}
 
 {% block content %}
+
+{#--------------------SIDE BAR CONTENT--------------------#}
+
 <div class = "side-bar">
     <ul id='song-lists'>
         <h1>Song Lists</h1>
+
         <li class="song-list"><a href="#" onclick="showAllSongs()"> All Songs</a><a onclick="toggleSongList()">  &#8711</a></li>
 
         <ul id="sidebar-all-songs">
@@ -16,10 +20,12 @@
                 </a>
             </li>
         {% endfor %}
+
         {% else %}
         <p>No songs available.</p>
         {% endif %}
     </ul>
+
         {% if lists %}
             {% for list in lists %}
                 <li class="song-list">
@@ -30,12 +36,13 @@
             <p>No song lists available.</p>
         {% endif %}
         <br>
-        <a href="/editlist/0/"><button>ADD NEW SONG LIST</button></a>
+
+        <br>
+        <button onclick="showListEditForm(0)">ADD NEW SONG LIST</button>
     </ul>
 </div>
 
-{#LIST OF ALL SONGS    #}
-
+{#--------------------LIST OF ALL SONGS--------------------#}
 
 <div class="main-content" id="all-songs">
     <h1>All Songs</h1>
@@ -53,12 +60,12 @@
         {% endif %}
 
         <br>
-        <a href="/edit/0/"><button>ADD NEW SONG</button></a>
+        <button onclick="showSongEditForm(0)">ADD NEW SONG</button>
     </ul>
 </div>
 
 
-{#SONG DETAILS#}
+{#--------------------SONG DETAILS--------------------#}
 
 <div class="main-content" id="song-details">
     <div>
@@ -87,7 +94,7 @@
     </div>
 </div>
 
-{#EDIT SONG FORM#}
+{#--------------------EDIT SONG FORM--------------------#}
 
 <div class="main-content" id="edit-song">
     <form id="edit-song-form" method="post">
@@ -123,18 +130,53 @@
     </form>
 </div>
 
+{#--------------------LIST DETAILS--------------------#}
 
 <div class="main-content" id="song-list">
     <h1 id="list-title"></h1>
     <ul id="songs-in-list">
 
     </ul>
-<div>
-    <br>
-    <a href=""><button>EDIT LIST</button></a>
+    <div>
+        <br>
+        <button onclick="showListEditForm()">EDIT LIST</button>
+    </div>
 </div>
 
-</div>
 
+{#--------------------EDIT LIST DETAILS FORM--------------------#}
+<div class="main-content" id="edit-song-list-details">
+    <h1 id="edit-list-title"></h1>
+    <form id="edit-song-list" method="post">
+        {% csrf_token %}
+         <label for="edit-song-list-title">Add/edit list name:</label>
+        <br>
+         <input id='edit-song-list-title' type="text" name="list_name">
+        <br>
+
+
+    <h2>Songs in List</h2>
+        <ul id="songs-in-edit-list-form">
+
+        </ul>
+
+    <h2>Available Songs</h2>
+
+        <ul id="available-songs">
+
+
+        </ul>
+
+        <br>
+
+{#        This is the template code for creating a list of checkboxes. #}
+{#    <ul>#}
+{#{% for song in songs %}<li>{% if song.selected %}<input type="checkbox" checked="checked" name="cb_{{ song.id }}">#}
+{#{% else %}<input type="checkbox" name="cb_{{ song.id }}">{% endif %}<a href="/song/{{ song.id }}/">{{ song.song_title }}</a></li>{% endfor %}#}
+{#    </ul>#}
+{#        <br>#}
+{#        <br>#}
+       <button type="submit">SAVE</button>
+    </form>
+</div>
 {% endblock %}
-

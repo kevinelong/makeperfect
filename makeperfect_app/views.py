@@ -35,7 +35,9 @@ def api_list(request, list_id):
             if list_item.song == song:
                 song_data = {"id":song.id, "name":song.song_title, "list":list.list_name}
                 data_list.append(song_data)
+                song.selected = True
     data_object["songs"] = data_list
+
     return HttpResponse(json.dumps(data_object))
 
 def details(request, song_id):
@@ -66,6 +68,15 @@ def edit(request, song_id):
         song.save()
         return HttpResponseRedirect("/song/" + str(song.id) + "/")
     return render(request, 'makeperfect_app/edit.html', {'song': song})
+
+
+
+
+
+
+
+
+# NOT USING THIS VIEW, SAVED FOR REFERENCE
 
 def editlist(request, list_id):
     songs = Song.objects.all().order_by('song_title')
