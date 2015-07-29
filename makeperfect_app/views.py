@@ -23,26 +23,37 @@ def api_all (request):
     songs = Song.objects.all().order_by('song_title')
     data_list = []
     for song in songs:
-        song_data = {"id":song.id, "name":song.song_title}
+        song_data = {"id": song.id, "name": song.song_title}
         data_list.append(song_data)
         song.selected = True
     return HttpResponse(json.dumps(data_list))
 
 def api_all_not_in_list(request, list_id):
     songs = Song.objects.all().order_by('song_title')
+    output_songs = list(songs)
     filtered_list_of_lists = List.objects.filter(id=list_id)
-    list = filtered_list_of_lists[0]
-    list_items = ListItem.objects.filter(list_name=list)
+    filtered_list = filtered_list_of_lists[0]
+    list_items = ListItem.objects.filter(list_name=filtered_list)
     data_list = []
-    # iterate through each song in the list of all songs
-    for song in songs:
-        # now look at the songs in the selected list and make comparison
-        for list_item in list_items:
-            # if the song does not match any in the list of songs, add info to dictionary
-            if list_item.song != song:
-                song_data = {"id": song.id,
-                             "name": song.song_title}
-        data_list.append(song_data)
+    song_data = {}
+
+    if list_items:
+        # iterate through each song in the list of all songs
+        for song in songs:
+            # look at the songs in the selected list and make comparison
+            for list_item in list_items:
+                # if the song does not match any in the list of songs, add info to dictionary
+                if list_item.song == song:
+                    output_songs.remove(song)
+        for song in output_songs:
+            song_data = {"id": song.id,
+                         "name": song.song_title}
+            data_list.append(song_data)
+    else:
+        for song in songs:
+            song_data = {"id": song.id,
+                         "name": song.song_title}
+            data_list.append(song_data)
 
     return HttpResponse(json.dumps(data_list, indent=4))
 
