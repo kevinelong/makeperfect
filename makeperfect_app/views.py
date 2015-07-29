@@ -34,19 +34,28 @@ def api_all_not_in_list(request, list_id):
     list = filtered_list_of_lists[0]
     list_items = ListItem.objects.filter(list_name=list)
     data_list = []
+    # iterate through each song in the list of all songs
     for song in songs:
+        # now look at the songs in the selected list and make comparison
         for list_item in list_items:
+            # if the song does not match any in the list of songs, add info to dictionary
             if list_item.song != song:
-                song_data = {"id":song.id, "name":song.song_title, "list":list.list_name}
-                data_list.append(song_data)
-                song.selected = True
+                song_data = {"id": song.id,
+                             "name": song.song_title}
+        data_list.append(song_data)
 
     return HttpResponse(json.dumps(data_list, indent=4))
 
 
 def api_details(request, song_id):
     song = get_object_or_404(Song, pk=song_id)
-    song_data = {"id":song.id, "name":song.song_title, "key": song.key, "lyrics": song.lyrics, "chords":song.chords, "artist": song.artist, "notes": song.notes}
+    song_data = {"id": song.id,
+                 "name": song.song_title,
+                 "key": song.key,
+                 "lyrics": song.lyrics,
+                 "chords": song.chords,
+                 "artist": song.artist,
+                 "notes": song.notes}
     return HttpResponse(json.dumps(song_data))
 
 def api_list(request, list_id):
@@ -59,7 +68,9 @@ def api_list(request, list_id):
     for song in songs:
         for list_item in list_items:
             if list_item.song == song:
-                song_data = {"id":song.id, "name":song.song_title, "list":list.list_name}
+                song_data = {"id": song.id,
+                             "name": song.song_title,
+                             "list": list.list_name}
                 data_list.append(song_data)
                 song.selected = True
     data_object["songs"] = data_list
@@ -70,7 +81,9 @@ def details(request, song_id):
     song = get_object_or_404(Song, pk=song_id)
     lists = List.objects.all().order_by('list_name')
     list_items = ListItem.objects.all()
-    return render(request, 'makeperfect_app/details.html', {'song': song, 'lists': lists, 'list_items': list_items,})
+    return render(request, 'makeperfect_app/details.html', {'song': song,
+                                                            'lists': lists,
+                                                            'list_items': list_items, })
 
 
 def edit(request, song_id):
