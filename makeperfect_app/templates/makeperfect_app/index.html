@@ -3,13 +3,14 @@
 
 {% block content %}
 
+
 {#--------------------SIDE BAR CONTENT--------------------#}
 
-<div class = "side-bar">
+<div class = "side-bar" id="sidebar">
+    <h1>Song Lists</h1>
     <ul id='song-lists'>
-        <h1>Song Lists</h1>
 
-        <li class="song-list"><a href="#" onclick="showAllSongs()"> All Songs</a><a onclick="toggleSongList()">  &#8711</a></li>
+        <li class="song-list"><a href="#" onclick="showAllSongs()"> All Songs</a><a href=#" onclick="toggleSongList()">  &#8711</a></li>
 
         <ul id="sidebar-all-songs">
         {% if song_list %}
@@ -24,7 +25,7 @@
         {% else %}
         <p>No songs available.</p>
         {% endif %}
-    </ul>
+        </ul>
 
         {% if lists %}
             {% for list in lists %}
@@ -36,17 +37,15 @@
             <p>No song lists available.</p>
         {% endif %}
         <br>
-
-        <br>
-        <button onclick="showListEditForm(0)">ADD NEW SONG LIST</button>
-    </ul>
+        </ul>
+    <button onclick="showListEditForm(0)">ADD NEW SONG LIST</button>
 </div>
 
 {#--------------------LIST OF ALL SONGS--------------------#}
 
 <div class="main-content" id="all-songs">
     <h1>All Songs</h1>
-    <ul>
+    <ul class="all-songs">
         {% if song_list %}
         {% for song in song_list %}
             <li>
@@ -70,15 +69,18 @@
 <div class="main-content" id="song-details">
     <div>
         <div>
+
             <h1 id="song-title"></h1>
+
             <h2>original artist:</h2>   <span id="artist"> </span>
             <br>
             <h2>key:</h2>  <span id="key"> </span>
+
         </div>
         <br>
         <div id="chords">
-            <h2>chords:</h2>
-            <pre id="chords-text"></pre>
+        <h2>chords:</h2>
+        <pre id="chords-text"></pre>
         </div>
         <div id="lyrics">
             <h2>lyrics:</h2>
@@ -177,4 +179,6 @@
        <button type="submit">SAVE</button>
     </form>
 </div>
+
+
 {% endblock %}
