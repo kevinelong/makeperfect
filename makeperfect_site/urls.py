@@ -25,6 +25,6 @@ urlpatterns = [
     url(r'^editlist/(?P<list_id>[0-9]+)/$', views.editlist, name='editlist'),
     url(r'^api_details/(?P<song_id>[0-9]+)/$', views.api_details, name='api_details'),
     url(r'^api_list/(?P<list_id>[0-9]+)/$', views.api_list, name='api_list'),
-    # url(r'^api_all/(?P<list_id>[0-9]+)/$', views.api_all, name='api_all'),
-    # url(r'^api_all_not_in_list/(?P<list_id>[0-9]+)/$', views.api_all_not_in_list, name='api_all_not_in_list'),
+    url(r'^api_all/(?P<list_id>[0-9]+)/$', views.api_all, name='api_all'),
+    url(r'^api_all_not_in_list/(?P<list_id>[0-9]+)/$', views.api_all_not_in_list, name='api_all_not_in_list'),
 ]
