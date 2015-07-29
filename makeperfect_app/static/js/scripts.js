@@ -61,6 +61,7 @@ function reqListListener() {
     document.getElementById("edit-song-list-title").value=list.name;
     var editSongList = document.getElementById("songs-in-edit-list-form");
     editSongList.innerHTML="";
+
     for (i=0; i <list.songs.length; i++) {
         var listSong = document.createElement("a");
         id = list.songs[i].id;
@@ -78,7 +79,7 @@ function reqAvailableSongsListener() {
     console.log(this.responseText);
     var songs = JSON.parse(this.responseText);
     var availableSongs = document.getElementById("available-songs");
-
+    availableSongs.innerHTML="";
     for (i=0; i <songs.length; i++) {
         var song = document.createElement("a");
         id = songs[i].id;
