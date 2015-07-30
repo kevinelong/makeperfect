@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
@@ -19,7 +20,8 @@ def index(request):
     return HttpResponse(template.render(context))
 
 
-def api_all (request):
+
+def api_all(request):
     songs = Song.objects.all().order_by('song_title')
     data_list = []
     for song in songs:
@@ -27,6 +29,7 @@ def api_all (request):
         data_list.append(song_data)
         song.selected = True
     return HttpResponse(json.dumps(data_list))
+
 
 def api_all_not_in_list(request, list_id):
     songs = Song.objects.all().order_by('song_title')
@@ -57,8 +60,27 @@ def api_all_not_in_list(request, list_id):
 
     return HttpResponse(json.dumps(data_list, indent=4))
 
-
+@csrf_exempt
 def api_details(request, song_id):
+    if request.POST:
+        print(request.POST)
+
+        if request.POST["id"] == "0":
+            song = Song()
+        else:
+            song = Song.objects.filter(id=request.POST["id"])[0]
+        if request.POST["action"] == "DELETE":
+            song.delete()
+        else:
+            song.song_title = request.POST["song_title"]
+            song.artist = request.POST["artist"]
+            song.key = request.POST["key"]
+            song.chords = request.POST["chords"]
+            song.lyrics = request.POST["lyrics"]
+            song.notes = request.POST["notes"]
+            song.save()
+
+
     song = get_object_or_404(Song, pk=song_id)
     song_data = {"id": song.id,
                  "name": song.song_title,
