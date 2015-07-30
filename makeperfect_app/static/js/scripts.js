@@ -16,6 +16,42 @@ function toggleSongList() {
         }
 }
 
+// general function to post data
+// called by:
+//      sendSongDetails
+//
+function sendPost(item, url) {
+    // create new FormData
+    // FormData holds a set of key/value pairs to send using XMLHttpRequest. It works like a form's submit button.
+    var form_data = new FormData();
+    // adds each key-value pair to the FormData
+    for (var key in item) {
+        form_data.append(key, item[key]);
+    }
+    // Create new XMLHttpRequest
+    var request = new XMLHttpRequest();
+    request.onload=showSong;
+    request.open("POST", url);
+    request.send(form_data);
+}
+
+function sendSongDetails() {
+    // creates a dictionary to hold the information on the form
+    id = window.currentSongId;
+    var item = {
+        "action": "save",
+        "id": window.currentSongId,
+        "song_title": document.getElementById("edit-title").value,
+        "artist" : document.getElementById("edit-artist").value,
+        "key": document.getElementById("edit-key").value,
+        "chords": document.getElementById("edit-chords").value,
+        "lyrics": document.getElementById("edit-lyrics").value,
+        "notes": document.getElementById("edit-notes").value,
+    };
+    // calls the sendPost function with the dictionary created and a url
+    sendPost(item, "/api_details/" + id + '/');
+}
+
 function reqListener(){
     console.log(this.responseText);
     var song = JSON.parse(this.responseText);
@@ -94,6 +130,11 @@ function reqAvailableSongsListener() {
 }
 
 function showSongDetails(id) {
+    window.currentSongId = id;
+    showSong();
+}
+function showSong() {
+    var id=window.currentSongId;
     var content = document.getElementById("song-details");
     var otherContent = document.getElementsByClassName("main-content");
     for (i=0; i < otherContent.length; i++) {
@@ -105,9 +146,10 @@ function showSongDetails(id) {
     xhr.onload = reqListener;
     xhr.open("get", "/api_details/" + id + '/');
     xhr.send();
+
 }
 
-function showSongEditForm(id) {
+function showSongEditForm() {
     var content = document.getElementById("edit-song");
     var otherContent = document.getElementsByClassName("main-content");
     for (i=0; i < otherContent.length; i++) {
@@ -115,10 +157,6 @@ function showSongEditForm(id) {
     }
     content.style.display = 'block';
     window.scrollTo(0, 0);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListener;
-    xhr.open("get", "/api_details/" + id + '/');
-    xhr.send();
 }
 
 function showListDetails(id) {
