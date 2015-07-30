@@ -30,7 +30,7 @@ function sendPost(item, url) {
     }
     // Create new XMLHttpRequest
     var request = new XMLHttpRequest();
-    request.onload=showSong;
+    request.onload=reqListener;
     request.open("POST", url);
     request.send(form_data);
 }
@@ -52,9 +52,96 @@ function sendSongDetails() {
     sendPost(item, "/api_details/" + id + '/');
 }
 
+function showSongDetails(id) {
+    window.currentSongId = id;
+    showSong();
+}
+function showSongView() {
+
+    console.log(this);
+    var id = window.currentSongId;
+    var content = document.getElementById("song-details");
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i = 0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    content.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function showSong() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListener;
+    xhr.open("get", "/api_details/" + window.currentSongId + '/');
+    xhr.send();
+}
+
+function showSongEditForm() {
+    var content = document.getElementById("edit-song");
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i=0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    content.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function showNewSongForm() {
+    window.currentSongId = 0;
+    document.getElementById("edit-title").value="";
+    document.getElementById("edit-artist").value="";
+    document.getElementById("edit-key").value="";
+    document.getElementById("edit-chords").innerHTML="";
+    document.getElementById("edit-lyrics").innerHTML="";
+    document.getElementById("edit-notes").innerHTML="";
+    showSongEditForm();
+}
+
+function showListDetails(id) {
+    window.currentListId = id;
+    var content = document.getElementById("song-list");
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i=0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    content.style.display = 'block';
+    window.scrollTo(0, 0);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListListener;
+    xhr.open("get", "/api_list/" + id + '/');
+    xhr.send();
+}
+
+function showListEditForm() {
+    var id = window.currentListId;
+    var content = document.getElementById("edit-song-list-details");
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i=0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    content.style.display = 'block';
+    window.scrollTo(0, 0);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListListener;
+    xhr.open("get", "/api_list/" + id + '/');
+    xhr.send();
+    showAvailableSongs(id);
+}
+
+function showAvailableSongs(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqAvailableSongsListener;
+    xhr.open("get", "/api_all_not_in_list/" + id + '/');
+    xhr.send();
+}
+
+//---------------------REQ LISTENERS---------------------
+//-------------------------------------------------------
 function reqListener(){
+    showSongView();
     console.log(this.responseText);
     var song = JSON.parse(this.responseText);
+    window.currentSongId = song.id;
     console.log(song);
     console.log("Song List Name = ", song.list);
     document.getElementById("song-title").innerHTML=song.name;
@@ -127,72 +214,4 @@ function reqAvailableSongsListener() {
         song.innerHTML=songs[i].name;
         availableSongs.appendChild(song);
     }
-}
-
-function showSongDetails(id) {
-    window.currentSongId = id;
-    showSong();
-}
-function showSong() {
-    var id=window.currentSongId;
-    var content = document.getElementById("song-details");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListener;
-    xhr.open("get", "/api_details/" + id + '/');
-    xhr.send();
-
-}
-
-function showSongEditForm() {
-    var content = document.getElementById("edit-song");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function showListDetails(id) {
-    window.currentListId = id;
-    var content = document.getElementById("song-list");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListListener;
-    xhr.open("get", "/api_list/" + id + '/');
-    xhr.send();
-}
-
-function showListEditForm() {
-    var id = window.currentListId;
-    var content = document.getElementById("edit-song-list-details");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListListener;
-    xhr.open("get", "/api_list/" + id + '/');
-    xhr.send();
-    showAvailableSongs(id);
-}
-
-function showAvailableSongs(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqAvailableSongsListener;
-    xhr.open("get", "/api_all_not_in_list/" + id + '/');
-    xhr.send();
 }
