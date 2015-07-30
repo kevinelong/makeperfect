@@ -95,10 +95,10 @@
     </div>
 </div>
 
-{#--------------------EDIT SONG FORM--------------------#}
+{#--------------------SONG EDIT FORM--------------------#}
 
 <div class="main-content" id="edit-song">
-    <form id="edit-song-form" method="post">
+    <div id="edit-song-form">
         {% csrf_token %}
         <h1 id="song-title"></h1>
         <h2>Edit/Add Song:</h2>
@@ -127,8 +127,8 @@
         <br>
         <textarea id="edit-notes" name="notes"></textarea>
         <br>
-        <button type="submit">SAVE</button>
-    </form>
+        <button onclick="sendSongDetails()" value = "SAVE">SAVE</button>
+    </div>
 </div>
 
 {#--------------------LIST DETAILS--------------------#}
@@ -148,7 +148,7 @@
 {#--------------------EDIT LIST DETAILS FORM--------------------#}
 <div class="main-content" id="edit-song-list-details">
     <h1 id="edit-list-title"></h1>
-    <form id="edit-song-list" method="post">
+    <div id="edit-song-list">
         {% csrf_token %}
          <label for="edit-song-list-title">Add/edit list name:</label>
         <br>
@@ -176,7 +176,7 @@
 {#        <br>#}
 {#        <br>#}
        <button type="submit">SAVE</button>
-    </form>
+    </div>
 </div>
 
 
