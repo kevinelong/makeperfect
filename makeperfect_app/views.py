@@ -15,7 +15,7 @@ def index(request):
         'song_list': song_list,
         'lists': lists,
         'list_items': list_items,
-        'song' : 'song',
+        'song': 'song',
     })
     return HttpResponse(template.render(context))
 
@@ -79,9 +79,9 @@ def api_details(request, song_id):
             song.lyrics = request.POST["lyrics"]
             song.notes = request.POST["notes"]
             song.save()
+    else:
+        song = get_object_or_404(Song, pk=song_id)
 
-
-    song = get_object_or_404(Song, pk=song_id)
     song_data = {"id": song.id,
                  "name": song.song_title,
                  "key": song.key,
