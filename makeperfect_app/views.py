@@ -110,76 +110,71 @@ def api_list(request, list_id):
 
     return HttpResponse(json.dumps(data_object))
 
-def details(request, song_id):
-    song = get_object_or_404(Song, pk=song_id)
-    lists = List.objects.all().order_by('list_name')
-    list_items = ListItem.objects.all()
-    return render(request, 'makeperfect_app/details.html', {'song': song,
-                                                            'lists': lists,
-                                                            'list_items': list_items, })
 
-
-def edit(request, song_id):
-    filtered_song_list = Song.objects.filter(id=song_id)
-
-    if len(filtered_song_list) > 0:
-        print("FOUND")
-        song = filtered_song_list[0]
-    else:
-        print("NEW")
-        song = Song()
-
-    if request.POST:
-        print(request.POST)
-        song.song_title = request.POST["song_title"]
-        song.artist = request.POST["artist"]
-        song.key = request.POST["key"]
-        song.chords = request.POST["chords"]
-        song.lyrics = request.POST["lyrics"]
-        song.notes = request.POST["notes"]
-        song.save()
-        return HttpResponseRedirect("/song/" + str(song.id) + "/")
-    return render(request, 'makeperfect_app/edit.html', {'song': song})
-
-
-
-
-
-
-
-
-# NOT USING THIS VIEW, SAVED FOR REFERENCE
-
-def editlist(request, list_id):
-    songs = Song.objects.all().order_by('song_title')
-    filtered_list_of_lists = List.objects.filter(id=list_id)
-
-
-    if len(filtered_list_of_lists) > 0:
-        print("FOUND")
-        list = filtered_list_of_lists[0]
-    else:
-        print("NEW")
-        list = List()
-
-    list_items = ListItem.objects.filter(list_name=list)
-
-    for song in songs:
-        for list_item in list_items:
-            if list_item.song == song:
-                song.selected = True;
-
-    if request.POST:
-        print(request.POST)
-        list.list_name = request.POST["list_name"]
-        list.save()
-        for song in songs:
-            if "cb_" + str(song.id) in request.POST:
-                print ("create relationship if no relationship exists")
-            else:
-                print ("remove relationship if it exists")
-
-        return HttpResponseRedirect("/editlist/" + str(list.id) + "/")
-
-
-    return render(request, 'makeperfect_app/editlist.html', {'list': list, 'songs': songs, 'list_items': list_items})
+# OLD VIEW FUNCTIONS NOT BEING USED IN THE ONE-PAGE VERSION
+# SAVED FOR REFERENCE FOR NOW
+#
+# def details(request, song_id):
+#     song = get_object_or_404(Song, pk=song_id)
+#     lists = List.objects.all().order_by('list_name')
+#     list_items = ListItem.objects.all()
+#     return render(request, 'makeperfect_app/details.html', {'song': song,
+#                                                             'lists': lists,
+#                                                             'list_items': list_items, })
+#
+#
+# def edit(request, song_id):
+#     filtered_song_list = Song.objects.filter(id=song_id)
+#
+#     if len(filtered_song_list) > 0:
+#         print("FOUND")
+#         song = filtered_song_list[0]
+#     else:
+#         print("NEW")
+#         song = Song()
+#
+#     if request.POST:
+#         print(request.POST)
+#         song.song_title = request.POST["song_title"]
+#         song.artist = request.POST["artist"]
+#         song.key = request.POST["key"]
+#         song.chords = request.POST["chords"]
+#         song.lyrics = request.POST["lyrics"]
+#         song.notes = request.POST["notes"]
+#         song.save()
+#         return HttpResponseRedirect("/song/" + str(song.id) + "/")
+#     return render(request, 'makeperfect_app/edit.html', {'song': song})
+#
+#
+# def editlist(request, list_id):
+#     songs = Song.objects.all().order_by('song_title')
+#     filtered_list_of_lists = List.objects.filter(id=list_id)
+#
+#     if len(filtered_list_of_lists) > 0:
+#         print("FOUND")
+#         list = filtered_list_of_lists[0]
+#     else:
+#         print("NEW")
+#         list = List()
+#
+#     list_items = ListItem.objects.filter(list_name=list)
+#
+#     for song in songs:
+#         for list_item in list_items:
+#             if list_item.song == song:
+#                 song.selected = True;
+#
+#     if request.POST:
+#         print(request.POST)
+#         list.list_name = request.POST["list_name"]
+#         list.save()
+#         for song in songs:
+#             if "cb_" + str(song.id) in request.POST:
+#                 print ("create relationship if no relationship exists")
+#             else:
+#                 print ("remove relationship if it exists")
+#
+#         return HttpResponseRedirect("/editlist/" + str(list.id) + "/")
+#
+#
+#     return render(request, 'makeperfect_app/editlist.html', {'list': list, 'songs': songs, 'list_items': list_items})
