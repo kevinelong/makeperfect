@@ -9,28 +9,20 @@
 <div class = "side-bar" id="sidebar">
     <h1>Song Lists</h1>
     <ul id='song-lists'>
-        <li class="song-list"><a href="#" onclick="showAllSongs()"> All Songs</a><a href=#" onclick="toggleSongList()">  &#8711</a></li>
+        <li class="song-list"><a href="#" onclick="showAllSongs()">All Songs</a><a href=#" onclick="toggleSongList()">  &#8711</a></li>
 
         <ul id="sidebar-all-songs" class="song-lists">
         </ul>
 
-{#        {% if lists %}#}
-{#            {% for list in lists %}#}
-{#                <li class="song-list">#}
-{#                    <a href="#" id="\list\{{ list.id }}" onclick="showListDetails({{ list.id }})" >{{ list.list_name }}</a>#}
-{#                </li>#}
-{#            {% endfor %}#}
-{#        {% else %}#}
-{#            <p>No song lists available.</p>#}
-{#        {% endif %}#}
-{#        <br>#}
+    </ul>
+    <ul>
+        <li class="song-list"><a href="#" onclick="showAllLists()">All Song Lists</a><a href="#" onclick="toggleListOfLists()">  &#8711</a></li>
+        <ul id="list-of-lists" class="lists">
+        </ul>
     </ul>
 
-    <ul id="list-of-lists">
 
-    </ul>
     <br>
-
     <button onclick="showListEditForm(0)">ADD NEW SONG LIST</button>
 </div>
 
