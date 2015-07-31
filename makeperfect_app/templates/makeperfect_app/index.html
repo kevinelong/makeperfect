@@ -14,17 +14,23 @@
         <ul id="sidebar-all-songs" class="song-lists">
         </ul>
 
-        {% if lists %}
-            {% for list in lists %}
-                <li class="song-list">
-                    <a href="#" id="\list\{{ list.id }}" onclick="showListDetails({{ list.id }})" >{{ list.list_name }}</a>
-                </li>
-            {% endfor %}
-        {% else %}
-            <p>No song lists available.</p>
-        {% endif %}
-        <br>
-        </ul>
+{#        {% if lists %}#}
+{#            {% for list in lists %}#}
+{#                <li class="song-list">#}
+{#                    <a href="#" id="\list\{{ list.id }}" onclick="showListDetails({{ list.id }})" >{{ list.list_name }}</a>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        {% else %}#}
+{#            <p>No song lists available.</p>#}
+{#        {% endif %}#}
+{#        <br>#}
+    </ul>
+
+    <ul id="list-of-lists">
+
+    </ul>
+    <br>
+
     <button onclick="showListEditForm(0)">ADD NEW SONG LIST</button>
 </div>
 
