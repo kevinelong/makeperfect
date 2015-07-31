@@ -162,14 +162,12 @@ function sendDelete(id) {
     form_data.append("id", id);
     form_data.append("action", "DELETE");
     var request = new XMLHttpRequest();
-    request.onload=reqListener;
+    request.onload=showAllSongs;
     request.open("POST", "/api_details/" + id + '/');
     request.send(form_data);
 }
 
 function deleteSong() {
-    console.log("This song is to be deleted.");
-    console.log(window.currentSongId);
     id = window.currentSongId;
     sendDelete(id);
 }
