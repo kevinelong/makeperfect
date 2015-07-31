@@ -6,6 +6,7 @@ from .models import Song, List, ListItem
 
 import json
 
+
 def index(request):
     song_list = Song.objects.all().order_by('song_title')
     lists = List.objects.all().order_by('list_name')
@@ -20,7 +21,6 @@ def index(request):
     return HttpResponse(template.render(context))
 
 
-
 def api_all(request):
     songs = Song.objects.all().order_by('song_title')
     data_list = []
@@ -28,6 +28,16 @@ def api_all(request):
         song_data = {"id": song.id, "name": song.song_title}
         data_list.append(song_data)
         song.selected = True
+    return HttpResponse(json.dumps(data_list))
+
+
+def api_all_lists(request):
+    lists = List.objects.all().order_by('list_name')
+    data_list = []
+    for list in lists:
+        list_data = {"id": list.id, "name": list.list_name}
+        data_list.append(list_data)
+        list.selected = True
     return HttpResponse(json.dumps(data_list))
 
 
@@ -60,6 +70,7 @@ def api_all_not_in_list(request, list_id):
 
     return HttpResponse(json.dumps(data_list, indent=4))
 
+
 @csrf_exempt
 def api_details(request, song_id):
     if request.POST:
@@ -90,6 +101,7 @@ def api_details(request, song_id):
                  "artist": song.artist,
                  "notes": song.notes}
     return HttpResponse(json.dumps(song_data))
+
 
 def api_list(request, list_id):
     songs = Song.objects.all().order_by('song_title')
