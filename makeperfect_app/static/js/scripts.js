@@ -1,11 +1,4 @@
-function showAllSongs() {
-    var content = document.getElementById("all-songs");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-}
+var content;
 
 function toggleSongList() {
     var list = document.getElementById("sidebar-all-songs");
@@ -15,6 +8,89 @@ function toggleSongList() {
             list.style.display = "block";
         }
 }
+
+function hideOtherContent(){
+    var otherContent = document.getElementsByClassName("main-content");
+    for (i=0; i < otherContent.length; i++) {
+        otherContent[i].style.display = 'none';
+    }
+    window.scrollTo(0, 0);
+    content.style.display = 'block';
+}
+
+//---------------------SHOWING SONGS AND SONG LISTS---------------------
+//----------------------------------------------------------------------
+
+function showAllSongs() {
+    content = document.getElementById("all-songs");
+    hideOtherContent();
+
+}
+
+function showSongDetails(id) {
+    window.currentSongId = id;
+    showSong();
+}
+function showSongView() {
+    var id = window.currentSongId;
+    content = document.getElementById("song-details");
+    hideOtherContent();
+}
+
+function showSong() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListener;
+    xhr.open("get", "/api_details/" + window.currentSongId + '/');
+    xhr.send();
+}
+
+function showSongEditForm() {
+    content = document.getElementById("edit-song");
+    hideOtherContent();
+}
+
+function showNewSongForm() {
+    window.currentSongId = 0;
+    document.getElementById("edit-title").value="";
+    document.getElementById("edit-artist").value="";
+    document.getElementById("edit-key").value="";
+    document.getElementById("edit-chords").innerHTML="";
+    document.getElementById("edit-lyrics").innerHTML="";
+    document.getElementById("edit-notes").innerHTML="";
+    showSongEditForm();
+}
+
+function showListDetails(id) {
+    window.currentListId = id;
+    content = document.getElementById("song-list");
+    hideOtherContent();
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListListener;
+    xhr.open("get", "/api_list/" + id + '/');
+    xhr.send();
+}
+
+function showListEditForm() {
+    var id = window.currentListId;
+    content = document.getElementById("edit-song-list-details");
+    hideOtherContent();
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqListListener;
+    xhr.open("get", "/api_list/" + id + '/');
+    xhr.send();
+    showAvailableSongs(id);
+}
+
+function showAvailableSongs(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqAvailableSongsListener;
+    xhr.open("get", "/api_all_not_in_list/" + id + '/');
+    xhr.send();
+}
+
+
+//---------------------EDITING AND ADDING SONGS---------------------
+//------------------------------------------------------------------
 
 // general function to post data
 // called by:
@@ -52,98 +128,39 @@ function sendSongDetails() {
     sendPost(item, "/api_details/" + id + '/');
 }
 
-function showSongDetails(id) {
-    window.currentSongId = id;
-    showSong();
-}
-function showSongView() {
+//---------------------DELETING SONGS---------------------
+//--------------------------------------------------------
 
-    console.log(this);
-    var id = window.currentSongId;
-    var content = document.getElementById("song-details");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i = 0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
+function sendDelete(id) {
+    var form_data = new FormData();
+    form_data.append("id", id);
+    form_data.append("action", "DELETE");
+    var request = new XMLHttpRequest();
+    request.onload=reqListener;
+    request.open("POST", "/api_details/" + id + '/');
+    request.send(form_data);
 }
 
-function showSong() {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListener;
-    xhr.open("get", "/api_details/" + window.currentSongId + '/');
-    xhr.send();
-}
-
-function showSongEditForm() {
-    var content = document.getElementById("edit-song");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function showNewSongForm() {
-    window.currentSongId = 0;
-    document.getElementById("edit-title").value="";
-    document.getElementById("edit-artist").value="";
-    document.getElementById("edit-key").value="";
-    document.getElementById("edit-chords").innerHTML="";
-    document.getElementById("edit-lyrics").innerHTML="";
-    document.getElementById("edit-notes").innerHTML="";
-    showSongEditForm();
-}
-
-function showListDetails(id) {
-    window.currentListId = id;
-    var content = document.getElementById("song-list");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListListener;
-    xhr.open("get", "/api_list/" + id + '/');
-    xhr.send();
-}
-
-function showListEditForm() {
-    var id = window.currentListId;
-    var content = document.getElementById("edit-song-list-details");
-    var otherContent = document.getElementsByClassName("main-content");
-    for (i=0; i < otherContent.length; i++) {
-        otherContent[i].style.display = 'none';
-    }
-    content.style.display = 'block';
-    window.scrollTo(0, 0);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqListListener;
-    xhr.open("get", "/api_list/" + id + '/');
-    xhr.send();
-    showAvailableSongs(id);
-}
-
-function showAvailableSongs(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqAvailableSongsListener;
-    xhr.open("get", "/api_all_not_in_list/" + id + '/');
-    xhr.send();
+function deleteSong() {
+    console.log("This song is to be deleted.");
+    console.log(window.currentSongId);
+    id = window.currentSongId;
+    sendDelete(id);
 }
 
 //---------------------REQ LISTENERS---------------------
 //-------------------------------------------------------
+
+function reqAllSongsListener {
+
+}
 function reqListener(){
     showSongView();
     console.log(this.responseText);
     var song = JSON.parse(this.responseText);
     window.currentSongId = song.id;
     console.log(song);
-    console.log("Song List Name = ", song.list);
+
     document.getElementById("song-title").innerHTML=song.name;
     document.getElementById("artist").innerHTML=song.artist;
     document.getElementById("key").innerHTML=song.key;
