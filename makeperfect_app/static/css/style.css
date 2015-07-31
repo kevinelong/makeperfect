@@ -12,7 +12,7 @@ body {
 
 .main-content {
     margin: 0;
-    padding: 80px 30px 150px 450px;
+    padding: 80px 30px 150px 500px;
     display: none;
     height: 100%
     right:0;
@@ -25,7 +25,7 @@ body {
     left: 0;
     top: 80px;
     bottom: 100px;
-    min-width: 275px;
+    min-width: 375px;
     padding: 0 50px 20px 20px;
     font-size: 23px;
     text-align: right;
@@ -42,7 +42,6 @@ HEADER STYLES
 ---------------------------------------------*/
 
 header {
-    /*background: linear-gradient(30deg, #404040, black 30%, #26ABB0, purple, mediumturquoise);*/
     background: black;
     padding: 5px 25px;
     position: fixed;
@@ -118,8 +117,9 @@ a:hover {
     color: lightgray;
 }
 
-.song-lists a {
+.song-lists a, .lists a {
     display: block;
+    font-size: 20px;
 }
 
 /*--------------------------------------------
