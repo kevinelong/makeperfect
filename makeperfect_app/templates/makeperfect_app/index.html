@@ -11,19 +11,7 @@
     <ul id='song-lists'>
         <li class="song-list"><a href="#" onclick="showAllSongs()"> All Songs</a><a href=#" onclick="toggleSongList()">  &#8711</a></li>
 
-        <ul id="sidebar-all-songs">
-        {% if song_list %}
-        {% for song in song_list %}
-            <li>
-                <a href="#" id="\song\{{ song.id }}/" class="list-items" onclick="showSongDetails({{ song.id }})">
-                {{ song.song_title }}
-                </a>
-            </li>
-        {% endfor %}
-
-        {% else %}
-        <p>No songs available.</p>
-        {% endif %}
+        <ul id="sidebar-all-songs" class="song-lists">
         </ul>
 
         {% if lists %}
@@ -44,24 +32,10 @@
 
 <div class="main-content" id="all-songs">
     <h1>All Songs</h1>
-    <ul class="all-songs">
-        {% if song_list %}
-        {% for song in song_list %}
-            <li>
-                <a href="#" id="\song\{{ song.id }}/" class="list-items" onclick="showSongDetails({{ song.id }})">
-                {{ song.song_title }}
-                </a>
-            </li>
-        {% endfor %}
-        {% else %}
-    <p>No songs available.</p>
-        {% endif %}
-
-        <br>
+    <ul id = "all-songs-list" class="song-lists"></ul>
+    <br>
         <button onclick="showNewSongForm()">ADD NEW SONG</button>
-    </ul>
 </div>
-
 
 {#--------------------SONG DETAILS--------------------#}
 
@@ -91,6 +65,7 @@
         </div>
         <div>
             <button onclick="showSongEditForm(0)">EDIT</button>
+            <button onclick="deleteSong()">DELETE SONG</button>
         </div>
     </div>
 </div>
@@ -135,7 +110,7 @@
 
 <div class="main-content" id="song-list">
     <h1 id="list-title"></h1>
-    <ul id="songs-in-list">
+    <ul id="songs-in-list" class="song-lists">
 
     </ul>
     <div>
@@ -157,13 +132,13 @@
 
 
     <h2>Songs in List</h2>
-        <ul id="songs-in-edit-list-form">
+        <ul id="songs-in-edit-list-form" class="song-lists">
 
         </ul>
 
     <h2>Available Songs</h2>
 
-        <ul id="available-songs">
+        <ul id="available-songs" class="song-lists">
 
         </ul>
         <br>
