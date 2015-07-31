@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^api_details/(?P<song_id>[0-9]+)/$', views.api_details, name='api_details'),
     url(r'^api_list/(?P<list_id>[0-9]+)/$', views.api_list, name='api_list'),
     url(r'^api_all/$', views.api_all, name='api_all'),
+    url(r'^api_all_lists/$', views.api_all_lists, name='api_all_lists'),
     url(r'^api_all_not_in_list/(?P<list_id>[0-9]+)/$', views.api_all_not_in_list, name='api_all_not_in_list'),
 ]
 
