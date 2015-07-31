@@ -6,6 +6,7 @@ function toggleSongList() {
         list.style.display = "none";
     } else {
             list.style.display = "block";
+            showAllSidebarSongs();
         }
 }
 
@@ -24,13 +25,25 @@ function hideOtherContent(){
 function showAllSongs() {
     content = document.getElementById("all-songs");
     hideOtherContent();
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqAllSongsListener;
+    xhr.open("get", "/api_all/");
+    xhr.send();
+}
 
+function showAllSidebarSongs() {
+    content = document.getElementById("sidebar-all-songs");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqAllSidebarSongsListener;
+    xhr.open("get", "/api_all/");
+    xhr.send();
 }
 
 function showSongDetails(id) {
     window.currentSongId = id;
     showSong();
 }
+
 function showSongView() {
     var id = window.currentSongId;
     content = document.getElementById("song-details");
@@ -92,10 +105,6 @@ function showAvailableSongs(id) {
 //---------------------EDITING AND ADDING SONGS---------------------
 //------------------------------------------------------------------
 
-// general function to post data
-// called by:
-//      sendSongDetails
-//
 function sendPost(item, url) {
     // create new FormData
     // FormData holds a set of key/value pairs to send using XMLHttpRequest. It works like a form's submit button.
@@ -151,9 +160,43 @@ function deleteSong() {
 //---------------------REQ LISTENERS---------------------
 //-------------------------------------------------------
 
-function reqAllSongsListener {
+function reqAllSongsListener() {
+    console.log(this.responseText);
+    var list = JSON.parse(this.responseText);
+    var songList = document.getElementById("all-songs-list");
+    songList.innerHTML="";
 
+    for (i=0; i <list.length; i++) {
+        var song = document.createElement("a");
+        id = list[i].id;
+        song.setAttribute("href", "#");
+        song.setAttribute("data-id", id);
+        song.addEventListener("click", function(e){
+            showSongDetails(e.target.getAttribute("data-id"));
+        });
+        song.innerHTML=list[i].name;
+        songList.appendChild(song);
+    }
 }
+
+function reqAllSidebarSongsListener() {
+    console.log(this.responseText);
+    var list = JSON.parse(this.responseText);
+    var sidebarSongList = document.getElementById("sidebar-all-songs");
+    sidebarSongList.innerHTML="";
+        for (i=0; i <list.length; i++) {
+        song = document.createElement("a");
+        id = list[i].id;
+        song.setAttribute("href", "#");
+        song.setAttribute("data-id", id);
+        song.addEventListener("click", function(e){
+            showSongDetails(e.target.getAttribute("data-id"));
+        });
+        song.innerHTML=list[i].name;
+        sidebarSongList.appendChild(song);
+    }
+}
+
 function reqListener(){
     showSongView();
     console.log(this.responseText);
