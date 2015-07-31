@@ -118,7 +118,7 @@ a:hover {
     color: lightgray;
 }
 
-#songs-in-list a, #songs-in-edit-list-form a, #available-songs a {
+.song-lists a {
     display: block;
 }
 
