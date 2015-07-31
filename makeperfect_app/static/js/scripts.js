@@ -10,6 +10,15 @@ function toggleSongList() {
         }
 }
 
+function toggleListOfLists() {
+    var list = document.getElementById("list-of-lists");
+    if (list.style.display == "block") {
+        list.style.display = "none";
+    } else {
+            list.style.display = "block";
+        }
+}
+
 function hideOtherContent(){
     var otherContent = document.getElementsByClassName("main-content");
     for (i=0; i < otherContent.length; i++) {
@@ -71,6 +80,14 @@ function showNewSongForm() {
     document.getElementById("edit-lyrics").innerHTML="";
     document.getElementById("edit-notes").innerHTML="";
     showSongEditForm();
+}
+
+function showAllLists() {
+    content = document.getElementById("list-of-lists");
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqAllListsListener;
+    xhr.open("get", "/api_all_lists/");
+    xhr.send();
 }
 
 function showListDetails(id) {
@@ -185,8 +202,8 @@ function reqAllSidebarSongsListener() {
     var sidebarSongList = document.getElementById("sidebar-all-songs");
     sidebarSongList.innerHTML="";
         for (i=0; i <list.length; i++) {
-        song = document.createElement("a");
-        id = list[i].id;
+        var song = document.createElement("a");
+        var id = list[i].id;
         song.setAttribute("href", "#");
         song.setAttribute("data-id", id);
         song.addEventListener("click", function(e){
@@ -194,6 +211,26 @@ function reqAllSidebarSongsListener() {
         });
         song.innerHTML=list[i].name;
         sidebarSongList.appendChild(song);
+    }
+}
+
+function reqAllListsListener() {
+    console.log(this.responseText);
+    var lists = JSON.parse(this.responseText);
+    var listOfLists = document.getElementById("list-of-lists");
+    listOfLists.innerHTML="";
+
+    for (var i=0; i <lists.length; i++) {
+        var list = document.createElement("a");
+        var id = lists[i].id;
+        console.log(lists[i].id);
+        list.setAttribute("href", "#");
+        list.setAttribute("data-id", id);
+        list.addEventListener("click", function(e){
+            showListDetails(e.target.getAttribute("data-id"));
+        });
+        list.innerHTML=lists[i].name;
+        listOfLists.appendChild(list);
     }
 }
 
@@ -275,3 +312,4 @@ function reqAvailableSongsListener() {
         availableSongs.appendChild(song);
     }
 }
+
