@@ -9,7 +9,7 @@
 <div class = "side-bar" id="sidebar">
     <h1>Song Lists</h1>
     <ul id='song-lists'>
-        <li class="song-list" onclick="toggleSongList()">All Songs</li>
+        <li class="song-list" ><a href="#" onclick="toggleSongList()">All Songs</a></li>
 
         <ul id="sidebar-all-songs" class="song-lists">
         </ul>
@@ -20,7 +20,7 @@
     <br>
     <br>
     <ul>
-        <li class="song-list" onclick="toggleListOfLists()">All Song Lists</li>
+        <li class="song-list"><a href="#" onclick="toggleListOfLists()">All Song Lists</a></li>
         <ul id="list-of-lists" class="song-lists">
         </ul>
     </ul>
@@ -114,8 +114,8 @@
     </ul>
     <div>
         <br>
-        <button onclick="showListEditForm()">EDIT LIST</button>
-        <button onclick="deleteList()">DELETE LIST</button>
+        <button id = "edit-list-button" onclick="showListEditForm()">EDIT LIST</button>
+        <button id = "delete-list-button" onclick="deleteList()">DELETE LIST</button>
     </div>
 </div>
 
@@ -153,8 +153,6 @@
     </div>
 </div>
 
-{#--------------------DELETE CONFIRMATION--------------------#}
-<div class="main-content" id="delete-confirmation">
-</div>
+
 
 {% endblock %}
