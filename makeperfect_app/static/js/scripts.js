@@ -7,7 +7,6 @@ function toggleSongList() {
             //showAllSidebarSongs();
     } else {
             list.style.display = "none";
-
         }
 }
 
