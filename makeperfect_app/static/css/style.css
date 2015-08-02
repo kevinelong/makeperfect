@@ -32,8 +32,9 @@ body {
     overflow-y:scroll;
 }
 
-#sidebar-all-songs {
+#sidebar-all-songs, #list-of-lists {
     font-size: 17px;
+    display: block;
 }
 
 /*--------------------------------------------
@@ -196,10 +197,11 @@ li {
 
 /*this creates the shape before each list element*/
 .song-list:before {
-    content: "\261B"; font-family:"Arial Black";
+    content: "\1D11E"; font-family:"Arial Black";
     font-size: 35px;
     color: black;
     padding-right: 5px;
+    cursor: pointer;
 }
 
 
