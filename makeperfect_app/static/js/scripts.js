@@ -2,21 +2,23 @@ var content;
 
 function toggleSongList() {
     var list = document.getElementById("sidebar-all-songs");
-    if (list.style.display == "block") {
-        list.style.display = "none";
-    } else {
-            list.style.display = "block";
+    if (list.style.display == "none") {
+        list.style.display = "block";
             //showAllSidebarSongs();
+    } else {
+            list.style.display = "none";
+
         }
 }
 
 function toggleListOfLists() {
     var list = document.getElementById("list-of-lists");
-    if (list.style.display == "block") {
-        list.style.display = "none";
+    if (list.style.display == "none") {
+        list.style.display = "block";
+                    //showAllLists();
     } else {
-            list.style.display = "block";
-            showAllLists();
+            list.style.display = "none";
+
         }
 }
 
@@ -33,7 +35,7 @@ function hideOtherContent(){
 //----------------------------------------------------------------------
 
 function showAllSongs() {
-    //content = document.getElementById("all-songs");
+    content = document.getElementById("all-songs");
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSongsListener;
@@ -168,7 +170,6 @@ function sendSongDetails() {
     };
     // calls the sendPost function with the dictionary created and a url
     sendSongPost(item, "/api_details/" + id + '/');
-    showAllSongs();
     showAllSidebarSongs();
 }
 
@@ -194,6 +195,7 @@ function sendListDetails () {
     };
     sendListPost(item, "/api_list/" + id + '/');
     showAllLists();
+    showListDetails(id);
 }
 
 //---------------------DELETING SONGS AND LISTS---------------------
@@ -221,25 +223,17 @@ function sendListDelete(id) {
     form_data.append("id", id);
     form_data.append("action", "DELETE");
     var request = new XMLHttpRequest();
-    request.onload=reqAllListsListener;
+    request.onload=reqListListener;
     request.open("POST", "/api_list/" + id + '/');
     request.send(form_data);
 }
 
 function deleteList() {
     id = window.currentListId;
-    deletedListName = window.currentListName;
+    if (window.currentListId=="0") {
+        console.log("this is not really going to be deleted");
+    }
     sendListDelete(id);
-    showDeleteConfirmation(id);
-}
-
-function showDeleteConfirmation(id) {
-    content = document.getElementById("delete-confirmation");
-    hideOtherContent();
-    var confirmation = document.createElement("h3");
-    confirmation.innerHTML='';
-    confirmation.innerHTML = window.currentListName  + " has been deleted."
-    content.appendChild(confirmation);
 }
 
 //---------------------REQ LISTENERS---------------------
@@ -291,7 +285,6 @@ function reqAllListsListener() {
     for (var i=0; i <lists.length; i++) {
         var list = document.createElement("a");
         var id = lists[i].id;
-        //console.log(lists[i].id);
         list.setAttribute("href", "#");
         list.setAttribute("data-id", id);
         list.addEventListener("click", function(e){
@@ -327,9 +320,9 @@ function reqListener(){
 function reqListListener() {
     console.log(this.responseText);
     var list = JSON.parse(this.responseText);
-    window.currentListName = list.name;
     // List details
     document.getElementById("list-title").innerHTML=list.name;
+    console.log(window.currentListId);
     var songList = document.getElementById("songs-in-list");
     songList.innerHTML="";
 
