@@ -9,21 +9,24 @@
 <div class = "side-bar" id="sidebar">
     <h1>Song Lists</h1>
     <ul id='song-lists'>
-        <li class="song-list"><a href="#" onclick="showAllSongs()">All Songs</a><a href=#" onclick="toggleSongList()">  &#8711</a></li>
+        <li class="song-list" onclick="toggleSongList()">All Songs</li>
 
         <ul id="sidebar-all-songs" class="song-lists">
         </ul>
 
     </ul>
+    <br>
+    <button onclick="showNewSongForm()">ADD NEW SONG</button>
+    <br>
+    <br>
     <ul>
-        <li class="song-list"><a href="#" onclick="showAllLists()">All Song Lists</a><a href="#" onclick="toggleListOfLists()">  &#8711</a></li>
-        <ul id="list-of-lists" class="lists">
+        <li class="song-list" onclick="toggleListOfLists()">All Song Lists</li>
+        <ul id="list-of-lists" class="song-lists">
         </ul>
     </ul>
 
-
     <br>
-    <button onclick="showListEditForm(0)">ADD NEW SONG LIST</button>
+    <button onclick="showNewListForm()">ADD NEW SONG LIST</button>
 </div>
 
 {#--------------------LIST OF ALL SONGS--------------------#}
@@ -31,8 +34,6 @@
 <div class="main-content" id="all-songs">
     <h1>All Songs</h1>
     <ul id = "all-songs-list" class="song-lists"></ul>
-    <br>
-        <button onclick="showNewSongForm()">ADD NEW SONG</button>
 </div>
 
 {#--------------------SONG DETAILS--------------------#}
@@ -114,11 +115,11 @@
     <div>
         <br>
         <button onclick="showListEditForm()">EDIT LIST</button>
+        <button onclick="deleteList()">DELETE LIST</button>
     </div>
 </div>
 
-
-{#--------------------EDIT LIST DETAILS FORM--------------------#}
+{#--------------------LIST EDIT FORM--------------------#}
 <div class="main-content" id="edit-song-list-details">
     <h1 id="edit-list-title"></h1>
     <div id="edit-song-list">
@@ -148,9 +149,12 @@
 {#    </ul>#}
 {#        <br>#}
 {#        <br>#}
-       <button type="submit">SAVE</button>
+       <button onclick="sendListDetails()" value="SAVE">SAVE</button>
     </div>
 </div>
 
+{#--------------------DELETE CONFIRMATION--------------------#}
+<div class="main-content" id="delete-confirmation">
+</div>
 
 {% endblock %}
