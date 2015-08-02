@@ -7,7 +7,14 @@
 {#--------------------SIDE BAR CONTENT--------------------#}
 
 <div class = "side-bar" id="sidebar">
-    <h1>Song Lists</h1>
+
+    <a href="/"><span>Make Perfect</span></a>
+    <br>
+    <button onclick="showNewSongForm()">NEW SONG</button>
+    <button onclick="showNewListForm()">NEW SONG LIST</button>
+    <br>
+    <br>
+
     <ul id='song-lists'>
         <li class="song-list" ><a href="#" onclick="toggleSongList()">All Songs</a></li>
 
@@ -15,9 +22,7 @@
         </ul>
 
     </ul>
-    <br>
-    <button onclick="showNewSongForm()">ADD NEW SONG</button>
-    <br>
+
     <br>
     <ul>
         <li class="song-list"><a href="#" onclick="toggleListOfLists()">All Song Lists</a></li>
@@ -25,8 +30,6 @@
         </ul>
     </ul>
 
-    <br>
-    <button onclick="showNewListForm()">ADD NEW SONG LIST</button>
 </div>
 
 {#--------------------LIST OF ALL SONGS--------------------#}
@@ -40,32 +43,35 @@
 
 <div class="main-content" id="song-details">
     <div>
-        <div>
-
-            <h1 id="song-title"></h1>
-
-            <h2>original artist:</h2>   <span id="artist"> </span>
+        <h1 id="song-title"></h1>
+        <button onclick="showSongEditForm(0)">EDIT</button>
+        <button onclick="deleteSong()">DELETE SONG</button>
+        <div class="song-minutiae">
             <br>
-            <h2>key:</h2>  <span id="key"> </span>
-
+            <h2>original artist</h2>
+            <br>
+            <span id="artist"> </span>
+            <br>
+            <h2>key</h2>
+            <br>
+            <span id="key"> </span>
         </div>
         <br>
         <div id="chords">
-        <h2>chords:</h2>
+        <h2>chords</h2>
         <pre id="chords-text"></pre>
         </div>
         <div id="lyrics">
-            <h2>lyrics:</h2>
+            <h2>lyrics</h2>
             <pre id="lyrics-text"></pre>
         </div>
-        <div >
-            <h2>notes:</h2>
+        <div>
+            <h2>notes</h2>
             <pre id="notes"></pre>
         </div>
-        <div>
-            <button onclick="showSongEditForm(0)">EDIT</button>
-            <button onclick="deleteSong()">DELETE SONG</button>
-        </div>
+
+
+
     </div>
 </div>
 
