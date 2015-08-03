@@ -35,7 +35,7 @@ def api_all_lists(request):
     lists = List.objects.all().order_by('list_name')
     data_list = []
     for list in lists:
-        list_data = {"id": list.id, "name": list.list_name}
+        list_data = {"id": list.id, "name": list.list_name, }
         data_list.append(list_data)
         list.selected = True
     return HttpResponse(json.dumps(data_list))
@@ -44,11 +44,19 @@ def api_all_lists(request):
 def api_all_not_in_list(request, list_id):
     songs = Song.objects.all().order_by('song_title')
     output_songs = list(songs)
+    data_list = []
+    song_data = {}
+
+    if list_id == "0":
+        for song in songs:
+            song_data = {"id": song.id,
+                         "name": song.song_title}
+            data_list.append(song_data)
+        return HttpResponse(json.dumps(data_list, indent=4))
+
     filtered_list_of_lists = List.objects.filter(id=list_id)
     filtered_list = filtered_list_of_lists[0]
     list_items = ListItem.objects.filter(list_name=filtered_list)
-    data_list = []
-    song_data = {}
 
     if list_items:
         # iterate through each song in the list of all songs
@@ -102,25 +110,54 @@ def api_details(request, song_id):
                  "notes": song.notes}
     return HttpResponse(json.dumps(song_data))
 
-
+@csrf_exempt
 def api_list(request, list_id):
+
+    if list_id == "0":
+        print("The list ID is 0. There are no songs associated with this list.")
+
     songs = Song.objects.all().order_by('song_title')
     filtered_list_of_lists = List.objects.filter(id=list_id)
-    list = filtered_list_of_lists[0]
-    list_items = ListItem.objects.filter(list_name=list)
+
+    if request.POST:
+        print(request.POST)
+
+        if request.POST["id"] == "0":
+            song_list = List()
+        else:
+            song_list = List.objects.filter(id=request.POST["id"])[0]
+        if request.POST["action"] == "DELETE":
+            song_list.delete()
+        else:
+            song_list.list_name = request.POST["list_name"]
+            song_list.save()
+    else:
+        song_list = filtered_list_of_lists[0]
+
+    list_items = ListItem.objects.filter(list_name=song_list)
     data_list = []
-    data_object = {"name": list.list_name}
+    data_object = {"name": song_list.list_name,
+                   "id": song_list.id}
+    print(data_object)
     for song in songs:
         for list_item in list_items:
             if list_item.song == song:
                 song_data = {"id": song.id,
                              "name": song.song_title,
-                             "list": list.list_name}
+                             "list": song_list.list_name}
                 data_list.append(song_data)
                 song.selected = True
+
     data_object["songs"] = data_list
 
     return HttpResponse(json.dumps(data_object))
+
+
+
+
+
+
+
 
 
 # OLD VIEW FUNCTIONS NOT BEING USED IN THE ONE-PAGE VERSION
