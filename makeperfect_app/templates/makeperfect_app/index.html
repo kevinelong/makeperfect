@@ -3,7 +3,6 @@
 
 {% block content %}
 
-
 {#--------------------SIDE BAR CONTENT--------------------#}
 
 <div class = "side-bar" id="sidebar">
@@ -49,11 +48,11 @@
         <div class="song-minutiae">
             <br>
             <h2>original artist</h2>
-            <br>
+
             <span id="artist"> </span>
             <br>
             <h2>key</h2>
-            <br>
+
             <span id="key"> </span>
         </div>
         <br>
@@ -78,38 +77,33 @@
 {#--------------------SONG EDIT FORM--------------------#}
 
 <div class="main-content" id="edit-song">
+    <h1 id="song-title-edit-form"></h1>
+{#        <h2>Edit/Add Song:</h2>#}
     <div id="edit-song-form">
         {% csrf_token %}
-        <h1 id="song-title"></h1>
-        <h2>Edit/Add Song:</h2>
-
-        <label for="edit-title">Song Title:</label>
+        <label for="edit-title">song title<br><input id='edit-title'  type="text" name="song_title" required></label>
         <br>
-        <input id='edit-title'  type="text" name="song_title" required>
+        <label for="edit-artist">original artist <br><input id='edit-artist' name="artist"></label>
         <br>
-        <label for="edit-artist">Original Artist:</label>
+        <label for="edit-key">key <br><input id='edit-key' name="key"></label>
         <br>
-        <input id='edit-artist' name="artist">
+        <label for="edit-chords">chords <br><textarea id="edit-chords" name="chords"></textarea></label>
         <br>
-        <label for="edit-key">Key:</label>
+        <label for="edit-lyrics">lyrics<br> <textarea id="edit-lyrics" name="lyrics"></textarea></label>
         <br>
-        <input id='edit-key' name="key">
-        <br>
-        <label for="edit-chords">Chords:</label>
-        <br>
-        <textarea id="edit-chords" name="chords"></textarea>
-        <br>
-        <label for="edit-lyrics">Lyrics:</label>
-        <br>
-        <textarea id="edit-lyrics" name="lyrics"></textarea>
-        <br>
-        <label for="edit-notes">Notes:</label>
-        <br>
-        <textarea id="edit-notes" name="notes"></textarea>
+        <label for="edit-notes">notes <br><textarea id="edit-notes" name="notes"></textarea></label>
         <br>
         <button onclick="sendSongDetails()" value = "SAVE">SAVE</button>
     </div>
 </div>
+
+{#--------------------LIST OF ALL LISTS--------------------#}
+
+<div class="main-content" id="all-lists">
+    <h1>All Song Lists</h1>
+    <ul id = "all-lists-list" class="song-lists"></ul>
+</div>
+
 
 {#--------------------LIST DETAILS--------------------#}
 
@@ -158,7 +152,5 @@
        <button onclick="sendListDetails()" value="SAVE">SAVE</button>
     </div>
 </div>
-
-
 
 {% endblock %}
