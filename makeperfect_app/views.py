@@ -6,19 +6,23 @@ from .models import Song, List, ListItem
 
 import json
 
-
 def index(request):
-    song_list = Song.objects.all().order_by('song_title')
-    lists = List.objects.all().order_by('list_name')
-    list_items = ListItem.objects.all()
-    template = loader.get_template('makeperfect_app/index.html')
-    context = RequestContext(request, {
-        'song_list': song_list,
-        'lists': lists,
-        'list_items': list_items,
-        'song': 'song',
-    })
+    template = loader.get_template('/makeperfect_app/static/html/index.html')
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
+
+# def index(request):
+#     song_list = Song.objects.all().order_by('song_title')
+#     lists = List.objects.all().order_by('list_name')
+#     list_items = ListItem.objects.all()
+#     template = loader.get_template('makeperfect_app/index.html')
+#     context = RequestContext(request, {
+#         'song_list': song_list,
+#         'lists': lists,
+#         'list_items': list_items,
+#         'song': 'song',
+#     })
+#     return HttpResponse(template.render(context))
 
 
 def api_all(request):
