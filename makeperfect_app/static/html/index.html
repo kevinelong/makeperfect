@@ -9,162 +9,154 @@
     <link rel="stylesheet" type="text/css" href='/css/style.css'/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,400,700|Roboto' rel='stylesheet' type='text/css'>
 </head>
+
 <body>
 
-<!--------------------SIDE BAR CONTENT-------------------->
+    <!--------------------SIDE BAR CONTENT-------------------->
 
-<div class = "side-bar" id="sidebar">
-
-    <a href="/"><span>Make Perfect</span></a>
-    <br>
-    <button onclick="showNewSongForm()">NEW SONG</button>
-    <button onclick="showNewListForm()">NEW SONG LIST</button>
-    <br>
-    <br>
-
-    <ul id='song-lists'>
-        <li class="song-list" ><a href="#" onclick="toggleSongList()">All Songs</a></li>
-
-        <ul id="sidebar-all-songs" class="song-lists">
-        </ul>
-
-    </ul>
-
-    <br>
-    <ul>
-        <li class="song-list"><a href="#" onclick="toggleListOfLists()">All Song Lists</a></li>
-        <ul id="list-of-lists" class="song-lists">
-        </ul>
-    </ul>
-
-</div>
-
-<!--------------------LIST OF ALL SONGS---------------->
-
-<div class="main-content" id="all-songs">
-    <h1>All Songs</h1>
-    <ul id = "all-songs-list" class="song-lists"></ul>
-</div>
-
-<!--------------------SONG DETAILS-------------------->
-
-<div class="main-content" id="song-details">
-    <div>
-        <h1 id="song-title"></h1>
-        <button onclick="addSongToList()">ADD SONG TO LIST</button>
-        <button onclick="showSongEditForm()">EDIT SONG</button>
-        <button onclick="confirmDeleteSong()">DELETE SONG</button>
-        <div id="confirm-delete-song">Do you really want to delete this song?
-            <button id = "delete-song-btn-true">yes</button>
-            <button id = "delete-song-btn-false">no</button>
-        </div>
-        <div class="song-minutiae">
-            <br>
-            <h2>original artist</h2>
-
-            <span id="artist"> </span>
-            <br>
-            <h2>key</h2>
-
-            <span id="key"> </span>
-        </div>
+    <div class = "side-bar" id="sidebar">
+        <a href="/"><span>Make Perfect</span></a>
         <br>
-        <div id="chords">
-        <h2>chords</h2>
-        <pre id="chords-text"></pre>
-        </div>
-        <div id="lyrics">
-            <h2>lyrics</h2>
-            <pre id="lyrics-text"></pre>
-        </div>
+        <button onclick="showNewSongForm()">NEW SONG</button>
+        <button onclick="showNewListForm()">NEW SONG LIST</button>
+        <br>
+        <br>
+        <ul id='song-lists'>
+            <li class="song-list" ><a href="#" onclick="toggleSongList()">All Songs</a></li>
+
+            <ul id="sidebar-all-songs" class="song-lists">
+            </ul>
+
+        </ul>
+        <br>
+        <ul>
+            <li class="song-list"><a href="#" onclick="toggleListOfLists()">All Song Lists</a></li>
+            <ul id="list-of-lists" class="song-lists">
+            </ul>
+        </ul>
+    </div>
+
+    <!--------------------LIST OF ALL SONGS---------------->
+
+    <div class="main-content" id="all-songs">
+        <h1>All Songs</h1>
+        <ul id = "all-songs-list" class="song-lists"></ul>
+    </div>
+
+    <!--------------------SONG DETAILS-------------------->
+
+    <div class="main-content" id="song-details">
         <div>
-            <h2>notes</h2>
-            <pre id="notes"></pre>
-        </div>
+            <h1 id="song-title"></h1>
+            <button onclick="showSongEditForm()">EDIT SONG</button>
+            <button onclick="confirmDeleteSong()">DELETE SONG</button>
+            <div id="confirm-delete-song">Do you really want to delete this song?
+                <button id = "delete-song-btn-true">yes</button>
+                <button id = "delete-song-btn-false">no</button>
+            </div>
+            <div class="song-minutiae">
+                <br>
+                <h2>original artist</h2>
+
+                <span id="artist"> </span>
+                <br>
+                <h2>key</h2>
+
+                <span id="key"> </span>
+            </div>
+            <br>
+            <div id="chords">
+            <h2>chords</h2>
+            <pre id="chords-text"></pre>
+            </div>
+            <div id="lyrics">
+                <h2>lyrics</h2>
+                <pre id="lyrics-text"></pre>
+            </div>
+            <div>
+                <h2>notes</h2>
+                <pre id="notes"></pre>
+            </div>
 
 
 
-    </div>
-</div>
-
-<!--------------------SONG EDIT FORM-------------------->
-
-<div class="main-content" id="edit-song">
-    <h1 id="song-title-edit-form"></h1>
-{#        <h2>Edit/Add Song:</h2>#}
-    <div id="edit-song-form">
-        {% csrf_token %}
-        <label for="edit-title">song title<br><input id='edit-title'  type="text" name="song_title" required></label>
-        <br>
-        <label for="edit-artist">original artist <br><input id='edit-artist' name="artist"></label>
-        <br>
-        <label for="edit-key">key <br><input id='edit-key' name="key"></label>
-        <br>
-        <label for="edit-chords">chords <br><textarea id="edit-chords" name="chords"></textarea></label>
-        <br>
-        <label for="edit-lyrics">lyrics<br> <textarea id="edit-lyrics" name="lyrics"></textarea></label>
-        <br>
-        <label for="edit-notes">notes <br><textarea id="edit-notes" name="notes"></textarea></label>
-        <br>
-        <button onclick="sendSongDetails()" value = "SAVE">SAVE</button>
-    </div>
-</div>
-
-<!--------------------LIST OF ALL LISTS-------------------->
-
-<div class="main-content" id="all-lists">
-    <h1>All Song Lists</h1>
-    <ul id = "all-lists-list" class="song-lists"></ul>
-</div>
-
-<!--------------------LIST DETAILS-------------------->
-
-<div class="main-content" id="song-list">
-    <div>
-        <h1 id="list-title"></h1>
-        <button id = "edit-list-button" onclick="showListEditForm()">EDIT LIST</button>
-        <button id = "delete-list-button" onclick="confirmDeleteList()">DELETE LIST</button>
-        <div id="confirm-delete-list">Do you really want to delete this list?
-            <button id = "delete-list-btn-true">yes</button>
-            <button id = "delete-list-btn-false">no</button>
         </div>
     </div>
-    <ul id="songs-in-list" class="song-lists">
 
-    </ul>
+    <!--------------------SONG EDIT FORM-------------------->
 
-</div>
+    <div class="main-content" id="edit-song">
+        <h1 id="song-title-edit-form"></h1>
 
-<!--------------------LIST EDIT FORM-------------------->
-<div class="main-content" id="edit-song-list-details">
-    <h1 id="edit-list-title"></h1>
-    <div id="edit-song-list">
-        {% csrf_token %}
-         <label for="edit-song-list-title">Add/edit list name:</label>
-        <br>
-         <input id='edit-song-list-title' type="text" name="list_name">
-        <br>
-
-
-    <h2>Songs in List</h2>
-        <ul id="songs-in-edit-list-form" class="song-lists">
-
-        </ul>
-
-    <h2>Available Songs</h2>
-
-        <ul id="available-songs" class="song-lists">
-
-        </ul>
-        <br>
-       <button onclick="sendListDetails()" value="SAVE">SAVE</button>
+        <div id="edit-song-form">
+            <label for="edit-title">song title<br><input id='edit-title'  type="text" name="song_title" required></label>
+            <br>
+            <label for="edit-artist">original artist <br><input id='edit-artist' name="artist"></label>
+            <br>
+            <label for="edit-key">key <br><input id='edit-key' name="key"></label>
+            <br>
+            <label for="edit-chords">chords <br><textarea id="edit-chords" name="chords"></textarea></label>
+            <br>
+            <label for="edit-lyrics">lyrics<br> <textarea id="edit-lyrics" name="lyrics"></textarea></label>
+            <br>
+            <label for="edit-notes">notes <br><textarea id="edit-notes" name="notes"></textarea></label>
+            <br>
+            <button onclick="sendSongDetails()" value = "SAVE">SAVE</button>
+        </div>
     </div>
-</div>
+
+    <!--------------------LIST OF ALL LISTS-------------------->
+
+    <div class="main-content" id="all-lists">
+        <h1>All Song Lists</h1>
+        <ul id = "all-lists-list" class="song-lists"></ul>
+    </div>
+
+    <!--------------------LIST DETAILS-------------------->
+
+    <div class="main-content" id="song-list">
+        <div>
+            <h1 id="list-title"></h1>
+            <button id = "edit-list-button" onclick="showListEditForm()">EDIT LIST</button>
+            <button id = "delete-list-button" onclick="confirmDeleteList()">DELETE LIST</button>
+
+            <div id="confirm-delete-list">Do you really want to delete this list?
+                <button id = "delete-list-btn-true">yes</button>
+                <button id = "delete-list-btn-false">no</button>
+            </div>
+        </div>
+        <ul id="songs-in-list" class="song-lists">
+        </ul>
+    </div>
+
+    <!--------------------LIST EDIT FORM-------------------->
+    <div class="main-content" id="edit-song-list-details">
+        <h1 id="edit-list-title"></h1>
+        <div id="edit-song-list">
+             <label for="edit-song-list-title">Add/edit list name:</label>
+            <br>
+             <input id='edit-song-list-title' type="text" name="list_name">
+            <br>
+
+            <h2>Songs in List</h2>
+                <ul id="songs-in-edit-list-form" class="song-lists">
+
+                </ul>
+
+            <h2>Available Songs</h2>
+
+            <ul id="available-songs" class="song-lists">
+
+            </ul>
+            <br>
+           <button onclick="sendListDetails()" value="SAVE">SAVE</button>
+        </div>
+    </div>
 
 
-<footer>
-    <p>&#169 Tree Casiano</p>
-</footer>
+    <footer>
+        <p>  &#169 Tree Casiano</p>
+    </footer>
 
 </body>
 <script type="text/javascript" src='/js/jquery.js'></script>
