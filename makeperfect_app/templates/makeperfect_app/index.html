@@ -43,10 +43,9 @@
 <div class="main-content" id="song-details">
     <div>
         <h1 id="song-title"></h1>
-
-        <button onclick="showSongEditForm(0)">EDIT</button>
-        <button onclick="confirmDelete()">DELETE SONG</button>
-        <div id="confirm-div">Do you really want to delete this song?
+        <button onclick="showSongEditForm()">EDIT SONG</button>
+        <button onclick="confirmDeleteSong()">DELETE SONG</button>
+        <div id="confirm-delete-song">Do you really want to delete this song?
             <button id = "delete-song-btn-true">yes</button>
             <button id = "delete-song-btn-false">no</button>
         </div>
@@ -112,15 +111,19 @@
 {#--------------------LIST DETAILS--------------------#}
 
 <div class="main-content" id="song-list">
-    <h1 id="list-title"></h1>
+    <div>
+        <h1 id="list-title"></h1>
+        <button id = "edit-list-button" onclick="showListEditForm()">EDIT LIST</button>
+        <button id = "delete-list-button" onclick="confirmDeleteList()">DELETE LIST</button>
+        <div id="confirm-delete-list">Do you really want to delete this list?
+            <button id = "delete-list-btn-true">yes</button>
+            <button id = "delete-list-btn-false">no</button>
+        </div>
+    </div>
     <ul id="songs-in-list" class="song-lists">
 
     </ul>
-    <div>
-        <br>
-        <button id = "edit-list-button" onclick="showListEditForm()">EDIT LIST</button>
-        <button id = "delete-list-button" onclick="deleteList()">DELETE LIST</button>
-    </div>
+
 </div>
 
 {#--------------------LIST EDIT FORM--------------------#}
