@@ -13,15 +13,6 @@ class Song(models.Model):
     key = models.CharField(max_length=10, blank=True)
     # notes/comments
     notes = models.TextField(blank=True)
-    # primary instrument for solo performances and sorting in a set list
-
-    # a place to store links to YouTube videos relate to the song
-
-    # a way to store PDFs or .jpg files
-
-    # memorized? in progress?  a way to track the state of learning of the piece
-
-    # checklist for practicing (what to focus on, i.e. memorize/transpose/arrange)
 
     def __str__(self): # __unicode__ on Python 2
         return self.song_title
@@ -48,5 +39,3 @@ class ListItem(models.Model):
 
     def __unicode__(self): # __
         return "LIST: " + str(self.list_name) + "; SONG: " + str(self.song)
-
-
