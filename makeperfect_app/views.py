@@ -1,32 +1,52 @@
 from django.views.decorators.csrf import csrf_exempt
+# from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from .models import Song, List, ListItem
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 import json
 
-def index(request):
-    template = loader.get_template('/makeperfect_app/static/html/index.html')
-    context = RequestContext(request)
-    return HttpResponse(template.render(context))
 
-# def index(request):
-#     song_list = Song.objects.all().order_by('song_title')
-#     lists = List.objects.all().order_by('list_name')
-#     list_items = ListItem.objects.all()
-#     template = loader.get_template('makeperfect_app/index.html')
-#     context = RequestContext(request, {
-#         'song_list': song_list,
-#         'lists': lists,
-#         'list_items': list_items,
-#         'song': 'song',
-#     })
-#     return HttpResponse(template.render(context))
+@login_required(login_url='/login/')
+def index(request):
+    # template = loader.get_template('/makeperfect_app/static/html/index.html')
+    # context = RequestContext(request)
+    # return HttpResponse(template.render(context))
+    return render(request, 'index.html', {})
+
+
+@csrf_exempt
+def login_view(request):
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect("/")
+    return render(request, 'login.html', {})
+    # template = loader.get_template('/makeperfect_app/static/html/login.html')
+    # context = RequestContext(request)
+    # return HttpResponse(template.render(context))
+
+@csrf_exempt
+def register_view(request):
+    if request.POST:
+        user = User()
+        user.username = request.POST['username']
+        user.set_password(request.POST['password'])
+        user.save()
+        return HttpResponseRedirect("/login.html")
+
+    return render(request, 'register.html', {})
 
 
 def api_all(request):
-    songs = Song.objects.all().order_by('song_title')
+    songs = Song.objects.filter(user=request.user).order_by('song_title')
     data_list = []
     for song in songs:
         song_data = {"id": song.id, "name": song.song_title}
@@ -36,7 +56,7 @@ def api_all(request):
 
 
 def api_all_lists(request):
-    lists = List.objects.all().order_by('list_name')
+    lists = List.objects.filter(user=request.user).order_by('list_name')
     data_list = []
     for list in lists:
         list_data = {"id": list.id, "name": list.list_name, }
@@ -46,7 +66,7 @@ def api_all_lists(request):
 
 
 def api_all_not_in_list(request, list_id):
-    songs = Song.objects.all().order_by('song_title')
+    songs = Song.objects.filter(user=request.user).order_by('song_title')
     output_songs = list(songs)
     data_list = []
     song_data = {}
@@ -101,6 +121,7 @@ def api_details(request, song_id):
             song.chords = request.POST["chords"]
             song.lyrics = request.POST["lyrics"]
             song.notes = request.POST["notes"]
+            song.user=request.user
             song.save()
     else:
         song = get_object_or_404(Song, pk=song_id)
@@ -120,7 +141,7 @@ def api_list(request, list_id):
     if list_id == "0":
         print("The list ID is 0. There are no songs associated with this list.")
 
-    songs = Song.objects.all().order_by('song_title')
+    songs = Song.objects.filter(user=request.user).order_by('song_title')
     filtered_list_of_lists = List.objects.filter(id=list_id)
 
     if request.POST:
@@ -134,6 +155,7 @@ def api_list(request, list_id):
             song_list.delete()
         else:
             song_list.list_name = request.POST["list_name"]
+            song_list.user=request.user
             song_list.save()
     else:
         song_list = filtered_list_of_lists[0]
@@ -231,3 +253,18 @@ def api_list(request, list_id):
 #
 #
 #     return render(request, 'makeperfect_app/editlist.html', {'list': list, 'songs': songs, 'list_items': list_items})
+
+
+
+# def index(request):
+#     song_list = Song.objects.all().order_by('song_title')
+#     lists = List.objects.all().order_by('list_name')
+#     list_items = ListItem.objects.all()
+#     template = loader.get_template('makeperfect_app/index.html')
+#     context = RequestContext(request, {
+#         'song_list': song_list,
+#         'lists': lists,
+#         'list_items': list_items,
+#         'song': 'song',
+#     })
+#     return HttpResponse(template.render(context))
