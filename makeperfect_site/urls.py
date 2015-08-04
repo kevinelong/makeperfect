@@ -15,17 +15,31 @@ Including another URLconf
 """
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 from makeperfect_app import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
     url(r'^api_details/(?P<song_id>[0-9]+)/$', views.api_details, name='api_details'),
     url(r'^api_list/(?P<list_id>[0-9]+)/$', views.api_list, name='api_list'),
     url(r'^api_all/$', views.api_all, name='api_all'),
     url(r'^api_all_lists/$', views.api_all_lists, name='api_all_lists'),
     url(r'^api_all_not_in_list/(?P<list_id>[0-9]+)/$', views.api_all_not_in_list, name='api_all_not_in_list'),
 ]
+
+
+# If index.html or nothing (/), then serve static html into url
+###############################################################
+
+if settings.DEBUG:
+    urlpatterns += patterns(
+        'django.contrib.staticfiles.views',
+        url(r'^(?:index.html)?$', 'serve', kwargs={'path': 'html/index.html'}),
+        # url(r'^(?:login.html)?$', 'serve', kwargs={'path': 'html/login.html'}),
+        url(r'^(?P<path>(?:js|css|img)/.*)$', 'serve'),
+    )
+
 
 # OLD URLS
 # url(r'^song/(?P<song_id>[0-9]+)/$', views.details, name='details'),
