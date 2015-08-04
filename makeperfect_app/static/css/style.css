@@ -172,6 +172,38 @@ button:hover {
     color: mediumvioletred;
 }
 
+#confirm-div {
+    display: none;
+    background: white;
+    color: mediumvioletred;
+    font-weight: bold;
+    font-style: italic;
+    position: fixed;
+    width: 300px;
+    left: 50%;
+    margin-left: -100px;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+         }
+
+#confirm-div button  {
+    background-color: #ccc;
+    display: inline-block;
+    border-radius: 8px;
+    padding: 2px;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+}
+
+confirm-div button:hover {
+    background-color: mediumvioletred;
+}
+
+
+
+
 /*--------------------------------------------
 LIST STYLES
 ---------------------------------------------*/
