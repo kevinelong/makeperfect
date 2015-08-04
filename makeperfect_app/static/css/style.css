@@ -11,10 +11,11 @@ body {
 }
 
 .main-content {
-    padding: 10px 50px 10px 500px;
     display: none;
-    height: 100vh;
+    height: 100%;
     width: auto;
+    padding: 10px 50px 200px 500px;
+
 }
 
 /*--------------------------------------------
@@ -98,7 +99,7 @@ a {
 }
 
 a:hover {
-    color: white;
+    color: mediumvioletred;
 }
 
 .side-bar a:hover {
@@ -144,10 +145,16 @@ BUTTON AND FORM STYLES
 
 textarea {
     height: 400px;
+    font-weight: normal;
 }
 
 label {
     font-size: 25px;
+    font-weight: bold;
+}
+
+input {
+    font-weight: normal;
 }
 
 button {
@@ -162,7 +169,7 @@ button {
 }
 
 button:hover {
-    color: fuchsia;
+    color: mediumvioletred;
 }
 
 /*--------------------------------------------
