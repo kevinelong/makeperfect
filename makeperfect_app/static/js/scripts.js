@@ -75,6 +75,7 @@ function showSongEditForm() {
 
 function showNewSongForm() {
     window.currentSongId = 0;
+    document.getElementById("song-title-edit-form").innerHTML="";
     document.getElementById("edit-title").value="";
     document.getElementById("edit-artist").value="";
     document.getElementById("edit-key").value="";
