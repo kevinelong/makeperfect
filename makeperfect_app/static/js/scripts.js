@@ -298,6 +298,16 @@ function reqAllSidebarSongsListener() {
     var list = JSON.parse(this.responseText);
     var sidebarSongList = document.getElementById("sidebar-all-songs");
     sidebarSongList.innerHTML="";
+
+    if (list.length==0) {
+        var message = document.createElement('a');
+        message.setAttribute("href", "#");
+        message.addEventListener("click", function(e){
+            showNewSongForm();
+        });
+        message.innerHTML = "Add a song!";
+        sidebarSongList.appendChild(message);
+    } else {
         for (i=0; i <list.length; i++) {
         var song = document.createElement("a");
         var id = list[i].id;
@@ -308,7 +318,10 @@ function reqAllSidebarSongsListener() {
         });
         song.innerHTML=list[i].name;
         sidebarSongList.appendChild(song);
+        }
     }
+
+
 }
 
 function reqAllListsListener() {
@@ -317,30 +330,42 @@ function reqAllListsListener() {
     var listOfLists = document.getElementById("list-of-lists");
     listOfLists.innerHTML="";
 
-    for (var i=0; i <lists.length; i++) {
-        var list = document.createElement("a");
-        var id = lists[i].id;
-        list.setAttribute("href", "#");
-        list.setAttribute("data-id", id);
-        list.addEventListener("click", function(e){
-            showListDetails(e.target.getAttribute("data-id"));
+    if (lists.length==0){
+        var message = document.createElement('a');
+        message.setAttribute("href", "#");
+        message.addEventListener("click", function(e){
+            showNewListForm();
         });
-        list.innerHTML=lists[i].name;
-        listOfLists.appendChild(list);
-    }
+        message.innerHTML = "Add a list!";
+        listOfLists.appendChild(message);
+    } else {
 
-    var allLists = document.getElementById("all-lists-list");
-    allLists.innerHTML="";
-    for (var i=0; i <lists.length; i++) {
-        list = document.createElement("a");
-        id = lists[i].id;
-        list.setAttribute("href", "#");
-        list.setAttribute("data-id", id);
-        list.addEventListener("click", function(e){
-            showListDetails(e.target.getAttribute("data-id"));
-        });
-        list.innerHTML=lists[i].name;
-        allLists.appendChild(list);
+
+        for (var i=0; i <lists.length; i++) {
+            var list = document.createElement("a");
+            var id = lists[i].id;
+            list.setAttribute("href", "#");
+            list.setAttribute("data-id", id);
+            list.addEventListener("click", function(e){
+                showListDetails(e.target.getAttribute("data-id"));
+            });
+            list.innerHTML=lists[i].name;
+            listOfLists.appendChild(list);
+        }
+
+        var allLists = document.getElementById("all-lists-list");
+        allLists.innerHTML="";
+        for (var i=0; i <lists.length; i++) {
+            list = document.createElement("a");
+            id = lists[i].id;
+            list.setAttribute("href", "#");
+            list.setAttribute("data-id", id);
+            list.addEventListener("click", function(e){
+                showListDetails(e.target.getAttribute("data-id"));
+            });
+            list.innerHTML=lists[i].name;
+            allLists.appendChild(list);
+        }
     }
 }
 
