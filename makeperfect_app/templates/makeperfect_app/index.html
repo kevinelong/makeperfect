@@ -43,8 +43,13 @@
 <div class="main-content" id="song-details">
     <div>
         <h1 id="song-title"></h1>
+
         <button onclick="showSongEditForm(0)">EDIT</button>
-        <button onclick="deleteSong()">DELETE SONG</button>
+        <button onclick="confirmDelete()">DELETE SONG</button>
+        <div id="confirm-div">Do you really want to delete this song?
+            <button id = "delete-song-btn-true">yes</button>
+            <button id = "delete-song-btn-false">no</button>
+        </div>
         <div class="song-minutiae">
             <br>
             <h2>original artist</h2>
@@ -104,7 +109,6 @@
     <ul id = "all-lists-list" class="song-lists"></ul>
 </div>
 
-
 {#--------------------LIST DETAILS--------------------#}
 
 <div class="main-content" id="song-list">
@@ -152,5 +156,7 @@
        <button onclick="sendListDetails()" value="SAVE">SAVE</button>
     </div>
 </div>
+
+
 
 {% endblock %}
