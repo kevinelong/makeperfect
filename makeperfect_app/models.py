@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Song(models.Model):
+    user = models.ForeignKey(User)
     song_title = models.CharField(max_length=200)
     # lyrics
     lyrics = models.TextField(default='ADD LYRICS')
@@ -21,6 +23,7 @@ class Song(models.Model):
         return self.song_title
 
 class List(models.Model):
+    user = models.ForeignKey(User)
     list_name = models.CharField(max_length=200)
 
     def __str__(self): # __unicode__ on Python 2
@@ -39,3 +42,6 @@ class ListItem(models.Model):
 
     def __unicode__(self): # __
         return "LIST: " + str(self.list_name) + "; SONG: " + str(self.song)
+
+
+    user = models.ForeignKey(User)
