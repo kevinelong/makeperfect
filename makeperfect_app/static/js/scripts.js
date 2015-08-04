@@ -245,6 +245,20 @@ function deleteList() {
     showAllLists();
 }
 
+function confirmDelete() {
+    document.getElementById('confirm-div').style.display="block";
+
+    document.getElementById('delete-song-btn-true').onclick = function(){
+        deleteSong();
+        //alert('true');
+    };
+
+    document.getElementById('delete-song-btn-false').onclick = function(){
+        //alert('false');
+        document.getElementById('confirm-div').style.display="none";
+        return false;
+    };
+}
 
 //---------------------REQ LISTENERS---------------------
 //-------------------------------------------------------
