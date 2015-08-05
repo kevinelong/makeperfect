@@ -201,6 +201,13 @@ confirm-div button:hover {
     background-color: mediumvioletred;
 }
 
+#login-form, #registration-form {
+    background: white;
+    width: auto;
+    margin: 100px;
+    padding: 100px;
+    text-align: center;
+}
 
 
 
