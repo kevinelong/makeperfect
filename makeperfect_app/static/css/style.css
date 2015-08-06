@@ -103,7 +103,7 @@ a {
 }
 
 a:hover {
-    color: mediumvioletred;
+    color: dimgrey;
 }
 
 .side-bar a:hover {
@@ -239,10 +239,28 @@ AVAILABLE SONGS SELECTION
 ---------------------------------------------*/
 
 .add-to-list-button {
-
+    font-size: 30px;
+    color: yellowgreen;
 }
 
-.available-song {
+.add-to-list-button:hover {
+    font-size: 50px;
+    color: black;
+}
 
+.remove-from-list-button {
+    font-size: 30px;
+    color: orangered;
+}
 
+.remove-from-list-button:hover {
+    font-size: 50px;
+    color: black;
+}
+
+.instructions {
+    font-size: 16px;
+    font-style: italic;
+    width: 300px;
+    padding: 20px;
 }
