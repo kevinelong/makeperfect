@@ -179,7 +179,11 @@ def api_list(request, list_id):
     return HttpResponse(json.dumps(data_object))
 
 
-
+def api_association(request):
+    list_item = ListItem()
+    list_item.list_id = request.POST["list_id"]
+    list_item.song_id = request.POST["song_id"]
+    list_item.save()
 
 
 
@@ -268,3 +272,4 @@ def api_list(request, list_id):
 #         'song': 'song',
 #     })
 #     return HttpResponse(template.render(context))
+
