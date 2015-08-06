@@ -426,7 +426,7 @@ function reqListListener() {
         });
 
         var addButton = document.createElement("button");
-        addButton.innerHTML="remove from list";
+        addButton.innerHTML="X";
         addButton.setAttribute("data-id", id);
         addButton.setAttribute("class", "remove-from-list-button");
         addButton.setAttribute("href", "#");
@@ -454,7 +454,7 @@ function reqAvailableSongsListener() {
         song.setAttribute("class", "available-song");
 
         var addButton = document.createElement("button");
-        addButton.innerHTML="add to list";
+        addButton.innerHTML="+";
         addButton.setAttribute("data-id", id);
         addButton.setAttribute("class", "add-to-list-button");
         addButton.setAttribute("href", "#");
