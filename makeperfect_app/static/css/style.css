@@ -63,6 +63,10 @@ SIDEBAR STYLES
     font-size: 50px;
 }
 
+/*--------------------------------------------
+ FOOTER STYLES
+---------------------------------------------*/
+
 footer {
     background: black;
     color: white;
@@ -91,7 +95,7 @@ h3 {
 }
 
 /*--------------------------------------------
-LINK STYLES
+LINK & LIST STYLES
 ---------------------------------------------*/
 a {
     color: black;
@@ -109,6 +113,11 @@ a:hover {
 .song-lists a, .lists a {
     display: block;
     font-size: 20px;
+}
+
+#songs-in-list a {
+    display: block;
+    font-size: 30px;
 }
 
 /*--------------------------------------------
@@ -209,8 +218,6 @@ confirm-div button:hover {
     text-align: center;
 }
 
-
-
 /*--------------------------------------------
 LIST STYLES
 ---------------------------------------------*/
@@ -227,4 +234,15 @@ ul {
     /*text-indent: -.7em;*/
 /*}*/
 
+/*--------------------------------------------
+AVAILABLE SONGS SELECTION
+---------------------------------------------*/
 
+.add-to-list-button {
+
+}
+
+.available-song {
+
+
+}
