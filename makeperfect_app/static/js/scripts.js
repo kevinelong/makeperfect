@@ -209,6 +209,18 @@ function sendListDetails () {
     showListDetails(id);
 }
 
+function addSongToList(songId) {
+    var listId = window.currentListId;
+    window.currentSongId = songId;
+    console.log("list_id: ", listId, "song_id: ", songId);
+}
+
+function removeSongFromList(songId){
+    var listId = window.currentListId;
+    window.currentSongId = songId;
+    console.log("list_id: ", listId, "song_id: ", songId);
+}
+
 //---------------------DELETING SONGS AND LISTS---------------------
 //------------------------------------------------------------------
 
@@ -425,14 +437,17 @@ function reqListListener() {
             showSongDetails(e.target.getAttribute("data-id"));
         });
 
-        var addButton = document.createElement("button");
-        addButton.innerHTML="X";
-        addButton.setAttribute("data-id", id);
-        addButton.setAttribute("class", "remove-from-list-button");
-        addButton.setAttribute("href", "#");
+        var removeButton = document.createElement("button");
+        removeButton.innerHTML="x";
+        removeButton.setAttribute("data-id", id);
+        removeButton.setAttribute("class", "remove-from-list-button");
+        removeButton.setAttribute("href", "#");
+        removeButton.addEventListener("click", function(e){
+            removeSongFromList(e.target.getAttribute("data-id"));
+        });
 
         listSong.innerHTML=list.songs[i].name;
-        songContainer.appendChild(addButton);
+        songContainer.appendChild(removeButton);
         songContainer.appendChild(listSong);
         editSongList.appendChild(songContainer);
     }
@@ -442,8 +457,8 @@ function reqListListener() {
 function reqAvailableSongsListener() {
     console.log(this.responseText);
     var songs = JSON.parse(this.responseText);
-    var availableSongs = document.getElementById("available-songs");
-    availableSongs.innerHTML="";
+    var availableSongsList = document.getElementById("available-songs");
+    availableSongsList.innerHTML="";
 
     for (i=0; i <songs.length; i++) {
         var songContainer = document.createElement("div");
@@ -458,6 +473,9 @@ function reqAvailableSongsListener() {
         addButton.setAttribute("data-id", id);
         addButton.setAttribute("class", "add-to-list-button");
         addButton.setAttribute("href", "#");
+        addButton.addEventListener("click", function(e){
+           addSongToList(e.target.getAttribute("data-id"));
+        });
 
         song.addEventListener("click", function(e){
             showSongDetails(e.target.getAttribute("data-id"));
@@ -466,8 +484,9 @@ function reqAvailableSongsListener() {
         song.innerHTML=songs[i].name;
         songContainer.appendChild(addButton);
         songContainer.appendChild(song);
-        availableSongs.appendChild(songContainer);
+        availableSongsList.appendChild(songContainer);
     }
 }
+
 showAllSidebarSongs();
 showAllListsInSidebar();
