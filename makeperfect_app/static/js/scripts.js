@@ -320,8 +320,6 @@ function reqAllSidebarSongsListener() {
         sidebarSongList.appendChild(song);
         }
     }
-
-
 }
 
 function reqAllListsListener() {
@@ -339,8 +337,6 @@ function reqAllListsListener() {
         message.innerHTML = "Add a list!";
         listOfLists.appendChild(message);
     } else {
-
-
         for (var i=0; i <lists.length; i++) {
             var list = document.createElement("a");
             var id = lists[i].id;
@@ -420,6 +416,7 @@ function reqListListener() {
     editSongList.innerHTML="";
 
     for (i=0; i <list.songs.length; i++) {
+        var songContainer = document.createElement("div");
         var listSong = document.createElement("a");
         id = list.songs[i].id;
         listSong.setAttribute("href", "#");
@@ -427,8 +424,17 @@ function reqListListener() {
         listSong.addEventListener("click", function(e){
             showSongDetails(e.target.getAttribute("data-id"));
         });
+
+        var addButton = document.createElement("button");
+        addButton.innerHTML="remove from list";
+        addButton.setAttribute("data-id", id);
+        addButton.setAttribute("class", "remove-from-list-button");
+        addButton.setAttribute("href", "#");
+
         listSong.innerHTML=list.songs[i].name;
-        editSongList.appendChild(listSong);
+        songContainer.appendChild(addButton);
+        songContainer.appendChild(listSong);
+        editSongList.appendChild(songContainer);
     }
     showAllListsInSidebar();
 }
@@ -438,18 +444,30 @@ function reqAvailableSongsListener() {
     var songs = JSON.parse(this.responseText);
     var availableSongs = document.getElementById("available-songs");
     availableSongs.innerHTML="";
+
     for (i=0; i <songs.length; i++) {
+        var songContainer = document.createElement("div");
         var song = document.createElement("a");
         id = songs[i].id;
         song.setAttribute("href", "#");
         song.setAttribute("data-id", id);
+        song.setAttribute("class", "available-song");
+
+        var addButton = document.createElement("button");
+        addButton.innerHTML="add to list";
+        addButton.setAttribute("data-id", id);
+        addButton.setAttribute("class", "add-to-list-button");
+        addButton.setAttribute("href", "#");
+
         song.addEventListener("click", function(e){
             showSongDetails(e.target.getAttribute("data-id"));
         });
+
         song.innerHTML=songs[i].name;
-        availableSongs.appendChild(song);
+        songContainer.appendChild(addButton);
+        songContainer.appendChild(song);
+        availableSongs.appendChild(songContainer);
     }
 }
-
 showAllSidebarSongs();
 showAllListsInSidebar();
