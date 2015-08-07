@@ -20,6 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api_association/', "makeperfect_app.views.api_association", name='api_association'),
     # url(r'^$', views.index, name='index'),
     url(r'^api_details/(?P<song_id>[0-9]+)/$', "makeperfect_app.views.api_details", name='api_details'),
     url(r'^api_list/(?P<list_id>[0-9]+)/$', "makeperfect_app.views.api_list", name='api_list'),
