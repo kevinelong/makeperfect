@@ -15,7 +15,10 @@ body {
     height: 100%;
     width: auto;
     padding: 10px 50px 200px 475px;
+}
 
+.selected {
+    background: lightseagreen;
 }
 
 /*--------------------------------------------
@@ -26,11 +29,10 @@ SIDEBAR STYLES
     background: white;
     position: fixed;
     top: 0;
+    bottom: 0;
     left: 0;
-    height: 100vh;
-    bottom: 30px;
     min-width: 175px;
-    padding: 10px 10px 10px 20px;
+    padding: 10px 10px 50px 20px;
     font-size: 30px;
     text-align: center;
     overflow-y:scroll;
