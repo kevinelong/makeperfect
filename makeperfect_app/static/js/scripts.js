@@ -292,7 +292,7 @@ function addSongToList(songId) {
     console.log("list_id: ", listId, "song_id: ", songId);
     var song;
 
-    for (i=0; i < window.songs.length; i++){
+    for (var i=0; i < window.songs.length; i++){
         song = window.songs[i];
         if (song.id == songId) {
             window.songs.splice(i, 1);
@@ -309,6 +309,20 @@ function removeSongFromList(songId){
     var listId = window.currentListId;
     window.currentSongId = songId;
     console.log("list_id: ", listId, "song_id: ", songId);
+    var song;
+
+    for (var i=0; i < window.list.songs.length; i++){
+        song=window.list.songs[i];
+        if (song.id == songId) {
+            window.list.songs.splice(i, 1);
+            console.log(song);
+            break;
+        }
+    }
+
+    window.songs.push(song);
+    drawList();
+    drawAvailableSongs();
 }
 
 
