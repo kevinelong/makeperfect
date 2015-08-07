@@ -116,11 +116,13 @@ function showListEditForm() {
     var id = window.currentListId;
     content = document.getElementById("edit-song-list-details");
     hideOtherContent();
+    document.getElementById("edit-song-list").style.display="flex";
     if (id=="0") {
         var songsInListMessage = document.getElementById("songs-in-edit-list-form");
         var message =  document.createElement('p');
         message.innerHTML = "There are no songs in this list.";
         songsInListMessage.appendChild(message);
+        document.getElementById("edit-song-list").style.display="none";
     }
     document.getElementById("edit-song-list-title").value="";
     var xhr = new XMLHttpRequest();
@@ -209,16 +211,14 @@ function sendListDetails () {
     showListDetails(id);
 }
 
-function addSongToList(songId) {
-    var listId = window.currentListId;
-    window.currentSongId = songId;
-    console.log("list_id: ", listId, "song_id: ", songId);
-}
+function sendAssociation (listId, songId) {
+    var form_data = new FormData();
+    form_data.append("list_id", listId);
+    form_data.append("song_id", songId);
 
-function removeSongFromList(songId){
-    var listId = window.currentListId;
-    window.currentSongId = songId;
-    console.log("list_id: ", listId, "song_id: ", songId);
+    var request = new XMLHttpRequest();
+    request.open("POST", url);
+    request.send(form_data);
 }
 
 //---------------------DELETING SONGS AND LISTS---------------------
@@ -282,6 +282,35 @@ function confirmDeleteList() {
         return false;
     };
 }
+
+//---------------------ADDING AND REMOVING SONGS FROM LISTS---------
+//------------------------------------------------------------------
+
+function addSongToList(songId) {
+    var listId = window.currentListId;
+    window.currentSongId = songId;
+    console.log("list_id: ", listId, "song_id: ", songId);
+    var song;
+
+    for (i=0; i < window.songs.length; i++){
+        song = window.songs[i];
+        if (song.id == songId) {
+            window.songs.splice(i, 1);
+            break;
+        }
+    }
+
+    window.list.songs.push(song);
+    drawList();
+    drawAvailableSongs();
+}
+
+function removeSongFromList(songId){
+    var listId = window.currentListId;
+    window.currentSongId = songId;
+    console.log("list_id: ", listId, "song_id: ", songId);
+}
+
 
 //---------------------REQ LISTENERS---------------------
 //-------------------------------------------------------
@@ -372,6 +401,7 @@ function reqAllListsListener() {
                 showListDetails(e.target.getAttribute("data-id"));
             });
             list.innerHTML=lists[i].name;
+            console.log(list);
             allLists.appendChild(list);
         }
     }
@@ -402,7 +432,12 @@ function reqSongDetailsListener(){
 
 function reqListListener() {
     console.log(this.responseText);
-    var list = JSON.parse(this.responseText);
+    window.list = JSON.parse(this.responseText);
+    drawList();
+}
+
+function drawList(){
+    var list = window.list;
     // List details
     document.getElementById("list-title").innerHTML=list.name;
     window.currentListId = list.id;
@@ -456,7 +491,11 @@ function reqListListener() {
 
 function reqAvailableSongsListener() {
     console.log(this.responseText);
-    var songs = JSON.parse(this.responseText);
+    window.songs = JSON.parse(this.responseText);
+    drawAvailableSongs();
+}
+
+function drawAvailableSongs() {
     var availableSongsList = document.getElementById("available-songs");
     availableSongsList.innerHTML="";
 
