@@ -23,15 +23,16 @@
         <br>
         <br>
         <ul id='song-lists'>
-            <li class="song-list" ><a href="#" onclick="toggleSongList()">All Songs</a></li>
-
+            <li class="song-list" ><a href="#" onclick="showAllSongs()">All Songs</a></li>
+            <a href="#" onclick="toggleSongList()">&#119070</a>
             <ul id="sidebar-all-songs" class="song-lists">
             </ul>
 
         </ul>
         <br>
         <ul>
-            <li class="song-list"><a href="#" onclick="toggleListOfLists()">All Song Lists</a></li>
+            <li class="song-list"><a href="#" onclick="showAllLists()">All Song Lists</a></li>
+            <a href="#" onclick="toggleListOfLists()">&#119070</a>
             <ul id="list-of-lists" class="song-lists">
             </ul>
         </ul>
@@ -133,31 +134,23 @@
     <!--------------------LIST EDIT FORM-------------------->
     <div class="main-content" id="edit-song-list-details">
         <h1 id="edit-list-title"></h1>
+        <br>
+        <label for="edit-song-list-title">Add/edit list name:</label>
+        <input id='edit-song-list-title' type="text" name="list_name">
+        <button onclick="sendListDetails()" value="SAVE">SAVE LIST NAME</button>
+        <hr>
         <div id="edit-song-list">
-             <label for="edit-song-list-title">Add/edit list name:</label>
-            <br>
-             <input id='edit-song-list-title' type="text" name="list_name">
-            <br>
+            <div class="flex-box">
+                <h2>Songs in List</h2>
+                    <ul id="songs-in-edit-list-form">
 
-
-            <div class="instructions">
-                <p>X:  delete a song from the list</p>
-                <p>+: add a song to the list</p>
-                <p>click the song title to edit the song</p>
+                    </ul>
             </div>
-
-            <h2>Songs in List</h2>
-            <ul id="songs-in-edit-list-form">
-
+            <div class="flex-box">
+                <h2>Available Songs</h2>
+                <ul id="available-songs">
                 </ul>
-
-            <h2>Available Songs</h2>
-
-            <ul id="available-songs">
-
-            </ul>
-            <br>
-           <button onclick="sendListDetails()" value="SAVE">SAVE</button>
+            </div>
         </div>
     </div>
 
