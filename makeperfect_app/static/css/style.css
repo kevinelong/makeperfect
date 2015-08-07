@@ -49,6 +49,13 @@ SIDEBAR STYLES
     letter-spacing: 7px;
 }
 
+#sidebar li {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    letter-spacing: 7px;
+}
+
 .side-bar span:before {
     content: "\1D106"; font-family:"Arial Black";
     color: black;
@@ -157,6 +164,10 @@ textarea {
     font-weight: normal;
 }
 
+#edit-song-list-details input {
+    width: 300px;
+}
+
 label {
     font-size: 25px;
     font-weight: bold;
@@ -237,25 +248,39 @@ ul {
 /*--------------------------------------------
 AVAILABLE SONGS SELECTION
 ---------------------------------------------*/
+#add-remove {
+    display: flex;
+    margin: auto;
+}
 
+.flex-box {
+    margin: auto;
+    min-height: 600px;
+    width: 600px;
+    flex-wrap: wrap;
+}
 .add-to-list-button {
     font-size: 30px;
     color: yellowgreen;
+
 }
 
 .add-to-list-button:hover {
-    font-size: 50px;
+    text-shadow: 2px 2px white;
     color: black;
+
 }
 
 .remove-from-list-button {
     font-size: 30px;
     color: orangered;
+
 }
 
 .remove-from-list-button:hover {
-    font-size: 50px;
+    text-shadow: 2px 2px white;
     color: black;
+
 }
 
 .instructions {
