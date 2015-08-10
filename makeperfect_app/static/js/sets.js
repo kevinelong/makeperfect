@@ -53,16 +53,16 @@ function reqAllSetsListener() {
 
 function reqSetListener() {
     console.log(this.responseText);
-    window.list = JSON.parse(this.responseText);
+    window.set = JSON.parse(this.responseText);
     drawSet();
     drawSetEditForm();
 }
 
 function drawSet(){
-    var list = window.list;
+    var set = window.set;
     // Set details
-    document.getElementById("set-title").innerHTML=list.name;
-    window.currentSetId = list.id;
+    document.getElementById("set-title").innerHTML=set.name;
+    window.currentSetId = set.id;
     console.log(window.currentSetId);
     var songList = document.getElementById("songs-in-set");
     songList.innerHTML="";
@@ -77,31 +77,31 @@ function drawSet(){
             }
         }
     }
-    for (i=0; i <list.songs.length; i++) {
+    for (i=0; i <set.songs.length; i++) {
         var song = document.createElement("a");
-        id = list.songs[i].id;
+        id = set.songs[i].id;
         song.setAttribute("href", "#");
         song.setAttribute("data-id", id);
         song.addEventListener("click", function(e){
             console.log(this);
             showSongDetails(e.target.getAttribute("data-id"));
         });
-        song.innerHTML=list.songs[i].name;
+        song.innerHTML=set.songs[i].name;
         songList.appendChild(song);
     }
 }
 
 function drawSetEditForm(){
-    document.getElementById("edit-set-title").innerHTML=list.name;
-    document.getElementById("edit-set-title").value=list.name;
+    document.getElementById("edit-set-title").innerHTML=set.name;
+    document.getElementById("edit-set-title").value=set.name;
     var editSongsInSet = document.getElementById("songs-in-edit-set-form");
     editSongsInSet.innerHTML="";
 
     //CREATE ANCHOR ELEMENTS
-    for (i=0; i <list.songs.length; i++) {
+    for (i=0; i <set.songs.length; i++) {
         var songContainer = document.createElement("div");
         var songInSet = document.createElement("a");
-        id = list.songs[i].id;
+        id = set.songs[i].id;
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.addEventListener("click", function(e){
@@ -119,7 +119,7 @@ function drawSetEditForm(){
         });
 
     //DRAW SONGS TO THE LIST EDIT FORM
-        songInSet.innerHTML=list.songs[i].name;
+        songInSet.innerHTML=set.songs[i].name;
         songContainer.appendChild(removeButton);
         songContainer.appendChild(songInSet);
         editSongsInSet.appendChild(songContainer);
@@ -309,9 +309,9 @@ function drawAvailableSongs() {
 //---------------------SET-SONG-ASSOCIATIONS-----------------------
 //------------------------------------------------------------------
 
-function sendAssociation (listId, songId) {
+function sendAssociation (setId, songId) {
     var form_data = new FormData();
-    form_data.append("list_id", listId);
+    form_data.append("list_id", setId);
     form_data.append("song_id", songId);
 
     var request = new XMLHttpRequest();
@@ -320,14 +320,13 @@ function sendAssociation (listId, songId) {
 }
 
 
-
 //---------------------ADDING AND REMOVING SONGS FROM SETS---------
 //------------------------------------------------------------------
 
 function addSongToSet(songId) {
-    var listId = window.currentSetId;
+    var setId = window.currentSetId;
     window.currentSongId = songId;
-    console.log("list_id: ", listId, "song_id: ", songId);
+    console.log("list_id: ", setId, "song_id: ", songId);
     var song;
 
     for (var i=0; i < window.songs.length; i++){
@@ -338,22 +337,22 @@ function addSongToSet(songId) {
         }
     }
 
-    window.list.songs.push(song);
+    window.set.songs.push(song);
     drawSet();
     drawAvailableSongs();
 }
 
 function removeSongFromSet(songId){
-    var listId = window.currentSetId;
+    var setId = window.currentSetId;
     window.currentSongId = songId;
-    console.log("list_id: ", listId, "song_id: ", songId);
+    console.log("list_id: ", setId, "song_id: ", songId);
     var song;
 
-    for (var i=0; i < window.list.songs.length; i++){
-        song=window.list.songs[i];
+    for (var i=0; i < window.set.songs.length; i++){
+        song=window.set.songs[i];
         if (song.id == songId) {
-            window.list.songs.splice(i, 1);
-            console.log(song);
+            window.set.songs.splice(i, 1);
+            console.log("removed from set: ", song);
             break;
         }
     }
