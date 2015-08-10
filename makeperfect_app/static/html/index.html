@@ -15,25 +15,25 @@
 
     <!--------------------SIDE BAR CONTENT-------------------->
 
-    <div class = "side-bar" id="sidebar">
+    <div class = "sidebar" id="sidebar">
         <a href="/"><span>Make Perfect</span></a>
         <br>
         <button onclick="showNewSongForm()">NEW SONG</button>
-        <button onclick="showNewListForm()">NEW SONG LIST</button>
+        <button onclick="showNewSetForm()">NEW SONG LIST</button>
         <br>
         <br>
         <ul id='song-lists'>
             <li class="song-list" ><a href="#" onclick="showAllSongs()">All Songs</a></li>
-            <a href="#" onclick="toggleSongList()">&#119070</a>
-            <ul id="sidebar-all-songs" class="song-lists">
+            <a href="#" onclick="toggleListOfSongs()">&#119070</a>
+            <ul id="sidebar-all-songs" class="lists">
             </ul>
 
         </ul>
         <br>
         <ul>
-            <li class="song-list"><a href="#" onclick="showAllLists()">All Song Lists</a></li>
-            <a href="#" onclick="toggleListOfLists()">&#119070</a>
-            <ul id="list-of-lists" class="song-lists">
+            <li class="song-list"><a href="#" onclick="showAllSets()">All Sets</a></li>
+            <a href="#" onclick="toggleListOfSets()">&#119070</a>
+            <ul id="list-of-sets" class="lists">
             </ul>
         </ul>
     </div>
@@ -41,8 +41,8 @@
     <!--------------------LIST OF ALL SONGS---------------->
 
     <div class="main-content" id="all-songs">
-        <h1>All Songs</h1>
-        <ul id = "all-songs-list" class="song-lists"></ul>
+        <h1>All Songs in Your Repertoire</h1>
+        <ul id = "all-songs-list" class="lists"></ul>
     </div>
 
     <!--------------------SONG DETAILS-------------------->
@@ -107,42 +107,42 @@
         </div>
     </div>
 
-    <!--------------------LIST OF ALL LISTS-------------------->
+    <!--------------------LIST OF ALL SETS-------------------->
 
-    <div class="main-content" id="all-lists">
-        <h1>All Song Lists</h1>
-        <ul id = "all-lists-list" class="song-lists"></ul>
+    <div class="main-content" id="all-sets">
+        <h1>All Sets</h1>
+        <ul id ="all-sets-list" class="lists"></ul>
     </div>
 
-    <!--------------------LIST DETAILS-------------------->
+    <!--------------------SET DETAILS-------------------->
 
-    <div class="main-content" id="song-list">
+    <div class="main-content" id="set-details">
         <div>
-            <h1 id="list-title"></h1>
-            <button id = "edit-list-button" onclick="showListEditForm()">EDIT LIST</button>
-            <button id = "delete-list-button" onclick="confirmDeleteList()">DELETE LIST</button>
+            <h1 id="set-title"></h1>
+            <button id ="edit-set-button" onclick="showSetEditForm()">EDIT</button>
+            <button id ="delete-set-button" onclick="confirmSetDelete()">DELETE</button>
 
-            <div id="confirm-delete-list">Do you really want to delete this list?
-                <button id = "delete-list-btn-true">yes</button>
-                <button id = "delete-list-btn-false">no</button>
+            <div id="confirm-delete-set">Do you really want to delete this set?
+                <button id ="delete-set-btn-true">yes</button>
+                <button id ="delete-set-btn-false">no</button>
             </div>
         </div>
-        <ul id="songs-in-list">
+        <ul id="songs-in-set">
         </ul>
     </div>
 
-    <!--------------------LIST EDIT FORM-------------------->
-    <div class="main-content" id="edit-song-list-details">
-        <h1 id="edit-list-title"></h1>
+    <!--------------------SET EDIT FORM-------------------->
+    <div class="main-content" id="edit-set-list-details">
+        <h1 id="set-title-h1"></h1>
         <br>
-        <label for="edit-song-list-title">Add/edit list name:</label>
-        <input id='edit-song-list-title' type="text" name="list_name">
-        <button onclick="sendListDetails()" value="SAVE">SAVE LIST NAME</button>
+        <label for="edit-set-title">Add/edit set name:</label>
+        <input id="edit-set-title" type="text" name="list_name">
+        <button onclick="sendSetDetails()" value="SAVE">SAVE SET NAME</button>
         <hr>
-        <div id="edit-song-list">
+        <div id="edit-songs-in-set">
             <div class="flex-box">
-                <h2>Songs in List</h2>
-                    <ul id="songs-in-edit-list-form">
+                <h2>Songs in Set</h2>
+                    <ul id="songs-in-edit-set-form">
 
                     </ul>
             </div>
@@ -153,13 +153,9 @@
             </div>
         </div>
     </div>
-
-
-    <footer>
-        <p>  &#169 Tree Casiano</p>
-    </footer>
-
 </body>
 
 
 <script type="text/javascript" src='/js/scripts.js'></script>
+<script type="text/javascript" src='/js/songs.js'></script>
+<script type="text/javascript" src='/js/sets.js'></script>
