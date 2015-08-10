@@ -44,7 +44,6 @@ def register_view(request):
 
     return render(request, 'register.html', {})
 
-
 def api_all(request):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
     data_list = []

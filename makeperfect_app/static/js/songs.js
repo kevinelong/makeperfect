@@ -76,7 +76,6 @@ function reqSongDetailsListener(){
     document.getElementById("edit-notes").innerHTML=song.notes;
 }
 
-//---------------------------------------------------------------------
 //---------------------SHOWING SONGS and SONG EDIT FORMS----------------
 //----------------------------------------------------------------------
 

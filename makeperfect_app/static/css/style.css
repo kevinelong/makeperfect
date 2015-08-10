@@ -25,7 +25,7 @@ body {
 SIDEBAR STYLES
 ---------------------------------------------*/
 
-.side-bar {
+.sidebar {
     background: white;
     position: fixed;
     top: 0;
@@ -44,7 +44,7 @@ SIDEBAR STYLES
     display: block;
 }
 
-.side-bar span {
+.sidebar span {
     font-size: 35px;
     font-weight: bold;
     color: black;
@@ -58,14 +58,14 @@ SIDEBAR STYLES
     letter-spacing: 7px;
 }
 
-.side-bar span:before {
+.sidebar span:before {
     content: "\1D106"; font-family:"Arial Black";
     color: black;
     padding-right: 10px;
     font-size: 50px;
 }
 
-.side-bar span:after {
+.sidebar span:after {
     content: "\1D107"; font-family:"Arial Black";
     color: black;
     padding-left: 10px;
@@ -115,11 +115,11 @@ a:hover {
     color: dimgrey;
 }
 
-.side-bar a:hover {
+.sidebar a:hover {
     color: lightgray;
 }
 
-.song-lists a, .lists a {
+.lists a {
     display: block;
     font-size: 20px;
 }
@@ -150,7 +150,7 @@ pre {
 BUTTON AND FORM STYLES
 ---------------------------------------------*/
 
-#edit-song-form input, #edit-song-form textarea, #edit-song-list-title {
+#edit-song-form input, #edit-song-form textarea, #edit-set-title {
     background: white;
     border: none;
     width: 700px;
@@ -166,7 +166,7 @@ textarea {
     font-weight: normal;
 }
 
-#edit-song-list-details input {
+#edit-set-details input {
     width: 300px;
 }
 
@@ -194,7 +194,7 @@ button:hover {
     color: mediumvioletred;
 }
 
-#confirm-delete-song, #confirm-delete-list {
+#confirm-delete-song, #confirm-delete-set {
     display: none;
     background: white;
     color: mediumvioletred;
@@ -219,7 +219,7 @@ button:hover {
     cursor: pointer;
 }
 
-confirm-div button:hover {
+#confirm-div button:hover {
     background-color: mediumvioletred;
 }
 
@@ -261,25 +261,25 @@ AVAILABLE SONGS SELECTION
     width: 600px;
     flex-wrap: wrap;
 }
-.add-to-list-button {
+.add-to-set-button {
     font-size: 30px;
     color: yellowgreen;
 
 }
 
-.add-to-list-button:hover {
+.add-to-set-button:hover {
     text-shadow: 2px 2px white;
     color: black;
 
 }
 
-.remove-from-list-button {
+.remove-from-set-button {
     font-size: 30px;
     color: orangered;
 
 }
 
-.remove-from-list-button:hover {
+.remove-from-set-button:hover {
     text-shadow: 2px 2px white;
     color: black;
 
