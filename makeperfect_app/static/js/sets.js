@@ -67,6 +67,7 @@ function reqSetListener() {
 
 function drawSet(){
     var set = window.set;
+    console.log(set.songs);
     // Set details
     document.getElementById("set-title").innerHTML=set.name;
     window.currentSetId = set.id;
@@ -85,15 +86,8 @@ function drawSet(){
         }
     }
     for (i=0; i <set.songs.length; i++) {
-        var song = document.createElement("a");
-        id = set.songs[i].id;
-        song.setAttribute("href", "#");
-        song.setAttribute("data-id", id);
-        song.addEventListener("click", function(e){
-            console.log(this);
-            showSongDetails(e.target.getAttribute("data-id"));
-        });
-        song.innerHTML=set.songs[i].name;
+        console.log(set.songs[i]);
+        var song = createSongElements(set.songs[i]);
         songList.appendChild(song);
     }
 }
@@ -101,10 +95,15 @@ function drawSet(){
 function drawSetEditForm(){
     document.getElementById("edit-set-title").innerHTML=set.name;
     document.getElementById("edit-set-title").value=set.name;
+    drawSongsInSet();
+    //showSetsInSidebar();  //TODO:  FIGURE OUT WHY I WAS CALLING THIS HERE
+}
+
+function drawSongsInSet(){
     var editSongsInSet = document.getElementById("songs-in-edit-set-form");
     editSongsInSet.innerHTML="";
 
-    //CREATE ANCHOR ELEMENTS
+    //CREATE LIST OF SONGS IN SET WITH EVENT LISTENERS
     for (i=0; i <set.songs.length; i++) {
         var songContainer = document.createElement("div");
         var songInSet = document.createElement("a");
@@ -131,9 +130,7 @@ function drawSetEditForm(){
         songContainer.appendChild(songInSet);
         editSongsInSet.appendChild(songContainer);
     }
-    showSetsInSidebar();  //TODO:  FIGURE OUT WHY I AM CALLING THIS HERE
 }
-
 
 //---------------------SETS & SET FORMS---------------------------------
 //----------------------------------------------------------------------
@@ -232,9 +229,6 @@ function sendSetDetails() {
     showSetDetails(id);
 }
 
-
-
-
 //---------------------DELETING SETS-------------------------------
 //------------------------------------------------------------------
 
@@ -315,14 +309,29 @@ function drawAvailableSongs() {
 //---------------------SET-SONG-ASSOCIATIONS-----------------------
 //------------------------------------------------------------------
 
-function sendAssociation (setId, songId) {
+function sendNewAssociation (item, url) {
     var form_data = new FormData();
-    form_data.append("list_id", setId);
-    form_data.append("song_id", songId);
-
+    //form_data.append("setlist_id", setId);
+    //form_data.append("song_id", songId);
+    var form_data = new FormData();
+    // adds each key-value pair to the FormData
+    for (var key in item) {
+        form_data.append(key, item[key]);
+    }
     var request = new XMLHttpRequest();
     request.open("POST", url);
     request.send(form_data);
+}
+
+function createNewAssociation() {
+        var id=0;
+        var item = {
+        "action": "save",
+        "id": id,
+        "setlist_id": currentSetId,
+        "song_id": currentSongId
+    };
+    sendNewAssociation(item, "/api_association/" + id + '/');
 }
 
 
@@ -332,29 +341,33 @@ function sendAssociation (setId, songId) {
 function addSongToSet(songId) {
     var setId = window.currentSetId;
     window.currentSongId = songId;
-    console.log("list_id: ", setId, "song_id: ", songId);
+    console.log("setlist_id: ", setId, "song_id: ", songId);
     var song;
 
     for (var i=0; i < window.songs.length; i++){
+        console.log(window.songs[i]);
         song = window.songs[i];
         if (song.id == songId) {
             window.songs.splice(i, 1);
+            console.log("added to set: ", song);
             break;
         }
     }
 
     window.set.songs.push(song);
-    drawSet();
+    createNewAssociation();
+    drawSongsInSet();
     drawAvailableSongs();
 }
 
 function removeSongFromSet(songId){
     var setId = window.currentSetId;
     window.currentSongId = songId;
-    console.log("list_id: ", setId, "song_id: ", songId);
+    console.log("setlist_id: ", setId, "song_id: ", songId);
     var song;
 
     for (var i=0; i < window.set.songs.length; i++){
+        console.log(window.set.songs[i]);
         song=window.set.songs[i];
         if (song.id == songId) {
             window.set.songs.splice(i, 1);
@@ -364,7 +377,7 @@ function removeSongFromSet(songId){
     }
 
     window.songs.push(song);
-    drawSet();
+    drawSongsInSet();
     drawAvailableSongs();
 }
 
