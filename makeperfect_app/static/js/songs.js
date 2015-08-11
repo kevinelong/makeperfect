@@ -1,20 +1,19 @@
 //-------------------------------------------------------
 //---------------------HELPERS---------------------------
 //-------------------------------------------------------
-function createSongElements(songArray) {
-    var songEl = document.createElement("a");
-    id = songArray[i].id;
-    songEl.setAttribute("href", "#");
-    songEl.setAttribute("data-id", id);
-    songEl.addEventListener("click", function(e){
-        console.log(this);
+
+//used by drawSongsInSidebar() and reqAllSongsListener()
+function createSongElements(songItem) {
+    var songElement = document.createElement("a");
+    var id = songItem.id;
+    songElement.setAttribute("href", "#");
+    songElement.setAttribute("data-id", id);
+    songElement.addEventListener("click", function(e){
         showSongDetails(e.target.getAttribute("data-id"));
     });
-
-    songEl.innerHTML = songArray[i].name;
-    return songEl;
+    songElement.innerHTML = songItem.name;
+    return songElement;
 }
-
 
 //-------------------------------------------------------
 //---------------------REQ LISTENERS---------------------
@@ -27,8 +26,8 @@ function reqAllSongsListener() {
     songList.innerHTML="";
 
     //draw a list of all songs
-    for (i=0; i <list.length; i++) {
-        var song = createSongElements(list);
+    for (var i=0; i <list.length; i++) {
+        var song = createSongElements(list[i]);
         songList.appendChild(song);
     }
 }
@@ -51,8 +50,8 @@ function drawSongsInSidebar() {
         message.innerHTML = "Add a song!";
         sidebarSongList.appendChild(message);
     } else {
-        for (i=0; i <listOfSongs.length; i++) {
-            var song = createSongElements(listOfSongs);
+        for (var i = 0; i <listOfSongs.length; i++) {
+            var song = createSongElements(listOfSongs[i]);
             sidebarSongList.appendChild(song);
         }
     }
