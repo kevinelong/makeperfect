@@ -1,53 +1,60 @@
+//-------------------------------------------------------
+//---------------------HELPERS---------------------------
+//-------------------------------------------------------
 
-//---------------SET DETAILS LISTENER AND DRAW FUNCTIONS-------
+//used by drawSetsInSidebar() and  drawAllSets()
+function createSetElements(setItem) {
+    var setElement = document.createElement("a");
+    console.log(setItem);
+    var id = setItem.id;
+    setElement.setAttribute("href", "#");
+    setElement.setAttribute("data-id", id);
+    setElement.addEventListener("click", function(e){
+        showSetDetails(e.target.getAttribute("data-id"));
+    });
+    setElement.innerHTML = setItem.name;
+    return setElement;
+}
+
+//--------------------------------------------------------------
+//---------------SET  LISTENERS AND DRAW FUNCTIONS--------------
 //--------------------------------------------------------------
 
 function reqAllSetsListener() {
     console.log(this.responseText);
-    var sets = JSON.parse(this.responseText);
+    window.listOfSets = JSON.parse(this.responseText);
+    drawSetsInSidebar();
+    drawAllSets();
+}
 
+function drawSetsInSidebar() {
+    var sidebarSetLists = document.getElementById("list-of-sets");
+    sidebarSetLists.innerHTML = "";
 
-    var listOfSets = document.getElementById("list-of-sets");
-    listOfSets.innerHTML="";
-
-    if (sets.length==0){
+    if (listOfSets.length == 0) {
         var message = document.createElement('a');
         message.setAttribute("href", "#");
-        message.addEventListener("click", function(e){
+        message.addEventListener("click", function (e) {
             showNewSetForm();
         });
         message.innerHTML = "Add a list!";
-        listOfSets.appendChild(message);
+        sidebarSetLists.appendChild(message);
     } else {
-
-        // draw list of sets in sidebar
-        for (var i=0; i <sets.length; i++) {
-            var set = document.createElement("a");
-            var id = sets[i].id;
-            set.setAttribute("href", "#");
-            set.setAttribute("data-id", id);
-            set.addEventListener("click", function(e){
-                showSetDetails(e.target.getAttribute("data-id"));
-            });
-            set.innerHTML=sets[i].name;
-            listOfSets.appendChild(set);
+        for (var i = 0; i < listOfSets.length; i++) {
+            var set = createSetElements(listOfSets[i]);
+            sidebarSetLists.appendChild(set);
         }
-        // draw all sets in main window
-        var allSets = document.getElementById("all-sets-list");
-        allSets.innerHTML="";
+    }
+}
 
-        for (var i=0; i <sets.length; i++) {
-            set = document.createElement("a");
-            id = sets[i].id;
-            set.setAttribute("href", "#");
-            set.setAttribute("data-id", id);
-            set.addEventListener("click", function(e){
-                showSetDetails(e.target.getAttribute("data-id"));
-            });
-            set.innerHTML=sets[i].name;
-            console.log(set);
-            allSets.appendChild(set);
-        }
+function drawAllSets() {
+   // draw all sets in main window
+    var allSets = document.getElementById("all-sets-list");
+    allSets.innerHTML="";
+
+    for (var i = 0; i <listOfSets.length; i++) {
+        var set = createSetElements(listOfSets[i]);
+        allSets.appendChild(set);
     }
 }
 
@@ -124,7 +131,7 @@ function drawSetEditForm(){
         songContainer.appendChild(songInSet);
         editSongsInSet.appendChild(songContainer);
     }
-    showSetsInSidebar();
+    showSetsInSidebar();  //TODO:  FIGURE OUT WHY I AM CALLING THIS HERE
 }
 
 
@@ -199,7 +206,7 @@ function showAvailableSongs(id) {
 
 //---------------------EDITING AND ADDING SETS---------------------
 //------------------------------------------------------------------
-
+// TODO: NEED TO REDRAW EDITED SONG TO THE SIDEBAR and SONG DETAILS PAGE IN A WAY THAT AVOIDS A RACE CONDITION
 function sendSetPost(item, url) {
     var form_data = new FormData();
     // adds each key-value pair to the FormData
@@ -303,7 +310,6 @@ function drawAvailableSongs() {
         availableSongsList.appendChild(songContainer);
     }
 }
-
 
 
 //---------------------SET-SONG-ASSOCIATIONS-----------------------
