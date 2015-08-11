@@ -1,4 +1,22 @@
 //-------------------------------------------------------
+//---------------------HELPERS---------------------------
+//-------------------------------------------------------
+function createSongElements(songArray) {
+    var songEl = document.createElement("a");
+    id = songArray[i].id;
+    songEl.setAttribute("href", "#");
+    songEl.setAttribute("data-id", id);
+    songEl.addEventListener("click", function(e){
+        console.log(this);
+        showSongDetails(e.target.getAttribute("data-id"));
+    });
+
+    songEl.innerHTML = songArray[i].name;
+    return songEl;
+}
+
+
+//-------------------------------------------------------
 //---------------------REQ LISTENERS---------------------
 //-------------------------------------------------------
 
@@ -8,28 +26,23 @@ function reqAllSongsListener() {
     var songList = document.getElementById("all-songs-list");
     songList.innerHTML="";
 
+    //draw a list of all songs
     for (i=0; i <list.length; i++) {
-        var song = document.createElement("a");
-        id = list[i].id;
-        song.setAttribute("href", "#");
-        song.setAttribute("data-id", id);
-        song.addEventListener("click", function(e){
-            console.log(this);
-            showSongDetails(e.target.getAttribute("data-id"));
-        });
-
-        song.innerHTML=list[i].name;
+        var song = createSongElements(list);
         songList.appendChild(song);
     }
 }
 
 function reqAllSidebarSongsListener() {
     console.log(this.responseText);
-    var list = JSON.parse(this.responseText);
+    window.listOfSongs = JSON.parse(this.responseText);
+    drawSongsInSidebar();
+}
+
+function drawSongsInSidebar() {
     var sidebarSongList = document.getElementById("sidebar-all-songs");
     sidebarSongList.innerHTML="";
-
-    if (list.length==0) {
+    if (listOfSongs.length==0) {
         var message = document.createElement('a');
         message.setAttribute("href", "#");
         message.addEventListener("click", function(e){
@@ -38,35 +51,35 @@ function reqAllSidebarSongsListener() {
         message.innerHTML = "Add a song!";
         sidebarSongList.appendChild(message);
     } else {
-        for (i=0; i <list.length; i++) {
-        var song = document.createElement("a");
-        var id = list[i].id;
-        song.setAttribute("href", "#");
-        song.setAttribute("data-id", id);
-        song.addEventListener("click", function(e){
-            showSongDetails(e.target.getAttribute("data-id"));
-        });
-        song.innerHTML=list[i].name;
-        sidebarSongList.appendChild(song);
+        for (i=0; i <listOfSongs.length; i++) {
+            var song = createSongElements(listOfSongs);
+            sidebarSongList.appendChild(song);
         }
     }
 }
 
-function reqSongDetailsListener(){
-    showSongView();
+function reqSongDetailsListener() {
     console.log(this.responseText);
-    var song = JSON.parse(this.responseText);
+    window.song = JSON.parse(this.responseText);
     window.currentSongId = song.id;
-    console.log(song);
+    console.log(window.song);
+    showSongView();
+    drawSongDetails();
+    drawSongEditForm();
+}
 
+function drawSongDetails() {
+    var song = window.song;
     document.getElementById("song-title").innerHTML=song.name;
-    document.getElementById("song-title-edit-form").innerHTML=song.name;
     document.getElementById("artist").innerHTML=song.artist;
     document.getElementById("key").innerHTML=song.key;
     document.getElementById("chords-text").innerHTML=song.chords;
     document.getElementById("lyrics-text").innerHTML=song.lyrics;
     document.getElementById("notes").innerHTML=song.notes;
-// add values to song edit form
+}
+
+function drawSongEditForm() {
+    var song = window.song;
     document.getElementById("song-title-edit-form").innerText=song.name;
     document.getElementById("edit-title").value=song.name;
     document.getElementById("edit-artist").value=song.artist;
@@ -134,22 +147,16 @@ function showNewSongForm() {
 
 //---------------------EDITING AND ADDING SONGS---------------------
 //------------------------------------------------------------------
-
+// TODO: NEED TO REDRAW EDITED SONG TO THE SIDEBAR and SONG DETAILS PAGE IN A WAY THAT AVOIDS A RACE CONDITION
 function sendSongPost(item, url) {
-    // create new FormData
-    // FormData holds a set of key/value pairs to send using XMLHttpRequest. It works like a form's submit button.
     var form_data = new FormData();
-    // adds each key-value pair to the FormData
     for (var key in item) {
         form_data.append(key, item[key]);
     }
     // Create new XMLHttpRequest
     var request = new XMLHttpRequest();
-    request.onload = function () {
-        reqSongDetailsListener();
-        reqAllSidebarSongsListener();
-    };
     request.open("POST", url);
+    request.onload = reqSongDetailsListener;
     request.send(form_data);
 }
 
@@ -168,7 +175,6 @@ function sendSongDetails() {
     };
     // calls the sendPost function with the dictionary created and a url
     sendSongPost(item, "/api_details/" + id + '/');
-    showSong();
     showAllSidebarSongs();
 }
 
