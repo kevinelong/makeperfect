@@ -139,7 +139,7 @@ function showSetsInSidebar() {
     content = document.getElementById("list-of-sets");
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSetsListener;
-    xhr.open("get", "/api_all_lists/"); //TODO change name
+    xhr.open("get", "/api_all_setlists/");
     xhr.send();
 }
 
@@ -148,7 +148,7 @@ function showAllSetlists() {
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSetsListener;
-    xhr.open("get", "/api_all_lists/"); //TODO change name
+    xhr.open("get", "/api_all_setlists/");
     xhr.send();
 }
 
