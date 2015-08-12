@@ -2,7 +2,7 @@
 //---------------------HELPERS---------------------------
 //-------------------------------------------------------
 
-//used by drawSongsInSidebar() and reqAllSongsListener()
+//used by drawSongsInSidebar(), reqAllSongsListener(), drawSetlist()
 function createSongElements(songItem) {
     var songElement = document.createElement("a");
     var id = songItem.id;
@@ -96,14 +96,14 @@ function showAllSongs() {
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSongsListener;
-    xhr.open("get", "/api_all/");
+    xhr.open("get", "/api_all_songs/");
     xhr.send();
 }
 
 function showAllSidebarSongs() {
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSidebarSongsListener;
-    xhr.open("get", "/api_all/");
+    xhr.open("get", "/api_all_songs/");
     xhr.send();
 }
 
@@ -121,7 +121,7 @@ function showSongView() {
 function showSong() {
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSongDetailsListener;
-    xhr.open("get", "/api_details/" + window.currentSongId + '/');
+    xhr.open("get", "/api_song_details/" + window.currentSongId + '/');
     xhr.send();
 }
 
@@ -173,7 +173,7 @@ function sendSongDetails() {
         "notes": document.getElementById("edit-notes").value,
     };
     // calls the sendPost function with the dictionary created and a url
-    sendSongPost(item, "/api_details/" + id + '/');
+    sendSongPost(item, "/api_song_details/" + id + '/');
     showAllSidebarSongs();
 }
 
@@ -186,7 +186,7 @@ function sendSongDelete(id) {
     form_data.append("action", "DELETE");
     var request = new XMLHttpRequest();
     request.onload=showAllSongs;
-    request.open("POST", "/api_details/" + id + '/');
+    request.open("POST", "/api_song_details/" + id + '/');
     request.send(form_data);
 }
 
