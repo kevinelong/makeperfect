@@ -33,6 +33,7 @@ def login_view(request):
     # context = RequestContext(request)
     # return HttpResponse(template.render(context))
 
+
 @csrf_exempt
 def register_view(request):
     if request.POST:
@@ -44,7 +45,8 @@ def register_view(request):
 
     return render(request, 'register.html', {})
 
-def api_all(request):
+
+def api_all_songs(request):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
     data_list = []
     for song in songs:
@@ -53,20 +55,20 @@ def api_all(request):
         song.selected = True
     return HttpResponse(json.dumps(data_list))
 
-
+#TODO rename to api_all_setlists
 def api_all_lists(request):
-    lists = List.objects.filter(user=request.user).order_by('list_name')
+    setlists = List.objects.filter(user=request.user).order_by('list_name') #TODO change to Setlist and setlist_title
     data_list = []
-    for list in lists:
-        list_data = {"id": list.id, "name": list.list_name, }
+    for setlist in setlists:
+        list_data = {"id": setlist.id, "name": setlist.list_name, } #TODO change to setlist.setlist_title
         data_list.append(list_data)
-        list.selected = True
+        setlist.selected = True
     return HttpResponse(json.dumps(data_list))
 
-
+#TODO rename to api_available_songs
 def api_all_not_in_list(request, list_id):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
-    output_songs = list(songs)
+    output_songs = list(songs) # list is a keyword
     data_list = []
     song_data = {}
 
@@ -77,17 +79,17 @@ def api_all_not_in_list(request, list_id):
             data_list.append(song_data)
         return HttpResponse(json.dumps(data_list, indent=4))
 
-    filtered_list_of_lists = List.objects.filter(id=list_id)
-    filtered_list = filtered_list_of_lists[0]
-    list_items = ListItem.objects.filter(list_name=filtered_list)
+    filtered_list_of_setlists = List.objects.filter(id=list_id) #TODO change model class name
+    filtered_setlist = filtered_list_of_setlists[0]
+    setlist_items = ListItem.objects.filter(list_name=filtered_setlist) #TODO change model class name
 
-    if list_items:
+    if setlist_items:
         # iterate through each song in the list of all songs
         for song in songs:
             # look at the songs in the selected list and make comparison
-            for list_item in list_items:
+            for setlist_item in setlist_items:
                 # if the song does not match any in the list of songs, add info to dictionary
-                if list_item.song == song:
+                if setlist_item.song == song:
                     output_songs.remove(song)
         for song in output_songs:
             song_data = {"id": song.id,
@@ -101,7 +103,7 @@ def api_all_not_in_list(request, list_id):
 
     return HttpResponse(json.dumps(data_list, indent=4))
 
-
+#TODO rename to api_song_details
 @csrf_exempt
 def api_details(request, song_id):
     if request.POST:
@@ -120,7 +122,7 @@ def api_details(request, song_id):
             song.chords = request.POST["chords"]
             song.lyrics = request.POST["lyrics"]
             song.notes = request.POST["notes"]
-            song.user=request.user
+            song.user = request.user
             song.save()
     else:
         song = get_object_or_404(Song, pk=song_id)
@@ -133,7 +135,7 @@ def api_details(request, song_id):
                  "artist": song.artist,
                  "notes": song.notes}
     return HttpResponse(json.dumps(song_data))
-
+#TODO rename to api_setlist
 @csrf_exempt
 def api_list(request, list_id):
 
@@ -141,35 +143,35 @@ def api_list(request, list_id):
         print("The list ID is 0. There are no songs associated with this list.")
 
     songs = Song.objects.filter(user=request.user).order_by('song_title')
-    filtered_list_of_lists = List.objects.filter(id=list_id)
+    filtered_list_of_setlists = List.objects.filter(id=list_id)
 
     if request.POST:
         print(request.POST)
 
         if request.POST["id"] == "0":
-            song_list = List()
+            setlist = List() #TODO rename model class
         else:
-            song_list = List.objects.filter(id=request.POST["id"])[0]
+            setlist = List.objects.filter(id=request.POST["id"])[0] #TODO rename model class
         if request.POST["action"] == "DELETE":
-            song_list.delete()
+            setlist.delete()
         else:
-            song_list.list_name = request.POST["list_name"]
-            song_list.user=request.user
-            song_list.save()
+            setlist.list_name = request.POST["list_name"] #TODO change list_name to setlist_title
+            setlist.user = request.user
+            setlist.save()
     else:
-        song_list = filtered_list_of_lists[0]
+        setlist = filtered_list_of_setlists[0]
 
-    list_items = ListItem.objects.filter(list_name=song_list)
+    setlist_items = ListItem.objects.filter(list_name=setlist)
     data_list = []
-    data_object = {"name": song_list.list_name,
-                   "id": song_list.id}
+    data_object = {"name": setlist.list_name,
+                   "id": setlist.id}
     print(data_object)
     for song in songs:
-        for list_item in list_items:
-            if list_item.song == song:
+        for setlist_item in setlist_items:
+            if setlist_item.song == song:
                 song_data = {"id": song.id,
                              "name": song.song_title,
-                             "list": song_list.list_name}
+                             "list": setlist.list_name} #change list_name to setlist_title
                 data_list.append(song_data)
                 song.selected = True
 
@@ -177,17 +179,23 @@ def api_list(request, list_id):
 
     return HttpResponse(json.dumps(data_object))
 
-
-def api_association(request):
-    list_item = ListItem()
-    list_item.list_id = request.POST["list_id"]
-    list_item.song_id = request.POST["song_id"]
-    list_item.save()
-
-
-
-
-
+@csrf_exempt
+def api_association(request, setlist_item_id):
+    pass
+    # if request.POST:
+    #     filtered_song = Song.objects.filter(id=request.POST["song_id"])
+    #     filtered_setlist = List.objects.filter(id=request.POST["setlist_id"])
+    #     print (filtered_song)
+    #     print (filtered_setlist)
+    #     print(request.POST)
+    #     if setlist_item_id == "0":
+    #         setlist_item = ListItem(ListItem.song = filtered_song, ListItem.list_name = filtered_setlist)
+    #         setlist_item(save)
+    # else:
+    #     setlist_item = ListItem.objects.filter(id=request.POST["id"])[0]
+    # data_object = {"setlist_id": setlist_item.list.id,
+    #                "song_id": setlist_item.song.id}
+    # return HttpResponse(json.dumps(data_object))
 
 # OLD VIEW FUNCTIONS NOT BEING USED IN THE ONE-PAGE VERSION
 # SAVED FOR REFERENCE FOR NOW
