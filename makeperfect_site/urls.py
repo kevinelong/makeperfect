@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api_association/(?P<list_item_id>[0-9]+)/$', "makeperfect_app.views.api_association", name='api_association'),
     # url(r'^$', views.index, name='index'),
-    url(r'^api_details/(?P<song_id>[0-9]+)/$', "makeperfect_app.views.api_details", name='api_details'),
+    url(r'^api_song_details/(?P<song_id>[0-9]+)/$', "makeperfect_app.views.api_song_details", name='api_song_details'),
     url(r'^api_list/(?P<list_id>[0-9]+)/$', "makeperfect_app.views.api_list", name='api_list'),
     url(r'^api_all_songs/$', "makeperfect_app.views.api_all_songs", name='api_all_songs'),
     url(r'^api_all_lists/$', "makeperfect_app.views.api_all_lists", name='api_all_lists'),
