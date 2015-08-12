@@ -65,8 +65,8 @@ def api_all_lists(request):
         setlist.selected = True
     return HttpResponse(json.dumps(data_list))
 
-#TODO rename to api_available_songs
-def api_all_not_in_list(request, list_id):
+
+def api_available_songs(request, list_id):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
     output_songs = list(songs) # list is a keyword
     data_list = []
