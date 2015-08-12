@@ -60,15 +60,15 @@ def api_all_setlists(request):
     setlists = List.objects.filter(user=request.user).order_by('list_name') #TODO change to Setlist and setlist_title
     data_list = []
     for setlist in setlists:
-        list_data = {"id": setlist.id, "name": setlist.list_name, } #TODO change to setlist.setlist_title
-        data_list.append(list_data)
+        setlist_data = {"id": setlist.id, "name": setlist.list_name, } #TODO change to setlist.setlist_title
+        data_list.append(setlist_data)
         setlist.selected = True
     return HttpResponse(json.dumps(data_list))
 
 
 def api_available_songs(request, list_id):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
-    output_songs = list(songs) # list is a keyword
+    output_songs = list(songs) # list is a keyword, no need to change code here
     data_list = []
     song_data = {}
 
@@ -134,15 +134,15 @@ def api_song_details(request, song_id):
                  "artist": song.artist,
                  "notes": song.notes}
     return HttpResponse(json.dumps(song_data))
-
+# TODO change model class name from List to Setlist in api_setlist after refactoring database
 @csrf_exempt
-def api_setlist(request, list_id):
+def api_setlist(request, list_id):#TODO change list_id to setlist_id
 
     if list_id == "0":
-        print("The list ID is 0. There are no songs associated with this list.")
+        print("The list ID is 0. There are no songs associated with this setlist.")
 
     songs = Song.objects.filter(user=request.user).order_by('song_title')
-    filtered_list_of_setlists = List.objects.filter(id=list_id)
+    filtered_list_of_setlists = List.objects.filter(id=list_id) #TODO change list_id to setlist_id
 
     if request.POST:
         print(request.POST)
@@ -160,9 +160,9 @@ def api_setlist(request, list_id):
     else:
         setlist = filtered_list_of_setlists[0]
 
-    setlist_items = ListItem.objects.filter(list_name=setlist)
+    setlist_items = ListItem.objects.filter(list_name=setlist) #TODO change list_name to setlist_title
     data_list = []
-    data_object = {"name": setlist.list_name,
+    data_object = {"name": setlist.list_name,#TODO change list_name to setlist_title
                    "id": setlist.id}
     print(data_object)
     for song in songs:
@@ -170,7 +170,7 @@ def api_setlist(request, list_id):
             if setlist_item.song == song:
                 song_data = {"id": song.id,
                              "name": song.song_title,
-                             "list": setlist.list_name} #change list_name to setlist_title
+                             "list": setlist.list_name} #TODO change list_name to setlist_title
                 data_list.append(song_data)
                 song.selected = True
 
