@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^api_list/(?P<list_id>[0-9]+)/$', "makeperfect_app.views.api_list", name='api_list'),
     url(r'^api_all_songs/$', "makeperfect_app.views.api_all_songs", name='api_all_songs'),
     url(r'^api_all_lists/$', "makeperfect_app.views.api_all_lists", name='api_all_lists'),
-    url(r'^api_all_not_in_list/(?P<list_id>[0-9]+)/$', "makeperfect_app.views.api_all_not_in_list", name='api_all_not_in_list'),
+    url(r'^api_available_songs/(?P<list_id>[0-9]+)/$', "makeperfect_app.views.api_available_songs", name='api_available_songs'),
     url(r'^login/$', "makeperfect_app.views.login_view", name="login"),
     # url(r'^login/$', 'views.login_view'),
     url(r'^register/$', 'makeperfect_app.views.register_view'),
