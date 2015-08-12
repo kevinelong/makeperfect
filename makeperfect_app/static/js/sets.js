@@ -2,18 +2,18 @@
 //---------------------HELPERS---------------------------
 //-------------------------------------------------------
 
-//used by drawSetsInSidebar() and  drawAllSets()
-function createSetElements(setItem) {
-    var setElement = document.createElement("a");
-    console.log(setItem);
-    var id = setItem.id;
-    setElement.setAttribute("href", "#");
-    setElement.setAttribute("data-id", id);
-    setElement.addEventListener("click", function(e){
+//used by drawSetslistsInSidebar() and  drawAllSetlists()
+function createSetlistElements(setlistItem) {
+    var setlistElement = document.createElement("a");
+    console.log(setlistItem);
+    var id = setlistItem.id;
+    setlistElement.setAttribute("href", "#");
+    setlistElement.setAttribute("data-id", id);
+    setlistElement.addEventListener("click", function(e){
         showSetDetails(e.target.getAttribute("data-id"));
     });
-    setElement.innerHTML = setItem.name;
-    return setElement;
+    setlistElement.innerHTML = setlistItem.name;
+    return setlistElement;
 }
 
 //--------------------------------------------------------------
@@ -23,11 +23,11 @@ function createSetElements(setItem) {
 function reqAllSetsListener() {
     console.log(this.responseText);
     window.listOfSets = JSON.parse(this.responseText);
-    drawSetsInSidebar();
-    drawAllSets();
+    drawSetslistsInSidebar();
+    drawAllSetlists();
 }
 
-function drawSetsInSidebar() {
+function drawSetslistsInSidebar() {
     var sidebarSetLists = document.getElementById("list-of-sets");
     sidebarSetLists.innerHTML = "";
 
@@ -41,36 +41,36 @@ function drawSetsInSidebar() {
         sidebarSetLists.appendChild(message);
     } else {
         for (var i = 0; i < listOfSets.length; i++) {
-            var set = createSetElements(listOfSets[i]);
-            sidebarSetLists.appendChild(set);
+            var setlist = createSetlistElements(listOfSets[i]);
+            sidebarSetLists.appendChild(setlist);
         }
     }
 }
 
-function drawAllSets() {
+function drawAllSetlists() {
    // draw all sets in main window
     var allSets = document.getElementById("all-sets-list");
     allSets.innerHTML="";
 
     for (var i = 0; i <listOfSets.length; i++) {
-        var set = createSetElements(listOfSets[i]);
-        allSets.appendChild(set);
+        var setlist = createSetlistElements(listOfSets[i]);
+        allSets.appendChild(setlist);
     }
 }
 
 function reqSetListener() {
     console.log(this.responseText);
-    window.set = JSON.parse(this.responseText);
-    drawSet();
-    drawSetEditForm();
+    window.setlist = JSON.parse(this.responseText);
+    drawSetlist();
+    drawSetlistEditForm();
 }
 
-function drawSet(){
-    var set = window.set;
-    console.log(set.songs);
+function drawSetlist(){
+    var setlist = window.setlist;
+    console.log(setlist.songs);
     // Set details
-    document.getElementById("set-title").innerHTML=set.name;
-    window.currentSetId = set.id;
+    document.getElementById("set-title").innerHTML=setlist.name;
+    window.currentSetId = setlist.id;
     console.log(window.currentSetId);
     var songList = document.getElementById("songs-in-set");
     songList.innerHTML="";
@@ -85,29 +85,29 @@ function drawSet(){
             }
         }
     }
-    for (i=0; i <set.songs.length; i++) {
-        console.log(set.songs[i]);
-        var song = createSongElements(set.songs[i]);
+    for (i=0; i <setlist.songs.length; i++) {
+        console.log(setlist.songs[i]);
+        var song = createSongElements(setlist.songs[i]);
         songList.appendChild(song);
     }
 }
 
-function drawSetEditForm(){
-    document.getElementById("edit-set-title").innerHTML=set.name;
-    document.getElementById("edit-set-title").value=set.name;
-    drawSongsInSet();
+function drawSetlistEditForm(){
+    document.getElementById("edit-set-title").innerHTML=setlist.name;
+    document.getElementById("edit-set-title").value=setlist.name;
+    drawSongsInSetlist();
     //showSetsInSidebar();  //TODO:  FIGURE OUT WHY I WAS CALLING THIS HERE
 }
 
-function drawSongsInSet(){
+function drawSongsInSetlist(){
     var editSongsInSet = document.getElementById("songs-in-edit-set-form");
     editSongsInSet.innerHTML="";
 
     //CREATE LIST OF SONGS IN SET WITH EVENT LISTENERS
-    for (i=0; i <set.songs.length; i++) {
+    for (i=0; i <setlist.songs.length; i++) {
         var songContainer = document.createElement("div");
         var songInSet = document.createElement("a");
-        id = set.songs[i].id;
+        id = setlist.songs[i].id;
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.addEventListener("click", function(e){
@@ -125,7 +125,7 @@ function drawSongsInSet(){
         });
 
     //DRAW SONGS TO THE LIST EDIT FORM
-        songInSet.innerHTML=set.songs[i].name;
+        songInSet.innerHTML=setlist.songs[i].name;
         songContainer.appendChild(removeButton);
         songContainer.appendChild(songInSet);
         editSongsInSet.appendChild(songContainer);
@@ -143,7 +143,7 @@ function showSetsInSidebar() {
     xhr.send();
 }
 
-function showAllSets() {
+function showAllSetlists() {
     content = document.getElementById("all-sets");
     hideOtherContent();
     var xhr = new XMLHttpRequest();
@@ -245,7 +245,7 @@ function sendSetDelete(id) {
 function deleteSet() {
     id = window.currentSetId;
     sendSetDelete(id);
-    showAllSets();
+    showAllSetlists();
 }
 
 function confirmSetDelete() {
@@ -354,9 +354,9 @@ function addSongToSet(songId) {
         }
     }
 
-    window.set.songs.push(song);
+    window.setlist.songs.push(song);
     createNewAssociation();
-    drawSongsInSet();
+    drawSongsInSetlist();
     drawAvailableSongs();
 }
 
@@ -366,18 +366,18 @@ function removeSongFromSet(songId){
     console.log("setlist_id: ", setId, "song_id: ", songId);
     var song;
 
-    for (var i=0; i < window.set.songs.length; i++){
-        console.log(window.set.songs[i]);
-        song=window.set.songs[i];
+    for (var i=0; i < window.setlist.songs.length; i++){
+        console.log(window.setlist.songs[i]);
+        song=window.setlist.songs[i];
         if (song.id == songId) {
-            window.set.songs.splice(i, 1);
+            window.setlist.songs.splice(i, 1);
             console.log("removed from set: ", song);
             break;
         }
     }
 
     window.songs.push(song);
-    drawSongsInSet();
+    drawSongsInSetlist();
     drawAvailableSongs();
 }
 
