@@ -103,9 +103,8 @@ def api_all_not_in_list(request, list_id):
 
     return HttpResponse(json.dumps(data_list, indent=4))
 
-#TODO rename to api_song_details
 @csrf_exempt
-def api_details(request, song_id):
+def api_song_details(request, song_id):
     if request.POST:
         print(request.POST)
 
