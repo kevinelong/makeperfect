@@ -1,22 +1,22 @@
 var content;
 
-function toggleListOfSongs() {
-    var list = document.getElementById("sidebar-all-songs");
-    if (list.style.display == "none") {
-        list.style.display = "block";
+function toggleSongs() {
+    var setlist = document.getElementById("sidebar-all-songs");
+    if (setlist.style.display == "none") {
+        setlist.style.display = "block";
             //showAllSidebarSongs();
     } else {
-            list.style.display = "none";
+            setlist.style.display = "none";
         }
 }
 
-function toggleListOfSets() {
-    var list = document.getElementById("list-of-sets");
-    if (list.style.display == "none") {
-        list.style.display = "block";
+function toggleSetlists() {
+    var setlist = document.getElementById("list-of-sets");
+    if (setlist.style.display == "none") {
+        setlist.style.display = "block";
 
     } else {
-            list.style.display = "none";
+            setlist.style.display = "none";
 
         }
 }
