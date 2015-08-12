@@ -195,7 +195,7 @@ function showNewSetForm() {
 function showAvailableSongs(id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAvailableSongsListener;
-    xhr.open("get", "/api_all_not_in_list/" + id + '/'); //TODO change name
+    xhr.open("get", "/api_available_songs/" + id + '/');
     xhr.send();
 }
 
