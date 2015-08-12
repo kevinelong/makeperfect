@@ -158,7 +158,7 @@ function showSetDetails(id) {
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSetListener;
-    xhr.open("get", "/api_list/" + id + '/'); //TODO change name
+    xhr.open("get", "/api_setlist/" + id + '/'); //TODO change name
     xhr.send();
 }
 
@@ -177,7 +177,7 @@ function showSetEditForm() {
     document.getElementById("set-title-h1").value="";
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSetListener;
-    xhr.open("get", "/api_list/" + id + '/'); //TODO change name
+    xhr.open("get", "/api_setlist/" + id + '/'); //TODO change name
     xhr.send();
     showAvailableSongs(id);
 }
@@ -239,7 +239,7 @@ function sendSetDelete(id) {
     form_data.append("action", "DELETE");
     var request = new XMLHttpRequest();
     request.onload=reqSetListener;
-    request.open("POST", "/api_list/" + id + '/');
+    request.open("POST", "/api_setlist/" + id + '/');
     request.send(form_data);
 }
 
