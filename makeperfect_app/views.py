@@ -55,8 +55,8 @@ def api_all_songs(request):
         song.selected = True
     return HttpResponse(json.dumps(data_list))
 
-#TODO rename to api_all_setlists
-def api_all_lists(request):
+
+def api_all_setlists(request):
     setlists = List.objects.filter(user=request.user).order_by('list_name') #TODO change to Setlist and setlist_title
     data_list = []
     for setlist in setlists:
