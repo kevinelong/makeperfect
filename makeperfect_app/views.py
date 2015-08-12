@@ -134,9 +134,9 @@ def api_song_details(request, song_id):
                  "artist": song.artist,
                  "notes": song.notes}
     return HttpResponse(json.dumps(song_data))
-#TODO rename to api_setlist
+
 @csrf_exempt
-def api_list(request, list_id):
+def api_setlist(request, list_id):
 
     if list_id == "0":
         print("The list ID is 0. There are no songs associated with this list.")
