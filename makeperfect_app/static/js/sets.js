@@ -19,7 +19,7 @@ function createSetlistElements(setlistItem) {
 //--------------------------------------------------------------
 //---------------SET LISTENERS AND DRAW FUNCTIONS--------------
 //--------------------------------------------------------------
-// TODO change urls here and in urls.py after changing them in views.py
+
 function reqAllSetsListener() {
     console.log(this.responseText);
     window.listOfSets = JSON.parse(this.responseText);
@@ -66,11 +66,11 @@ function reqSetListener() {
 }
 
 function drawSetlist(){
-    var setlist = window.setlist;
-    console.log(setlist.songs);
+    var drawnSetlist = window.setlist;
+    console.log(drawnSetlist.songs);
     // Set details
-    document.getElementById("set-title").innerHTML=setlist.name;
-    window.currentSetId = setlist.id;
+    document.getElementById("set-title").innerHTML=drawnSetlist.setlist_title;
+    window.currentSetId = drawnSetlist.id;
     console.log(window.currentSetId);
     var songList = document.getElementById("songs-in-set");
     songList.innerHTML="";
@@ -85,16 +85,16 @@ function drawSetlist(){
             }
         }
     }
-    for (i=0; i <setlist.songs.length; i++) {
-        console.log(setlist.songs[i]);
-        var song = createSongElements(setlist.songs[i]);
+    for (i=0; i <drawnSetlist.songs.length; i++) {
+        console.log(drawnSetlist.songs[i]);
+        var song = createSongElements(drawnSetlist.songs[i]);
         songList.appendChild(song);
     }
 }
 
 function drawSetlistEditForm(){
-    document.getElementById("edit-set-title").innerHTML=setlist.name;
-    document.getElementById("edit-set-title").value=setlist.name;
+    document.getElementById("edit-set-title").innerHTML=setlist.setlist_title;
+    document.getElementById("edit-set-title").value=setlist.setlist_title;
     drawSongsInSetlist();
     //showSetsInSidebar();  //TODO:  FIGURE OUT WHY I WAS CALLING THIS HERE
 }
@@ -158,7 +158,7 @@ function showSetDetails(id) {
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSetListener;
-    xhr.open("get", "/api_setlist/" + id + '/'); //TODO change name
+    xhr.open("get", "/api_setlist/" + id + '/');
     xhr.send();
 }
 
@@ -177,7 +177,7 @@ function showSetEditForm() {
     document.getElementById("set-title-h1").value="";
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSetListener;
-    xhr.open("get", "/api_setlist/" + id + '/'); //TODO change name
+    xhr.open("get", "/api_setlist/" + id + '/');
     xhr.send();
     showAvailableSongs(id);
 }
@@ -204,7 +204,7 @@ function showAvailableSongs(id) {
 //---------------------EDITING AND ADDING SETS---------------------
 //------------------------------------------------------------------
 // TODO: NEED TO REDRAW EDITED SONG TO THE SIDEBAR and SONG DETAILS PAGE IN A WAY THAT AVOIDS A RACE CONDITION
-// TODO: change key "list_name" to "setlist_name" in JSON objects after changing class model names and names in view functions
+// changed  key "list_name" to "setlist_title" in JSON objects after changing class model names and names in view functions
 function sendSetPost(item, url) {
     var form_data = new FormData();
     // adds each key-value pair to the FormData
@@ -223,9 +223,9 @@ function sendSetDetails() {
     var item = {
         "action": "save",
         "id": window.currentSetId,
-        "list_name": document.getElementById("edit-set-title").value
+        "setlist_title": document.getElementById("edit-set-title").value
     };
-    sendSetPost(item, "/api_list/" + id + '/'); //TODO change name
+    sendSetPost(item, "/api_setlist/" + id + '/');
     showSetsInSidebar();
     showSetDetails(id);
 }
