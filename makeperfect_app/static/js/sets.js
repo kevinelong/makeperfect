@@ -17,9 +17,9 @@ function createSetlistElements(setlistItem) {
 }
 
 //--------------------------------------------------------------
-//---------------SET  LISTENERS AND DRAW FUNCTIONS--------------
+//---------------SET LISTENERS AND DRAW FUNCTIONS--------------
 //--------------------------------------------------------------
-
+// TODO change urls here and in urls.py after changing them in views.py
 function reqAllSetsListener() {
     console.log(this.responseText);
     window.listOfSets = JSON.parse(this.responseText);
@@ -139,7 +139,7 @@ function showSetsInSidebar() {
     content = document.getElementById("list-of-sets");
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSetsListener;
-    xhr.open("get", "/api_all_lists/");
+    xhr.open("get", "/api_all_lists/"); //TODO change name
     xhr.send();
 }
 
@@ -148,7 +148,7 @@ function showAllSetlists() {
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAllSetsListener;
-    xhr.open("get", "/api_all_lists/");
+    xhr.open("get", "/api_all_lists/"); //TODO change name
     xhr.send();
 }
 
@@ -158,7 +158,7 @@ function showSetDetails(id) {
     hideOtherContent();
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSetListener;
-    xhr.open("get", "/api_list/" + id + '/');
+    xhr.open("get", "/api_list/" + id + '/'); //TODO change name
     xhr.send();
 }
 
@@ -170,14 +170,14 @@ function showSetEditForm() {
     if (id=="0") {
         var songsInListMessage = document.getElementById("songs-in-edit-set-form");
         var message =  document.createElement('p');
-        message.innerHTML = "There are no songs in this list.";
+        message.innerHTML = "There are no songs in this set.";
         songsInListMessage.appendChild(message);
         document.getElementById("edit-songs-in-set").style.display="none";
     }
     document.getElementById("set-title-h1").value="";
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSetListener;
-    xhr.open("get", "/api_list/" + id + '/');
+    xhr.open("get", "/api_list/" + id + '/'); //TODO change name
     xhr.send();
     showAvailableSongs(id);
 }
@@ -195,7 +195,7 @@ function showNewSetForm() {
 function showAvailableSongs(id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAvailableSongsListener;
-    xhr.open("get", "/api_all_not_in_list/" + id + '/');
+    xhr.open("get", "/api_all_not_in_list/" + id + '/'); //TODO change name
     xhr.send();
 }
 
@@ -204,6 +204,7 @@ function showAvailableSongs(id) {
 //---------------------EDITING AND ADDING SETS---------------------
 //------------------------------------------------------------------
 // TODO: NEED TO REDRAW EDITED SONG TO THE SIDEBAR and SONG DETAILS PAGE IN A WAY THAT AVOIDS A RACE CONDITION
+// TODO: change key "list_name" to "setlist_name" in JSON objects after changing class model names and names in view functions
 function sendSetPost(item, url) {
     var form_data = new FormData();
     // adds each key-value pair to the FormData
@@ -224,7 +225,7 @@ function sendSetDetails() {
         "id": window.currentSetId,
         "list_name": document.getElementById("edit-set-title").value
     };
-    sendSetPost(item, "/api_list/" + id + '/');
+    sendSetPost(item, "/api_list/" + id + '/'); //TODO change name
     showSetsInSidebar();
     showSetDetails(id);
 }
@@ -249,14 +250,15 @@ function deleteSet() {
 }
 
 function confirmSetDelete() {
-    document.getElementById('confirm-delete-list').style.display="block";
+    document.getElementById('confirm-delete-set').style.display="block";
 
-    document.getElementById('delete-list-btn-true').onclick = function(){
+    document.getElementById('delete-set-btn-true').onclick = function(){
         deleteSet();
+        document.getElementById('confirm-delete-set').style.display="none";
     };
 
-    document.getElementById('delete-list-btn-false').onclick = function(){
-        document.getElementById('confirm-delete-list').style.display="none";
+    document.getElementById('delete-set-btn-false').onclick = function(){
+        document.getElementById('confirm-delete-set').style.display="none";
         return false;
     };
 }
