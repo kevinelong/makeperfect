@@ -79,9 +79,9 @@ def api_available_songs(request, setlist_id):
             data_list.append(song_data)
         return HttpResponse(json.dumps(data_list, indent=4))
 
-    filtered_list_of_setlists = Setlist.objects.filter(id=setlist_id)  # changed model class name, do I need to change the list_id, too?
+    filtered_list_of_setlists = Setlist.objects.filter(id=setlist_id)  # changed model class name
     filtered_setlist = filtered_list_of_setlists[0]
-    setlist_items = SetlistItem.objects.filter(setlist=filtered_setlist)  # changed model class name and changed list_name to setlist_title
+    setlist_items = SetlistItem.objects.filter(setlist=filtered_setlist)  # changed model class name
 
     if setlist_items:
         for song in songs:
@@ -181,12 +181,13 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
 
     return HttpResponse(json.dumps(data_object))
 
+
 @csrf_exempt
 def api_association(request, setlist_item_id):
 
     if request.POST:
-        filtered_song = Song.objects.filter(id=request.POST["song_id"])
-        filtered_setlist = Setlist.objects.filter(id=request.POST["setlist_id"])
+        filtered_song = Song.objects.filter(id=request.POST["song_id"])[0]
+        filtered_setlist = Setlist.objects.filter(id=request.POST["setlist_id"])[0]
         print (filtered_song)
         print (filtered_setlist)
         print(request.POST)
@@ -194,9 +195,10 @@ def api_association(request, setlist_item_id):
             setlist_item = SetlistItem()
             setlist_item.song = filtered_song
             setlist_item.setlist = filtered_setlist
+            setlist_item.user = request.user
             setlist_item.save()
-    # else:
-    #     setlist_item = SetlistItem.objects.filter(id=request.POST["id"])[0]
+    else:
+        setlist_item = SetlistItem.objects.filter(id=request.POST["id"])[0]
     data_object = {"setlist_id": setlist_item.setlist.id,
                    "song_id": setlist_item.song.id}
     return HttpResponse(json.dumps(data_object))

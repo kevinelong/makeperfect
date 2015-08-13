@@ -44,7 +44,7 @@ function reqSongDetailsListener() {
 
 function drawSongDetails() {
     var song = window.song;
-    document.getElementById("song-title").innerHTML=song.name;
+    document.getElementById("song-title").innerHTML=song.song_title;
     document.getElementById("artist").innerHTML=song.artist;
     document.getElementById("key").innerHTML=song.key;
     document.getElementById("chords-text").innerHTML=song.chords;
@@ -54,8 +54,8 @@ function drawSongDetails() {
 
 function drawSongEditForm() {
     var song = window.song;
-    document.getElementById("song-title-edit-form").innerText=song.name;
-    document.getElementById("edit-title").value=song.name;
+    document.getElementById("song-title-edit-form").innerHTML=song.song_title;
+    document.getElementById("edit-title").value=song.song_title;
     document.getElementById("edit-artist").value=song.artist;
     document.getElementById("edit-key").value=song.key;
     document.getElementById("edit-chords").innerHTML=song.chords;
