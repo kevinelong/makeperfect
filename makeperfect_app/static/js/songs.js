@@ -2,7 +2,7 @@
 //---------------------HELPERS---------------------------
 //-------------------------------------------------------
 
-//used by drawSongsInSidebar(), reqAllSongsListener(), drawSetlist()
+//used by reqAllSongsListener(), drawSetlist()
 function createSongElements(songItem) {
     var songElement = document.createElement("a");
     var id = songItem.id;
@@ -29,31 +29,6 @@ function reqAllSongsListener() {
     for (var i=0; i <list.length; i++) {
         var song = createSongElements(list[i]);
         songList.appendChild(song);
-    }
-}
-
-function reqAllSidebarSongsListener() {
-    console.log(this.responseText);
-    window.listOfSongs = JSON.parse(this.responseText);
-    drawSongsInSidebar();
-}
-
-function drawSongsInSidebar() {
-    var sidebarSongList = document.getElementById("sidebar-all-songs");
-    sidebarSongList.innerHTML="";
-    if (listOfSongs.length==0) {
-        var message = document.createElement('a');
-        message.setAttribute("href", "#");
-        message.addEventListener("click", function(e){
-            showNewSongForm();
-        });
-        message.innerHTML = "Add a song!";
-        sidebarSongList.appendChild(message);
-    } else {
-        for (var i = 0; i <listOfSongs.length; i++) {
-            var song = createSongElements(listOfSongs[i]);
-            sidebarSongList.appendChild(song);
-        }
     }
 }
 
@@ -100,13 +75,6 @@ function showAllSongs() {
     xhr.send();
 }
 
-function showAllSidebarSongs() {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqAllSidebarSongsListener;
-    xhr.open("get", "/api_all_songs/");
-    xhr.send();
-}
-
 function showSongDetails(id) {
     window.currentSongId = id;
     showSong();
@@ -146,7 +114,7 @@ function showNewSongForm() {
 
 //---------------------EDITING AND ADDING SONGS---------------------
 //------------------------------------------------------------------
-// TODO: NEED TO REDRAW EDITED SONG TO THE SIDEBAR and SONG DETAILS PAGE IN A WAY THAT AVOIDS A RACE CONDITION
+
 function sendSongPost(item, url) {
     var form_data = new FormData();
     for (var key in item) {
@@ -174,7 +142,6 @@ function sendSongDetails() {
     };
     // calls the sendPost function with the dictionary created and a url
     sendSongPost(item, "/api_song_details/" + id + '/');
-    showAllSidebarSongs();
 }
 
 //---------------------DELETING SONGS-------------------------------
@@ -194,7 +161,6 @@ function deleteSong() {
     id = window.currentSongId;
     sendSongDelete(id);
     showAllSongs();
-    showAllSidebarSongs();
 }
 
 function confirmDeleteSong() {
@@ -210,5 +176,37 @@ function confirmDeleteSong() {
     };
 }
 
-showAllSidebarSongs();
 showAllSongs();
+
+
+//function reqAllSidebarSongsListener() {
+//    console.log(this.responseText);
+//    window.listOfSongs = JSON.parse(this.responseText);
+//    drawSongsInSidebar();
+//}
+
+//function showAllSidebarSongs() {
+//    var xhr = new XMLHttpRequest();
+//    xhr.onload = reqAllSidebarSongsListener;
+//    xhr.open("get", "/api_all_songs/");
+//    xhr.send();
+//}
+
+//function drawSongsInSidebar() {
+//    var sidebarSongList = document.getElementById("sidebar-all-songs");
+//    sidebarSongList.innerHTML="";
+//    if (listOfSongs.length==0) {
+//        var message = document.createElement('a');
+//        message.setAttribute("href", "#");
+//        message.addEventListener("click", function(e){
+//            showNewSongForm();
+//        });
+//        message.innerHTML = "Add a song!";
+//        sidebarSongList.appendChild(message);
+//    } else {
+//        for (var i = 0; i <listOfSongs.length; i++) {
+//            var song = createSongElements(listOfSongs[i]);
+//            sidebarSongList.appendChild(song);
+//        }
+//    }
+//}
