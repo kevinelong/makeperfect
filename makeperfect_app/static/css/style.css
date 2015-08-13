@@ -7,14 +7,13 @@ body {
     margin: auto;
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
 }
 
 .main-content {
     display: none;
     height: 100%;
-    width: auto;
-    padding: 10px 50px 200px 475px;
+    margin: auto;
+    padding: 175px 25px;
 }
 
 .selected {
@@ -22,50 +21,35 @@ body {
 }
 
 /*--------------------------------------------
-SIDEBAR STYLES
+HEADER STYLES
 ---------------------------------------------*/
 
-.sidebar {
+header {
+    box-sizing: border-box;
     background: white;
+    width: 100%;
     position: fixed;
     top: 0;
-    bottom: 0;
-    left: 0;
-    min-width: 175px;
-    padding: 10px 10px 50px 20px;
-    font-size: 30px;
+    padding: 10px;
     text-align: center;
-    overflow-y:scroll;
-    border-right: 12px solid black;
+    margin: auto;
 }
 
-#sidebar-all-songs, #list-of-lists {
-    font-size: 25px;
-    display: block;
-}
-
-.sidebar span {
+header span {
     font-size: 35px;
     font-weight: bold;
     color: black;
-    letter-spacing: 7px;
+    letter-spacing: 3px;
 }
 
-#sidebar li {
-    font-size: 24px;
-    font-weight: bold;
-    color: black;
-    letter-spacing: 7px;
-}
-
-.sidebar span:before {
+header span:before {
     content: "\1D106"; font-family:"Arial Black";
     color: black;
     padding-right: 10px;
     font-size: 50px;
 }
 
-.sidebar span:after {
+header span:after {
     content: "\1D107"; font-family:"Arial Black";
     color: black;
     padding-left: 10px;
@@ -115,18 +99,9 @@ a:hover {
     color: dimgrey;
 }
 
-.sidebar a:hover {
-    color: lightgray;
-}
-
 .lists a {
     display: block;
     font-size: 20px;
-}
-
-#songs-in-list a {
-    display: block;
-    font-size: 30px;
 }
 
 /*--------------------------------------------
