@@ -13,7 +13,8 @@ body {
     display: none;
     height: 100%;
     margin: auto;
-    padding: 175px 25px;
+    width: auto;
+    padding: 10px 25px;
 }
 
 .selected {
@@ -28,7 +29,6 @@ header {
     box-sizing: border-box;
     background: white;
     width: 100%;
-    position: fixed;
     top: 0;
     padding: 10px;
     text-align: center;
@@ -125,10 +125,10 @@ pre {
 BUTTON AND FORM STYLES
 ---------------------------------------------*/
 
-#edit-song-form input, #edit-song-form textarea, #edit-set-title {
+input, textarea {
     background: white;
     border: none;
-    width: 700px;
+    font-weight: normal;
     font-size: 25px;
     border-radius: 10px;
     padding: 10px;
@@ -136,43 +136,36 @@ BUTTON AND FORM STYLES
     margin: 10px;
 }
 
+input {
+    width: 350px;
+}
+
 textarea {
-    height: 400px;
-    font-weight: normal;
+    width: 700px;
 }
-
-#edit-set-details input {
-    width: 300px;
-}
-
 label {
     font-size: 25px;
     font-weight: bold;
-}
-
-input {
-    font-weight: normal;
 }
 
 button {
     background: transparent;
     color: black;
     border: 0;
-    font-weight: bold;
     border-radius: 25px;
-    font-size: 20px;
+    font-size: 15px;
     padding: 5px 10px;
     margin: 0;
 }
 
 button:hover {
-    color: mediumvioletred;
+    background: aqua;
 }
 
 #confirm-delete-song, #confirm-delete-set {
     display: none;
-    background: white;
-    color: mediumvioletred;
+    background: lightgray;
+    color: white;
     font-weight: bold;
     font-style: italic;
     position: fixed;
@@ -192,10 +185,6 @@ button:hover {
     text-align: center;
     width: 80px;
     cursor: pointer;
-}
-
-#confirm-div button:hover {
-    background-color: mediumvioletred;
 }
 
 #login-form, #registration-form {
@@ -225,39 +214,24 @@ ul {
 /*--------------------------------------------
 AVAILABLE SONGS SELECTION
 ---------------------------------------------*/
-#add-remove {
-    display: flex;
-    margin: auto;
-}
 
-.flex-box {
-    margin: auto;
-    min-height: 600px;
-    width: 600px;
-    flex-wrap: wrap;
-}
 .add-to-set-button {
     font-size: 30px;
     color: yellowgreen;
-
 }
 
 .add-to-set-button:hover {
-    text-shadow: 2px 2px white;
-    color: black;
-
+    color: aqua;
 }
 
 .remove-from-set-button {
     font-size: 30px;
     color: orangered;
-
+    background: transparent;
 }
 
 .remove-from-set-button:hover {
-    text-shadow: 2px 2px white;
-    color: black;
-
+  background: transparent;
 }
 
 .instructions {
