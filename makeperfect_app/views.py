@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 # from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from .models import Song, List, ListItem
+from .models import Song, Setlist, SetlistItem
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -57,34 +57,33 @@ def api_all_songs(request):
 
 
 def api_all_setlists(request):
-    setlists = List.objects.filter(user=request.user).order_by('list_name') #TODO change to Setlist and setlist_title
+    setlists = Setlist.objects.filter(user=request.user).order_by('setlist_title')  # changed to Setlist and setlist_title
     data_list = []
     for setlist in setlists:
-        setlist_data = {"id": setlist.id, "name": setlist.list_name, } #TODO change to setlist.setlist_title
+        setlist_data = {"id": setlist.id, "name": setlist.setlist_title, }  # changed to setlist.setlist_title
         data_list.append(setlist_data)
         setlist.selected = True
     return HttpResponse(json.dumps(data_list))
 
 
-def api_available_songs(request, list_id):
+def api_available_songs(request, setlist_id):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
     output_songs = list(songs) # list is a keyword, no need to change code here
     data_list = []
     song_data = {}
 
-    if list_id == "0":
+    if setlist_id == "0":
         for song in songs:
             song_data = {"id": song.id,
-                         "name": song.song_title}
+                         "song_title": song.song_title} # changed name to song_title
             data_list.append(song_data)
         return HttpResponse(json.dumps(data_list, indent=4))
 
-    filtered_list_of_setlists = List.objects.filter(id=list_id) #TODO change model class name
+    filtered_list_of_setlists = Setlist.objects.filter(id=setlist_id)  # changed model class name, do I need to change the list_id, too?
     filtered_setlist = filtered_list_of_setlists[0]
-    setlist_items = ListItem.objects.filter(list_name=filtered_setlist) #TODO change model class name
+    setlist_items = SetlistItem.objects.filter(setlist=filtered_setlist)  # changed model class name and changed list_name to setlist_title
 
     if setlist_items:
-        # iterate through each song in the list of all songs
         for song in songs:
             # look at the songs in the selected list and make comparison
             for setlist_item in setlist_items:
@@ -93,15 +92,16 @@ def api_available_songs(request, list_id):
                     output_songs.remove(song)
         for song in output_songs:
             song_data = {"id": song.id,
-                         "name": song.song_title}
+                         "song_title": song.song_title} # changed name to song_title
             data_list.append(song_data)
     else:
         for song in songs:
             song_data = {"id": song.id,
-                         "name": song.song_title}
+                         "song_title": song.song_title}  # changed name to song_title
             data_list.append(song_data)
 
     return HttpResponse(json.dumps(data_list, indent=4))
+
 
 @csrf_exempt
 def api_song_details(request, song_id):
@@ -120,57 +120,60 @@ def api_song_details(request, song_id):
             song.key = request.POST["key"]
             song.chords = request.POST["chords"]
             song.lyrics = request.POST["lyrics"]
-            song.notes = request.POST["notes"]
+            song.song_notes = request.POST["notes"]  # changed notes to song_notes
             song.user = request.user
             song.save()
     else:
         song = get_object_or_404(Song, pk=song_id)
 
     song_data = {"id": song.id,
-                 "name": song.song_title,
+                 "song_title": song.song_title, # changed name to song_title
                  "key": song.key,
                  "lyrics": song.lyrics,
                  "chords": song.chords,
                  "artist": song.artist,
-                 "notes": song.notes}
+                 "notes": song.song_notes}  # changed notes to song_notes
     return HttpResponse(json.dumps(song_data))
-# TODO change model class name from List to Setlist in api_setlist after refactoring database
-@csrf_exempt
-def api_setlist(request, list_id):#TODO change list_id to setlist_id
 
-    if list_id == "0":
+
+# changed model class name from List to Setlist in api_setlist after refactoring database
+@csrf_exempt
+def api_setlist(request, setlist_id):  # changed list_id to setlist_id
+
+    if setlist_id == "0":
         print("The list ID is 0. There are no songs associated with this setlist.")
 
     songs = Song.objects.filter(user=request.user).order_by('song_title')
-    filtered_list_of_setlists = List.objects.filter(id=list_id) #TODO change list_id to setlist_id
+    filtered_list_of_setlists = Setlist.objects.filter(id=setlist_id)  # changed list_id to setlist_id
 
     if request.POST:
         print(request.POST)
 
         if request.POST["id"] == "0":
-            setlist = List() #TODO rename model class
+            setlist = Setlist()  # renamed model class
         else:
-            setlist = List.objects.filter(id=request.POST["id"])[0] #TODO rename model class
+            setlist = Setlist.objects.filter(id=request.POST["id"])[0]  # renamed model class
+
         if request.POST["action"] == "DELETE":
             setlist.delete()
         else:
-            setlist.list_name = request.POST["list_name"] #TODO change list_name to setlist_title
+            setlist.setlist_title = request.POST["setlist_title"]  # changed list_name to setlist_title
             setlist.user = request.user
             setlist.save()
     else:
         setlist = filtered_list_of_setlists[0]
 
-    setlist_items = ListItem.objects.filter(list_name=setlist) #TODO change list_name to setlist_title
+    setlist_items = SetlistItem.objects.filter(setlist=setlist)  # changed list_name to setlist
     data_list = []
-    data_object = {"name": setlist.list_name,#TODO change list_name to setlist_title
+    data_object = {"setlist_title": setlist.setlist_title,  # changed list_name to setlist_title
                    "id": setlist.id}
     print(data_object)
     for song in songs:
         for setlist_item in setlist_items:
             if setlist_item.song == song:
                 song_data = {"id": song.id,
-                             "name": song.song_title,
-                             "list": setlist.list_name} #TODO change list_name to setlist_title
+                             "song_title": song.song_title,
+                             "setlist_title": setlist.setlist_title}  # changed list_name to setlist_title
                 data_list.append(song_data)
                 song.selected = True
 
@@ -180,21 +183,44 @@ def api_setlist(request, list_id):#TODO change list_id to setlist_id
 
 @csrf_exempt
 def api_association(request, setlist_item_id):
-    pass
-    # if request.POST:
-    #     filtered_song = Song.objects.filter(id=request.POST["song_id"])
-    #     filtered_setlist = List.objects.filter(id=request.POST["setlist_id"])
-    #     print (filtered_song)
-    #     print (filtered_setlist)
-    #     print(request.POST)
-    #     if setlist_item_id == "0":
-    #         setlist_item = ListItem(ListItem.song = filtered_song, ListItem.list_name = filtered_setlist)
-    #         setlist_item(save)
+
+    if request.POST:
+        filtered_song = Song.objects.filter(id=request.POST["song_id"])
+        filtered_setlist = Setlist.objects.filter(id=request.POST["setlist_id"])
+        print (filtered_song)
+        print (filtered_setlist)
+        print(request.POST)
+        if setlist_item_id == "0":
+            setlist_item = SetlistItem()
+            setlist_item.song = filtered_song
+            setlist_item.setlist = filtered_setlist
+            setlist_item.save()
     # else:
-    #     setlist_item = ListItem.objects.filter(id=request.POST["id"])[0]
-    # data_object = {"setlist_id": setlist_item.list.id,
-    #                "song_id": setlist_item.song.id}
-    # return HttpResponse(json.dumps(data_object))
+    #     setlist_item = SetlistItem.objects.filter(id=request.POST["id"])[0]
+    data_object = {"setlist_id": setlist_item.setlist.id,
+                   "song_id": setlist_item.song.id}
+    return HttpResponse(json.dumps(data_object))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # OLD VIEW FUNCTIONS NOT BEING USED IN THE ONE-PAGE VERSION
 # SAVED FOR REFERENCE FOR NOW
