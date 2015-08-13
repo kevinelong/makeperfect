@@ -13,30 +13,18 @@
 
 <body>
 
-    <!--------------------SIDE BAR CONTENT-------------------->
-
-    <div class = "sidebar" id="sidebar">
+    <!--------------------HEADER-------------------->
+    <header>
         <a href="/"><span>Make Perfect</span></a>
-        <br>
-        <button onclick="showNewSongForm()">NEW SONG</button>
-        <button onclick="showNewSetForm()">NEW SONG LIST</button>
-        <br>
-        <br>
-        <ul id='song-lists'>
-            <li class="song-list" ><a href="#" onclick="showAllSongs()">All Songs</a></li>
-            <a href="#" onclick="toggleSongs()">&#119070</a>
-            <ul id="sidebar-all-songs" class="lists">
-            </ul>
+        <nav>
+            <button onclick="showAllSongs()">ALL SONGS</button>
+            <button onclick="showNewSongForm()">NEW SONG</button>
+            <button onclick="showAllSetlists()">ALL SETLISTS</button>
+            <button onclick="showNewSetForm()">NEW SETLIST</button>
 
-        </ul>
-        <br>
-        <ul>
-            <li class="song-list"><a href="#" onclick="showAllSetlists()">All Sets</a></li>
-            <a href="#" onclick="toggleSetlists()">&#119070</a>
-            <ul id="list-of-sets" class="lists">
-            </ul>
-        </ul>
-    </div>
+        </nav>
+
+    </header>
 
     <!--------------------LIST OF ALL SONGS---------------->
 
