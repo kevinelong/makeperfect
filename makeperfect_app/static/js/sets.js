@@ -5,46 +5,32 @@
 //used by drawSetslistsInSidebar() and  drawAllSetlists()
 function createSetlistElements(setlistItem) {
     var setlistElement = document.createElement("a");
-    console.log(setlistItem);
+    //console.log(setlistItem);
     var id = setlistItem.id;
     setlistElement.setAttribute("href", "#");
     setlistElement.setAttribute("data-id", id);
     setlistElement.addEventListener("click", function(e){
         showSetDetails(e.target.getAttribute("data-id"));
     });
-    setlistElement.innerHTML = setlistItem.name;
+    setlistElement.innerHTML = setlistItem.name;  // only draws if I use .name
     return setlistElement;
 }
 
 //--------------------------------------------------------------
-//---------------SET LISTENERS AND DRAW FUNCTIONS--------------
+//---------------SET LISTENERS and DRAW FUNCTIONS--------------
 //--------------------------------------------------------------
 
 function reqAllSetsListener() {
     console.log(this.responseText);
     window.listOfSets = JSON.parse(this.responseText);
-    drawSetslistsInSidebar();
     drawAllSetlists();
 }
 
-function drawSetslistsInSidebar() {
-    var sidebarSetLists = document.getElementById("list-of-sets");
-    sidebarSetLists.innerHTML = "";
-
-    if (listOfSets.length == 0) {
-        var message = document.createElement('a');
-        message.setAttribute("href", "#");
-        message.addEventListener("click", function (e) {
-            showNewSetForm();
-        });
-        message.innerHTML = "Add a list!";
-        sidebarSetLists.appendChild(message);
-    } else {
-        for (var i = 0; i < listOfSets.length; i++) {
-            var setlist = createSetlistElements(listOfSets[i]);
-            sidebarSetLists.appendChild(setlist);
-        }
-    }
+function reqSetListener() {
+    console.log(this.responseText);
+    window.setlist = JSON.parse(this.responseText);
+    drawSetlist();
+    drawSetlistEditForm();
 }
 
 function drawAllSetlists() {
@@ -58,23 +44,43 @@ function drawAllSetlists() {
     }
 }
 
-function reqSetListener() {
-    console.log(this.responseText);
-    window.setlist = JSON.parse(this.responseText);
-    drawSetlist();
-    drawSetlistEditForm();
-}
-
 function drawSetlist(){
-    var drawnSetlist = window.setlist;
-    console.log(drawnSetlist.songs);
-    // Set details
-    document.getElementById("set-title").innerHTML=drawnSetlist.setlist_title;
-    window.currentSetId = drawnSetlist.id;
-    console.log(window.currentSetId);
+    //var setlist = window.setlist;
     var songList = document.getElementById("songs-in-set");
+    console.log(setlist.songs);
+    // Set details
+    document.getElementById("set-title").innerHTML=setlist.setlist_title;
+    window.currentSetId = setlist.id;
+    console.log(window.currentSetId);
     songList.innerHTML="";
 
+    for (var i=0; i <setlist.songs.length; i++) {
+        console.log(setlist.songs[i]);
+        var songContainer = document.createElement("div");
+        var songInSet = document.createElement("a");
+        id = setlist.songs[i].id;
+        songInSet.setAttribute("href", "#");
+        songInSet.setAttribute("data-id", id);
+        songInSet.addEventListener("click", function(e){
+            selectSong(e.target.getAttribute("data-id"));
+        });
+        songInSet.innerHTML=setlist.songs[i].song_title;
+        songContainer.appendChild(songInSet);
+        songList.appendChild(songContainer);
+    }
+}
+
+// used by drawSetEditForm()
+function drawSetlistEditForm(){
+    document.getElementById("edit-set-title").innerHTML=setlist.setlist_title;
+    document.getElementById("edit-set-title").value=setlist.setlist_title;
+    drawSongsInSetlist();
+}
+
+// used by drawSetlistEditForm()
+function drawSongsInSetlist(){
+    var editSongsInSet = document.getElementById("songs-in-edit-set-form");
+    editSongsInSet.innerHTML="";
     function selectSong(id) {
         for (var i=0; i <songList.children.length; i++) {
             var child = songList.children[i];
@@ -85,26 +91,8 @@ function drawSetlist(){
             }
         }
     }
-    for (i=0; i <drawnSetlist.songs.length; i++) {
-        console.log(drawnSetlist.songs[i]);
-        var song = createSongElements(drawnSetlist.songs[i]);
-        songList.appendChild(song);
-    }
-}
-
-function drawSetlistEditForm(){
-    document.getElementById("edit-set-title").innerHTML=setlist.setlist_title;
-    document.getElementById("edit-set-title").value=setlist.setlist_title;
-    drawSongsInSetlist();
-    //showSetsInSidebar();  //TODO:  FIGURE OUT WHY I WAS CALLING THIS HERE
-}
-
-function drawSongsInSetlist(){
-    var editSongsInSet = document.getElementById("songs-in-edit-set-form");
-    editSongsInSet.innerHTML="";
-
     //CREATE LIST OF SONGS IN SET WITH EVENT LISTENERS
-    for (i=0; i <setlist.songs.length; i++) {
+    for (var i=0; i <setlist.songs.length; i++) {
         var songContainer = document.createElement("div");
         var songInSet = document.createElement("a");
         id = setlist.songs[i].id;
@@ -114,7 +102,7 @@ function drawSongsInSetlist(){
             selectSong(e.target.getAttribute("data-id"));
         });
 
-    //CREATE BUTTONS TO REMOVE SONGS FROM THE LIST
+        //CREATE BUTTONS TO REMOVE SONGS FROM THE LIST
         var removeButton = document.createElement("button");
         removeButton.innerHTML="x";
         removeButton.setAttribute("data-id", id);
@@ -124,24 +112,60 @@ function drawSongsInSetlist(){
             removeSongFromSet(e.target.getAttribute("data-id"));
         });
 
-    //DRAW SONGS TO THE LIST EDIT FORM
-        songInSet.innerHTML=setlist.songs[i].name;
+        //DRAW SONGS TO THE LIST EDIT FORM
+        songInSet.innerHTML=setlist.songs[i].song_title;
         songContainer.appendChild(removeButton);
         songContainer.appendChild(songInSet);
         editSongsInSet.appendChild(songContainer);
     }
 }
 
+//--------------------AVAILABLE SONG LISTENER AND DRAW FUNCTION-------
+//--------------------------------------------------------------------
+function reqAvailableSongsListener() {
+    console.log(this.responseText);
+    window.songs = JSON.parse(this.responseText);
+    drawAvailableSongs();
+}
+
+// called by showAvailableSongs()
+function drawAvailableSongs() {
+    var availableSongsList = document.getElementById("available-songs");
+    availableSongsList.innerHTML="";
+
+    //CREATE ANCHOR ELEMENTS
+    for (i=0; i <window.songs.length; i++) {
+        var songContainer = document.createElement("div");
+        var song = document.createElement("a");
+        id = window.songs[i].id;
+        song.setAttribute("href", "#");
+        song.setAttribute("data-id", id);
+        song.setAttribute("class", "available-song");
+
+    //CREATE BUTTONS TO ADD SONGS FROM THE LIST
+        var addButton = document.createElement("button");
+        addButton.innerHTML="+";
+        addButton.setAttribute("data-id", id);
+        addButton.setAttribute("class", "add-to-set-button");
+        addButton.setAttribute("href", "#");
+        addButton.addEventListener("click", function(e){
+           addSongToSet(e.target.getAttribute("data-id"));
+        });
+
+        song.addEventListener("click", function(e){
+            showSongDetails(e.target.getAttribute("data-id"));
+        });
+
+    //DRAW AVAILABLE SONGS TO THE LIST EDIT FORM
+        song.innerHTML=window.songs[i].song_title;
+        songContainer.appendChild(addButton);
+        songContainer.appendChild(song);
+        availableSongsList.appendChild(songContainer);
+    }
+}
+
 //---------------------SETS & SET FORMS---------------------------------
 //----------------------------------------------------------------------
-
-function showSetsInSidebar() {
-    content = document.getElementById("list-of-sets");
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqAllSetsListener;
-    xhr.open("get", "/api_all_setlists/");
-    xhr.send();
-}
 
 function showAllSetlists() {
     content = document.getElementById("all-sets");
@@ -200,10 +224,9 @@ function showAvailableSongs(id) {
 }
 
 
-
 //---------------------EDITING AND ADDING SETS---------------------
 //------------------------------------------------------------------
-// TODO: NEED TO REDRAW EDITED SONG TO THE SIDEBAR and SONG DETAILS PAGE IN A WAY THAT AVOIDS A RACE CONDITION
+
 // changed  key "list_name" to "setlist_title" in JSON objects after changing class model names and names in view functions
 function sendSetPost(item, url) {
     var form_data = new FormData();
@@ -226,7 +249,7 @@ function sendSetDetails() {
         "setlist_title": document.getElementById("edit-set-title").value
     };
     sendSetPost(item, "/api_setlist/" + id + '/');
-    showSetsInSidebar();
+    //showSetsInSidebar();
     showSetDetails(id);
 }
 
@@ -261,79 +284,6 @@ function confirmSetDelete() {
         document.getElementById('confirm-delete-set').style.display="none";
         return false;
     };
-}
-
-
-//--------------------AVAILABLE SONG LISTENER AND DRAW FUNCTION-------
-//--------------------------------------------------------------------
-function reqAvailableSongsListener() {
-    console.log(this.responseText);
-    window.songs = JSON.parse(this.responseText);
-    drawAvailableSongs();
-}
-
-function drawAvailableSongs() {
-    var availableSongsList = document.getElementById("available-songs");
-    availableSongsList.innerHTML="";
-
-    //CREATE ANCHOR ELEMENTS
-    for (i=0; i <songs.length; i++) {
-        var songContainer = document.createElement("div");
-        var song = document.createElement("a");
-        id = songs[i].id;
-        song.setAttribute("href", "#");
-        song.setAttribute("data-id", id);
-        song.setAttribute("class", "available-song");
-
-    //CREATE BUTTONS TO ADD SONGS FROM THE LIST
-        var addButton = document.createElement("button");
-        addButton.innerHTML="+";
-        addButton.setAttribute("data-id", id);
-        addButton.setAttribute("class", "add-to-list-button");
-        addButton.setAttribute("href", "#");
-        addButton.addEventListener("click", function(e){
-           addSongToSet(e.target.getAttribute("data-id"));
-        });
-
-        song.addEventListener("click", function(e){
-            showSongDetails(e.target.getAttribute("data-id"));
-        });
-
-    //DRAW AVAILABLE SONGS TO THE LIST EDIT FORM
-        song.innerHTML=songs[i].name;
-        songContainer.appendChild(addButton);
-        songContainer.appendChild(song);
-        availableSongsList.appendChild(songContainer);
-    }
-}
-
-
-//---------------------SET-SONG-ASSOCIATIONS-----------------------
-//------------------------------------------------------------------
-
-function sendNewAssociation (item, url) {
-    var form_data = new FormData();
-    //form_data.append("setlist_id", setId);
-    //form_data.append("song_id", songId);
-    var form_data = new FormData();
-    // adds each key-value pair to the FormData
-    for (var key in item) {
-        form_data.append(key, item[key]);
-    }
-    var request = new XMLHttpRequest();
-    request.open("POST", url);
-    request.send(form_data);
-}
-
-function createNewAssociation() {
-        var id=0;
-        var item = {
-        "action": "save",
-        "id": id,
-        "setlist_id": currentSetId,
-        "song_id": currentSongId
-    };
-    sendNewAssociation(item, "/api_association/" + id + '/');
 }
 
 
@@ -383,4 +333,60 @@ function removeSongFromSet(songId){
     drawAvailableSongs();
 }
 
-showSetsInSidebar();
+//---------------------SET-SONG-ASSOCIATIONS-----------------------
+//------------------------------------------------------------------
+
+function sendNewAssociation (item, url) {
+    var form_data = new FormData();
+    //form_data.append("setlist_id", setId);
+    //form_data.append("song_id", songId);
+    var form_data = new FormData();
+    // adds each key-value pair to the FormData
+    for (var key in item) {
+        form_data.append(key, item[key]);
+    }
+    var request = new XMLHttpRequest();
+    request.open("POST", url);
+    request.send(form_data);
+}
+
+function createNewAssociation() {
+        var id=0;
+        var item = {
+        "action": "save",
+        "id": id,
+        "setlist_id": currentSetId,
+        "song_id": currentSongId
+    };
+    sendNewAssociation(item, "/api_association/" + id + '/');
+}
+
+// SIDE BAR FUNCTIONS REMOVED, temporarily preserved here for reference
+
+//function showSetsInSidebar() {
+//    content = document.getElementById("list-of-sets");
+//    var xhr = new XMLHttpRequest();
+//    xhr.onload = reqAllSetsListener;
+//    xhr.open("get", "/api_all_setlists/");
+//    xhr.send();
+//}
+
+//function drawSetslistsInSidebar() {
+//    var sidebarSetLists = document.getElementById("list-of-sets");
+//    sidebarSetLists.innerHTML = "";
+//
+//    if (listOfSets.length == 0) {
+//        var message = document.createElement('a');
+//        message.setAttribute("href", "#");
+//        message.addEventListener("click", function (e) {
+//            showNewSetForm();
+//        });
+//        message.innerHTML = "Add a list!";
+//        sidebarSetLists.appendChild(message);
+//    } else {
+//        for (var i = 0; i < listOfSets.length; i++) {
+//            var setlist = createSetlistElements(listOfSets[i]);
+//            sidebarSetLists.appendChild(setlist);
+//        }
+//    }
+//}
