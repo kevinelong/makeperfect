@@ -50,7 +50,7 @@ def api_all_songs(request):
     songs = Song.objects.filter(user=request.user).order_by('song_title')
     data_list = []
     for song in songs:
-        song_data = {"id": song.id, "name": song.song_title}
+        song_data = {"id": song.id, "song_title": song.song_title}
         data_list.append(song_data)
         song.selected = True
     return HttpResponse(json.dumps(data_list))
@@ -60,7 +60,7 @@ def api_all_setlists(request):
     setlists = Setlist.objects.filter(user=request.user).order_by('setlist_title')  # changed to Setlist and setlist_title
     data_list = []
     for setlist in setlists:
-        setlist_data = {"id": setlist.id, "name": setlist.setlist_title, }  # changed to setlist.setlist_title
+        setlist_data = {"id": setlist.id, "setlist_title": setlist.setlist_title, }  # changed to setlist.setlist_title
         data_list.append(setlist_data)
         setlist.selected = True
     return HttpResponse(json.dumps(data_list))
@@ -172,6 +172,7 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
         for setlist_item in setlist_items:
             if setlist_item.song == song:
                 song_data = {"id": song.id,
+                             "setlist_item_id": setlist_item.id,
                              "song_title": song.song_title,
                              "setlist_title": setlist.setlist_title}  # changed list_name to setlist_title
                 data_list.append(song_data)
@@ -184,24 +185,30 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
 
 @csrf_exempt
 def api_association(request, setlist_item_id):
-
     if request.POST:
-        filtered_song = Song.objects.filter(id=request.POST["song_id"])[0]
-        filtered_setlist = Setlist.objects.filter(id=request.POST["setlist_id"])[0]
-        print (filtered_song)
-        print (filtered_setlist)
         print(request.POST)
+
         if setlist_item_id == "0":
             setlist_item = SetlistItem()
+
+        else:
+            setlist_item = SetlistItem.objects.filter(id=request.POST["setlist_item_id"])[0]
+        if request.POST["action"] == "DELETE":
+            print ("about to delete")
+            print (setlist_item)
+
+            setlist_item.delete()
+        else:
+            filtered_song = Song.objects.filter(id=request.POST["song_id"])[0]
+            filtered_setlist = Setlist.objects.filter(id=request.POST["setlist_id"])[0]
             setlist_item.song = filtered_song
             setlist_item.setlist = filtered_setlist
             setlist_item.user = request.user
             setlist_item.save()
-    else:
-        setlist_item = SetlistItem.objects.filter(id=request.POST["id"])[0]
-    data_object = {"setlist_id": setlist_item.setlist.id,
-                   "song_id": setlist_item.song.id}
-    return HttpResponse(json.dumps(data_object))
+    # data_object = {"setlist_item_id": setlist_item.id,
+    #                "setlist_id": setlist_item.setlist.id,
+    #                "song_id": setlist_item.song.id}
+    return HttpResponse(json.dumps({"stuff":"yay"}))
 
 
 

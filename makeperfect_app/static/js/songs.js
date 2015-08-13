@@ -11,7 +11,7 @@ function createSongElements(songItem) {
     songElement.addEventListener("click", function(e){
         showSongDetails(e.target.getAttribute("data-id"));
     });
-    songElement.innerHTML = songItem.name;
+    songElement.innerHTML = songItem.song_title;
     return songElement;
 }
 
