@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
     <link rel="stylesheet" type="text/css" href='/css/style.css'/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,400,700|Roboto' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Just+Another+Hand' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -38,23 +39,16 @@
     <div class="main-content" id="song-details">
         <div>
             <h1 id="song-title"></h1>
-            <button onclick="showSongEditForm()">EDIT SONG</button>
-            <button onclick="confirmDeleteSong()">DELETE SONG</button>
             <div id="confirm-delete-song">Do you really want to delete this song?
                 <button id = "delete-song-btn-true">yes</button>
                 <button id = "delete-song-btn-false">no</button>
             </div>
             <div class="song-minutiae">
+                <h2>original artist</h2><span id="artist"> </span>
                 <br>
-                <h2>original artist</h2>
-
-                <span id="artist"> </span>
+                <h2>key</h2><span id="key"> </span>
                 <br>
-                <h2>key</h2>
-
-                <span id="key"> </span>
             </div>
-            <br>
             <div id="chords">
             <h2>chords</h2>
             <pre id="chords-text"></pre>
@@ -68,7 +62,8 @@
                 <pre id="notes"></pre>
             </div>
 
-
+            <button onclick="showSongEditForm()">EDIT SONG</button>
+            <button onclick="confirmDeleteSong()">DELETE SONG</button>
 
         </div>
     </div>
@@ -109,13 +104,13 @@
             <h1 id="set-title"></h1>
             <button id ="edit-set-button" onclick="showSetEditForm()">EDIT</button>
             <button id ="delete-set-button" onclick="confirmSetDelete()">DELETE</button>
-
+            <hr>
             <div id="confirm-delete-set">Do you really want to delete this set?
                 <button id ="delete-set-btn-true">yes</button>
                 <button id ="delete-set-btn-false">no</button>
             </div>
         </div>
-        <ul id="songs-in-set">
+        <ul id="songs-in-set" class="lists">
         </ul>
     </div>
 
@@ -130,13 +125,13 @@
         <div id="edit-songs-in-set">
             <div>
                 <h2>Songs in Set</h2>
-                    <ul id="songs-in-edit-set-form">
+                    <ul id="songs-in-edit-set-form" class="selection-lists">
 
                     </ul>
             </div>
             <div>
                 <h2>Available Songs</h2>
-                <ul id="available-songs">
+                <ul id="available-songs" class="selection-lists">
                 </ul>
             </div>
         </div>
