@@ -64,7 +64,7 @@ function drawSetlist(){
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.addEventListener("click", function(e){
-            selectSong(e.target.getAttribute("data-id"));
+            showSongDetails(e.target.getAttribute("data-id"));
         });
         songInSet.innerHTML=setlist.songs[i].song_title;
         songContainer.appendChild(songInSet);
