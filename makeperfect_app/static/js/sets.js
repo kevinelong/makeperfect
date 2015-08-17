@@ -60,7 +60,7 @@ function drawSetlist(){
         console.log(setlist.songs[i]);
         var songContainer = document.createElement("div");
         var songInSet = document.createElement("a");
-        id = setlist.songs[i].id;
+        var id = setlist.songs[i].id;
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.addEventListener("click", function(e){
@@ -99,6 +99,7 @@ function drawSongsInSetlist(){
         var songInSet = document.createElement("a");
         var id = setlist.songs[i].id;
         var setlistItemId = setlist.songs[i].setlist_item_id;
+        var setlistItemPosition = setlist.songs[i].setlist_item_position;
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.setAttribute("data-setlistItemId", setlistItemId);
@@ -117,8 +118,13 @@ function drawSongsInSetlist(){
             removeSongFromSet(e.target.getAttribute("data-id"));
         });
 
+        //CREATE INPUTS FOR ADJUSTING SETLIST ITEM POSITION
+        var positionInput = document.createElement("input");
+        positionInput.value = setlistItemPosition;
+
         //DRAW SONGS TO THE LIST EDIT FORM
         songInSet.innerHTML=setlist.songs[i].song_title;
+        songContainer.appendChild(positionInput);
         songContainer.appendChild(removeButton);
         songContainer.appendChild(songInSet);
         songsInSet.appendChild(songContainer);
