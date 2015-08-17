@@ -121,9 +121,13 @@ function drawSongsInSetlist(){
         //CREATE INPUTS FOR ADJUSTING SETLIST ITEM POSITION
         var positionInput = document.createElement("input");
         positionInput.value = setlistItemPosition;
+        var toTopButton = document.createElement("button");
+        toTopButton.innerHTML = '&#9650';
+        toTopButton.setAttribute("class", "move-to-top-button");
 
         //DRAW SONGS TO THE LIST EDIT FORM
         songInSet.innerHTML=setlist.songs[i].song_title;
+        songContainer.appendChild(toTopButton);
         songContainer.appendChild(positionInput);
         songContainer.appendChild(removeButton);
         songContainer.appendChild(songInSet);
