@@ -143,6 +143,7 @@ input {
 
 textarea {
     width: 700px;
+    height: 500px;
 }
 
 label {
