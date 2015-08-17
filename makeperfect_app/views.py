@@ -174,7 +174,8 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
                 song_data = {"id": song.id,
                              "setlist_item_id": setlist_item.id,
                              "song_title": song.song_title,
-                             "setlist_title": setlist.setlist_title}  # changed list_name to setlist_title
+                             "setlist_title": setlist.setlist_title,
+                             "setlist_item_position": setlist_item.position, }  # changed list_name to setlist_title
                 data_list.append(song_data)
                 song.selected = True
 
