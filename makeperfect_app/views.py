@@ -143,7 +143,7 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
     if setlist_id == "0":
         print("The list ID is 0. There are no songs associated with this setlist.")
 
-    songs = Song.objects.filter(user=request.user).order_by('song_title')
+    songs = Song.objects.filter(user=request.user)
     filtered_list_of_setlists = Setlist.objects.filter(id=setlist_id)  # changed list_id to setlist_id
 
     if request.POST:
