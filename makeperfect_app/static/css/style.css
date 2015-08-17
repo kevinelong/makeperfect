@@ -101,9 +101,12 @@ a:hover {
 }
 
 .selection-lists a{
-    font-size: 14px;
-    line-height: 25px;
+    font-size: 16px;
+    line-height: 15px;
+}
 
+.selection-lists div {
+    height: 35px;
 }
 
 /*--------------------------------------------
@@ -149,6 +152,13 @@ textarea {
 label {
     font-size: 14px;
     font-weight: bold;
+}
+
+#songs-in-edit-set-form input {
+    width: 10px;
+    text-align: center;
+    font-size: 12px;
+    height: 10px;
 }
 
 #confirm-delete-song, #confirm-delete-set {
