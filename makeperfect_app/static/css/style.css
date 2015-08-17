@@ -84,7 +84,7 @@ a {
 }
 
 a:hover {
-    color: dimgrey;
+    color: mediumturquoise;
 }
 
 .lists a {
@@ -95,9 +95,8 @@ a:hover {
 
 .selection-lists {
     padding-right: 20px;
-    padding-left: 20px;
-    margin: 40px;
-    border-radius: 25px;
+    padding-left: 5px;
+    margin: 20px;
 }
 
 .selection-lists a{
@@ -214,23 +213,22 @@ button {
 }
 
 button:hover {
-    background: aqua;
+    background: cyan;
 }
 
 .add-to-set-button {
     font-size: 30px;
-    color: yellowgreen;
     background: transparent;
 }
 
 .remove-from-set-button {
 font-size: 30px;
-color: orangered;
 background: transparent;
 }
 
-.add-to-set-button:hover, .remove-from-set-button:hover {
+.add-to-set-button:hover, .remove-from-set-button:hover, .move-to-top-button:hover {
     background: transparent;
+    color: aqua;
 }
 
 #confirm-div button  {
