@@ -83,31 +83,39 @@ function drawSetlistEditForm(){
 function drawSongsInSetlist(){
     var songsInSet = document.getElementById("songs-in-edit-set-form");
     songsInSet.innerHTML="";
-    function selectSong(id) {
-        for (var i=0; i < songsInSet.children.length; i++) {
-            var child = songsInSet.children[i];
-            if (id==child.getAttribute("data-id")){
-                child.classList.add("selected");
-            } else {
-                child.classList.remove("selected");
-            }
-        }
-    }
+    //function selectSong(id) {
+    //    for (var i=0; i < songsInSet.children.length; i++) {
+    //        var child = songsInSet.children[i];
+    //        if (id==child.getAttribute("data-id")){
+    //            child.classList.add("selected");
+    //        } else {
+    //            child.classList.remove("selected");
+    //        }
+    //    }
+    //}
     //CREATE LIST OF SONGS IN SET WITH EVENT LISTENERS
     for (var i=0; i <setlist.songs.length; i++) {
-        var songContainer = document.createElement("div");
-        var songInSet = document.createElement("a");
         var id = setlist.songs[i].id;
         var setlistItemId = setlist.songs[i].setlist_item_id;
         var setlistItemPosition = setlist.songs[i].setlist_item_position;
+        //create div with id attributes
+        var songContainer = document.createElement("div");
+        songContainer.setAttribute("data-id", id);
+        songContainer.setAttribute("data-setlistItemId", setlistItemId);
+        songContainer.setAttribute("data-position", setlistItemPosition);
+        songContainer.setAttribute("class", "setlist-items");
+        //create anchor elements
+        var songInSet = document.createElement("a");
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.setAttribute("data-setlistItemId", setlistItemId);
-        songInSet.addEventListener("click", function(e){
-            selectSong(e.target.getAttribute("data-id"));
-        });
+        songInSet.setAttribute("data-position", setlistItemPosition);
+        //songInSet.setAttribute("class", "setlist-items");
+        //songInSet.addEventListener("click", function(e){
+        //    selectSong(e.target.getAttribute("data-id"));
+        //});
 
-        //CREATE BUTTONS TO REMOVE SONGS FROM THE LIST
+        //create buttons to remove songs from the setlist
         var removeButton = document.createElement("button");
         removeButton.innerHTML="x";
         removeButton.setAttribute("data-id", id);
@@ -118,16 +126,14 @@ function drawSongsInSetlist(){
             removeSongFromSet(e.target.getAttribute("data-id"));
         });
 
-        //CREATE INPUTS FOR ADJUSTING SETLIST ITEM POSITION
+        //create inputs for adjusting setlist item order
         var positionInput = document.createElement("input");
         positionInput.value = setlistItemPosition;
-        var toTopButton = document.createElement("button");
-        toTopButton.innerHTML = '&#9650';
-        toTopButton.setAttribute("class", "move-to-top-button");
+        //positionInput.setAttribute("data-setlistItemId", setlistItemId);
+        //positionInput.setAttribute("data-position", setlistItemPosition);
 
         //DRAW SONGS TO THE LIST EDIT FORM
         songInSet.innerHTML=setlist.songs[i].song_title;
-        songContainer.appendChild(toTopButton);
         songContainer.appendChild(positionInput);
         songContainer.appendChild(removeButton);
         songContainer.appendChild(songInSet);
@@ -275,7 +281,6 @@ function sendSetDelete(id) {
     form_data.append("id", id);
     form_data.append("action", "DELETE");
     var request = new XMLHttpRequest();
-    request.onload=reqSetListener;
     request.open("POST", "/api_setlist/" + id + '/');
     request.send(form_data);
 }
@@ -352,9 +357,9 @@ function removeSongFromSet(songId){
 }
 
 //---------------------SET-SONG-ASSOCIATIONS-----------------------
-//------------------------------------------------------------------
+//-----------------------------------------------------------------
 
-function sendAssociation (item, url) {
+function sendAssociation(item, url) {
     var form_data = new FormData();
     for (var key in item) {
         form_data.append(key, item[key]);
@@ -383,33 +388,38 @@ function deleteAssociation(id) {
     sendAssociation(item, "/api_association/" + id + '/');
 }
 
+//---------------------SETLIST SONG ORDER-------------------------
+//-----------------------------------------------------------------
 
-// SIDE BAR FUNCTIONS REMOVED, temporarily preserved here for reference
+function reqSongsInSetListener() {
+    console.log(this.responseText);
+    window.setlist = JSON.parse(this.responseText);
+    drawSongsInSetlist();
+}
 
-//function showSetsInSidebar() {
-//    content = document.getElementById("list-of-sets");
-//    var xhr = new XMLHttpRequest();
-//    xhr.onload = reqAllSetsListener;
-//    xhr.open("get", "/api_all_setlists/");
-//    xhr.send();
-//}
+function loadList() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqSongsInSetListener;
+    xhr.open("get", "/api_setlist/" + id + '/');
+    xhr.send();
+}
 
-//function drawSetslistsInSidebar() {
-//    var sidebarSetLists = document.getElementById("list-of-sets");
-//    sidebarSetLists.innerHTML = "";
-//
-//    if (listOfSets.length == 0) {
-//        var message = document.createElement('a');
-//        message.setAttribute("href", "#");
-//        message.addEventListener("click", function (e) {
-//            showNewSetForm();
-//        });
-//        message.innerHTML = "Add a list!";
-//        sidebarSetLists.appendChild(message);
-//    } else {
-//        for (var i = 0; i < listOfSets.length; i++) {
-//            var setlist = createSetlistElements(listOfSets[i]);
-//            sidebarSetLists.appendChild(setlist);
-//        }
-//    }
-//}
+function refreshOrder() {
+    id = currentSetId;
+    var setlistItems = document.getElementsByClassName("setlist-items");
+    for (var i = 0; i < setlistItems.length; i++) {
+        var setlistItem = setlistItems[i];
+        var setlistItemId = setlistItem.getAttribute("data-setlistItemId");
+        var setlistItemPosition = setlistItem.firstChild.value;
+        var form_data = new FormData();
+        form_data.append("setlist_item_id", setlistItemId);
+        form_data.append("setlist_item_position", setlistItemPosition);
+        form_data.append("action", "SAVE");
+        var request = new XMLHttpRequest();
+        request.open("POST", "/api_setlist_item_position/" + setlistItemId + '/');
+        if (setlistItems.length - 1 == i) {
+            request.onload = loadList;
+        }
+        request.send(form_data);
+    }
+}
