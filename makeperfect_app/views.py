@@ -163,13 +163,15 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
     else:
         setlist = filtered_list_of_setlists[0]
 
-    setlist_items = SetlistItem.objects.filter(setlist=setlist)  # changed list_name to setlist
+    setlist_items = SetlistItem.objects.filter(setlist=setlist).order_by('position')  # changed list_name to setlist
+    print (setlist_items)
     data_list = []
     data_object = {"setlist_title": setlist.setlist_title,  # changed list_name to setlist_title
                    "id": setlist.id}
     print(data_object)
-    for song in songs:
-        for setlist_item in setlist_items:
+
+    for setlist_item in setlist_items:
+        for song in songs:
             if setlist_item.song == song:
                 song_data = {"id": song.id,
                              "setlist_item_id": setlist_item.id,
