@@ -177,7 +177,7 @@ def api_setlist(request, setlist_id):  # changed list_id to setlist_id
                              "setlist_item_id": setlist_item.id,
                              "song_title": song.song_title,
                              "setlist_title": setlist.setlist_title,
-                             "setlist_item_position": setlist_item.position, }  # changed list_name to setlist_title
+                             "setlist_item_position": setlist_item.position, }
                 data_list.append(song_data)
                 song.selected = True
 
@@ -211,17 +211,33 @@ def api_association(request, setlist_item_id):
     # data_object = {"setlist_item_id": setlist_item.id,
     #                "setlist_id": setlist_item.setlist.id,
     #                "song_id": setlist_item.song.id}
-    return HttpResponse(json.dumps({"stuff":"yay"}))
+    return HttpResponse(json.dumps({"stuff": "yay"}))
 
 
+@csrf_exempt
+def api_setlist_item_position(request, setlist_item_id):
+    setlist_items = SetlistItem.objects.all()
+    data_list = []
+    data_object = {}
 
-
-
-
-
-
-
-
+    if request.POST:
+        print(request.POST)
+        setlist_item = SetlistItem.objects.filter(id=request.POST["setlist_item_id"])[0]
+        print(setlist_item.position)
+        setlist_item.position = request.POST["setlist_item_position"]
+        print(setlist_item.position)
+        setlist_item.save()
+    else:
+        for item in setlist_items:
+            setlist_item_data = {
+                "setlist_item_setlist": item.setlist.setlist_title,
+                "setlist_item_id": item.id,
+                "setlist_item_position": item.position,
+                "setlist_item_song": item.song.song_title,
+            }
+            data_list.append(setlist_item_data)
+    data_object["setlist_items_all"] = data_list
+    return HttpResponse(json.dumps(data_object))
 
 
 
