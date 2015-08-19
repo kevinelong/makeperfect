@@ -1,5 +1,5 @@
 //-------------------------------------------------------
-//---------------------HELPERS---------------------------
+//---------------------HELPER FUNCTIONS------------------
 //-------------------------------------------------------
 
 //used by reqAllSongsListener(), drawSetlist()
@@ -15,10 +15,22 @@ function createSongElements(songItem) {
     return songElement;
 }
 
+//called by drawSongEditForm() and showNewSongForm()
+function clearSongEditForm() {
+    document.getElementById("song-title-edit-form").innerHTML="";
+    document.getElementById("edit-title").value="";
+    document.getElementById("edit-artist").value="";
+    document.getElementById("edit-key").value="";
+    document.getElementById("edit-chords").innerHTML="";
+    document.getElementById("edit-lyrics").innerHTML="";
+    document.getElementById("edit-notes").innerHTML="";
+}
+
 //-------------------------------------------------------
-//---------------------REQ LISTENERS---------------------
+//---------------------REQUEST LISTENERS-----------------
 //-------------------------------------------------------
 
+// function called by getAllSongs()
 function reqAllSongsListener() {
     console.log(this.responseText);
     var list = JSON.parse(this.responseText);
@@ -32,6 +44,7 @@ function reqAllSongsListener() {
     }
 }
 
+// function called by getSong() and sendSongPost() and on page load
 function reqSongDetailsListener() {
     console.log(this.responseText);
     window.song = JSON.parse(this.responseText);
@@ -42,6 +55,57 @@ function reqSongDetailsListener() {
     drawSongEditForm();
 }
 
+//---------------------------------------------------------
+//-------------SHOWING SONGS and SONG EDIT FORMS-----------
+//---------------------------------------------------------
+
+// called by deleteSong() and sendSongDelete()
+function getAllSongs() {
+    content = document.getElementById("all-songs");
+    hideOtherContent();
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqAllSongsListener;
+    xhr.open("get", "/api_all_songs/");
+    xhr.send();
+}
+
+// called by showSongDetails()
+function getSong() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = reqSongDetailsListener;
+    xhr.open("get", "/api_song_details/" + window.currentSongId + '/');
+    xhr.send();
+}
+
+// called when songs are clicked, event listener added to songs in createSongElements()
+// this function preserves the value of the id in the window object (window.currentSongId)
+function showSongDetails(id) {
+    window.currentSongId = id;
+    getSong();
+}
+
+//called by reqSongDetailsListener, grabs the appropriate div and hides the rest of the content
+function showSongView() {
+    var id = window.currentSongId;
+    content = document.getElementById("song-details");
+    hideOtherContent();
+}
+
+// called by clicking the NEW SONG button in the header
+function showNewSongForm() {
+    window.currentSongId = 0;
+    clearSongEditForm();
+    showSongEditForm();
+}
+
+//called by showNewSongForm(), preserves the id by assigning it the value of window.currentSongId
+function showSongEditForm() {
+    var id = window.currentSongId;
+    content = document.getElementById("edit-song");
+    hideOtherContent();
+}
+
+// called by reqSongDetailsListener()
 function drawSongDetails() {
     var song = window.song;
     document.getElementById("song-title").innerHTML=song.song_title;
@@ -52,8 +116,10 @@ function drawSongDetails() {
     document.getElementById("notes").innerHTML=song.notes;
 }
 
+// called by reqSongDetailsListener()
 function drawSongEditForm() {
     var song = window.song;
+    clearSongEditForm();
     document.getElementById("song-title-edit-form").innerHTML=song.song_title;
     document.getElementById("edit-title").value=song.song_title;
     document.getElementById("edit-artist").value=song.artist;
@@ -63,58 +129,10 @@ function drawSongEditForm() {
     document.getElementById("edit-notes").innerHTML=song.notes;
 }
 
-//---------------------SHOWING SONGS and SONG EDIT FORMS----------------
-//----------------------------------------------------------------------
-
-function showAllSongs() {
-    content = document.getElementById("all-songs");
-    hideOtherContent();
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqAllSongsListener;
-    xhr.open("get", "/api_all_songs/");
-    xhr.send();
-}
-
-function showSongDetails(id) {
-    window.currentSongId = id;
-    showSong();
-}
-
-function showSongView() {
-    var id = window.currentSongId;
-    content = document.getElementById("song-details");
-    hideOtherContent();
-}
-
-function showSong() {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = reqSongDetailsListener;
-    xhr.open("get", "/api_song_details/" + window.currentSongId + '/');
-    xhr.send();
-}
-
-function showSongEditForm() {
-    var id = window.currentSongId;
-    content = document.getElementById("edit-song");
-    hideOtherContent();
-}
-
-function showNewSongForm() {
-    window.currentSongId = 0;
-    document.getElementById("song-title-edit-form").innerHTML="";
-    document.getElementById("edit-title").value="";
-    document.getElementById("edit-artist").value="";
-    document.getElementById("edit-key").value="";
-    document.getElementById("edit-chords").innerHTML="";
-    document.getElementById("edit-lyrics").innerHTML="";
-    document.getElementById("edit-notes").innerHTML="";
-    showSongEditForm();
-}
-
-
 //---------------------EDITING AND ADDING SONGS---------------------
 //------------------------------------------------------------------
 
+// called by sendSongPost()
 function sendSongPost(item, url) {
     var form_data = new FormData();
     for (var key in item) {
@@ -147,12 +165,13 @@ function sendSongDetails() {
 //---------------------DELETING SONGS-------------------------------
 //------------------------------------------------------------------
 
+// called by deleteSong()
 function sendSongDelete(id) {
     var form_data = new FormData();
     form_data.append("id", id);
     form_data.append("action", "DELETE");
     var request = new XMLHttpRequest();
-    request.onload=showAllSongs;
+    request.onload=getAllSongs;
     request.open("POST", "/api_song_details/" + id + '/');
     request.send(form_data);
 }
@@ -160,7 +179,7 @@ function sendSongDelete(id) {
 function deleteSong() {
     id = window.currentSongId;
     sendSongDelete(id);
-    showAllSongs();
+    getAllSongs();
 }
 
 function confirmDeleteSong() {
@@ -176,37 +195,4 @@ function confirmDeleteSong() {
     };
 }
 
-showAllSongs();
-
-
-//function reqAllSidebarSongsListener() {
-//    console.log(this.responseText);
-//    window.listOfSongs = JSON.parse(this.responseText);
-//    drawSongsInSidebar();
-//}
-
-//function showAllSidebarSongs() {
-//    var xhr = new XMLHttpRequest();
-//    xhr.onload = reqAllSidebarSongsListener;
-//    xhr.open("get", "/api_all_songs/");
-//    xhr.send();
-//}
-
-//function drawSongsInSidebar() {
-//    var sidebarSongList = document.getElementById("sidebar-all-songs");
-//    sidebarSongList.innerHTML="";
-//    if (listOfSongs.length==0) {
-//        var message = document.createElement('a');
-//        message.setAttribute("href", "#");
-//        message.addEventListener("click", function(e){
-//            showNewSongForm();
-//        });
-//        message.innerHTML = "Add a song!";
-//        sidebarSongList.appendChild(message);
-//    } else {
-//        for (var i = 0; i <listOfSongs.length; i++) {
-//            var song = createSongElements(listOfSongs[i]);
-//            sidebarSongList.appendChild(song);
-//        }
-//    }
-//}
+getAllSongs();  //TODO consider replacing this function call with a landing page/instruction/guide
