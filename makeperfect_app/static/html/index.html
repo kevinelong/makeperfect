@@ -117,17 +117,20 @@
     <!--------------------SET EDIT FORM-------------------->
     <div class="main-content" id="edit-set-list-details">
         <h1 id="set-title-h1"></h1>
+        <button id="setlist-back-button"><< back</button>
         <br>
         <label for="edit-set-title">Add/edit set name:</label>
         <input id="edit-set-title" type="text" name="setlist_title">
-        <button onclick="sendSetDetails()" value="SAVE">SAVE SET NAME</button>
+        <button onclick="sendSetDetails()" value="SAVE">SAVE NAME</button>
         <hr>
         <div id="edit-songs-in-set">
             <div>
                 <h2>Songs in Set</h2>
+                <h3 id="num-songs-in-set"></h3>
                     <ul id="songs-in-edit-set-form" class="selection-lists">
 
                     </ul>
+                <button onclick="refreshOrder()">&#10226  refresh list</button>
             </div>
             <div>
                 <h2>Available Songs</h2>
