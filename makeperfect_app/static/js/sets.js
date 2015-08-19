@@ -1,5 +1,3 @@
-// TODO ADD ABILITY TO SORT SONGS IN SETLISTS
-
 //-------------------------------------------------------
 //---------------------HELPERS---------------------------
 //-------------------------------------------------------
@@ -72,10 +70,10 @@ function drawSetlist(){
     }
 }
 
-// used by drawSetEditForm()
 function drawSetlistEditForm(){
     document.getElementById("edit-set-title").innerHTML=setlist.setlist_title;
     document.getElementById("edit-set-title").value=setlist.setlist_title;
+    document.getElementById("set-title-h1").innerHTML=setlist.setlist_title;
     drawSongsInSetlist();
 }
 
@@ -98,9 +96,13 @@ function drawSongsInSetlist(){
         var id = setlist.songs[i].id;
         var setlistItemId = setlist.songs[i].setlist_item_id;
         var setlistItemPosition = setlist.songs[i].setlist_item_position;
+        var numSongsInSet = setlist.songs.length;
+        var numSongsInSetText = document.getElementById("num-songs-in-set");
+        numSongsInSetText.innerHTML="Number of songs in set: " + numSongsInSet;
+
         //create div with id attributes
         var songContainer = document.createElement("div");
-        songContainer.setAttribute("data-id", id);
+        songContainer.setAttribute("data-id", id); // id of the song
         songContainer.setAttribute("data-setlistItemId", setlistItemId);
         songContainer.setAttribute("data-position", setlistItemPosition);
         songContainer.setAttribute("class", "setlist-items");
@@ -110,7 +112,6 @@ function drawSongsInSetlist(){
         songInSet.setAttribute("data-id", id);
         songInSet.setAttribute("data-setlistItemId", setlistItemId);
         songInSet.setAttribute("data-position", setlistItemPosition);
-        //songInSet.setAttribute("class", "setlist-items");
         //songInSet.addEventListener("click", function(e){
         //    selectSong(e.target.getAttribute("data-id"));
         //});
@@ -207,10 +208,16 @@ function showSetDetails(id) {
     xhr.send();
 }
 
+// called by sendSetDetails() and showNewSetForm()
 function showSetEditForm() {
     var id = window.currentSetId;
     content = document.getElementById("edit-set-list-details");
     hideOtherContent();
+    var backButton = document.getElementById("setlist-back-button");
+    backButton.setAttribute("data-id", setlist.id);
+    backButton.addEventListener("click", function(e){
+        showSetDetails(e.target.getAttribute("data-id"));
+    });
     document.getElementById("edit-songs-in-set").style.display="flex";
     if (id=="0") {
         var songsInListMessage = document.getElementById("songs-in-edit-set-form");
@@ -227,6 +234,7 @@ function showSetEditForm() {
     showAvailableSongs(id);
 }
 
+// clears the form
 function showNewSetForm() {
     window.currentSetId = 0;
     document.getElementById("set-title-h1").innerHTML="";
@@ -248,7 +256,6 @@ function showAvailableSongs(id) {
 //---------------------EDITING AND ADDING SETS---------------------
 //------------------------------------------------------------------
 
-// changed  key "list_name" to "setlist_title" in JSON objects after changing class model names and names in view functions
 function sendSetPost(item, url) {
     var form_data = new FormData();
     // adds each key-value pair to the FormData
@@ -270,7 +277,8 @@ function sendSetDetails() {
         "setlist_title": document.getElementById("edit-set-title").value
     };
     sendSetPost(item, "/api_setlist/" + id + '/');
-    showSetDetails(id);
+    //showSetDetails(id);
+    showSetEditForm();
 }
 
 //---------------------DELETING SETS-------------------------------
@@ -327,8 +335,8 @@ function addSongToSet(songId) {
 
     window.setlist.songs.push(song);
     createNewAssociation();
-    drawSongsInSetlist();
     drawAvailableSongs();
+    refreshOrder();
 }
 
 function removeSongFromSet(songId){
