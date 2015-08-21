@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 import json
 
 
-# @login_required(login_url='/login/')
 def index(request):
     return render(request, 'main.html', {})
 
@@ -25,7 +24,8 @@ def login_view(request):
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect("/main.html")
-    return render(request, 'login.html', {})
+
+    return HttpResponseRedirect('/?error=LOGIN_ERROR')
 
 
 @csrf_exempt
