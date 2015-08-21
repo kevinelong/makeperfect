@@ -1,21 +1,18 @@
 from django.views.decorators.csrf import csrf_exempt
 # from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Song, Setlist, SetlistItem
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 import json
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def index(request):
-    # template = loader.get_template('/makeperfect_app/static/html/index.html')
-    # context = RequestContext(request)
-    # return HttpResponse(template.render(context))
-    return render(request, 'index.html', {})
+    return render(request, 'main.html', {})
 
 
 @csrf_exempt
@@ -27,11 +24,14 @@ def login_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect("/")
+                return HttpResponseRedirect("/main.html")
     return render(request, 'login.html', {})
-    # template = loader.get_template('/makeperfect_app/static/html/login.html')
-    # context = RequestContext(request)
-    # return HttpResponse(template.render(context))
+
+
+@csrf_exempt
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 
 @csrf_exempt
@@ -324,7 +324,7 @@ def api_setlist_item_position(request, setlist_item_id):
 #     song_list = Song.objects.all().order_by('song_title')
 #     lists = List.objects.all().order_by('list_name')
 #     list_items = ListItem.objects.all()
-#     template = loader.get_template('makeperfect_app/index.html')
+#     template = loader.get_template('makeperfect_app/main.html')
 #     context = RequestContext(request, {
 #         'song_list': song_list,
 #         'lists': lists,
