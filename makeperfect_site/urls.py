@@ -39,6 +39,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += patterns(
         'django.contrib.staticfiles.views',
+        url(r'^$', 'serve', kwargs={'path': 'html/login.html'}),
         url(r'^(?:login.html)?$', 'serve', kwargs={'path': 'html/login.html'}),
         url(r'^main.html$', 'serve', kwargs={'path': 'html/main.html'}),
         url(r'^register.html$', 'serve', kwargs={'path': 'html/register.html'}),
