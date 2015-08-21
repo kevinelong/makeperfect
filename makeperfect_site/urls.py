@@ -34,15 +34,15 @@ urlpatterns = [
 ]
 
 
-# If index.html or nothing (/), then serve static html into url
+# If main.html or nothing (/), then serve static html into url
 ###############################################################
 
 if settings.DEBUG:
     urlpatterns += patterns(
         'django.contrib.staticfiles.views',
-        url(r'^(?:index.html)?$', 'serve', kwargs={'path': 'html/index.html'}),
         url(r'^(?:login.html)?$', 'serve', kwargs={'path': 'html/login.html'}),
-        url(r'^(?:register.html)?$', 'serve', kwargs={'path': 'html/register.html'}),
+        url(r'^main.html$', 'serve', kwargs={'path': 'html/main.html'}),
+        url(r'^register.html$', 'serve', kwargs={'path': 'html/register.html'}),
         url(r'^(?P<path>(?:js|css|img)/.*)$', 'serve'),
     )
 
