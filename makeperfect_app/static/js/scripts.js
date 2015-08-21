@@ -1,25 +1,10 @@
 var content;
+var logoutButton = document.getElementById("logout-button");
+logoutButton.addEventListener("click", logout);
 
-//function toggleSongs() {
-//    var setlist = document.getElementById("sidebar-all-songs");
-//    if (setlist.style.display == "none") {
-//        setlist.style.display = "block";
-//            //showAllSidebarSongs();
-//    } else {
-//            setlist.style.display = "none";
-//        }
-//}
-//
-//function toggleSetlists() {
-//    var setlist = document.getElementById("list-of-sets");
-//    if (setlist.style.display == "none") {
-//        setlist.style.display = "block";
-//
-//    } else {
-//            setlist.style.display = "none";
-//
-//        }
-//}
+function logout() {
+    window.location="/logout_view/";
+}
 
 function hideOtherContent(){
     var otherContent = document.getElementsByClassName("main-content");
