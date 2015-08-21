@@ -185,9 +185,19 @@ label {
 #login-form, #registration-form {
     background: white;
     width: auto;
-    margin: 100px;
-    padding: 100px;
+    margin: 50px;
+    padding: 50px;
     text-align: center;
+    border-radius: 25px;
+    border: 1px solid black;
+}
+
+#login-form input, #registration-form input {
+    width: auto;
+    margin: 0;
+    padding: 15px;
+    background: whitesmoke;
+    border: 1px solid black;
 }
 
 /*--------------------------------------------
