@@ -60,6 +60,13 @@ header span:after {
     font-size: 35px;
 }
 
+#logout-button {
+    position: absolute;
+    right: 0;
+    margin-right: 25px;
+    font-weight: bold;
+    font-size: 12px;
+}
 /*--------------------------------------------
  HEADING STYLES
 ---------------------------------------------*/
