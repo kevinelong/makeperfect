@@ -107,13 +107,14 @@ def api_available_songs(request, setlist_id):
 def api_song_details(request, song_id):
     if request.POST:
         print(request.POST)
-
-        if request.POST["id"] == "0":
+        id = request.POST['id']
+        if id == "0":
             song = Song()
         else:
-            song = Song.objects.filter(id=request.POST["id"])[0]
+            song = Song.objects.filter(id=id)[0]
         if request.POST["action"] == "DELETE":
             song.delete()
+            return HttpResponse(json.dumps({'id':id}))
         else:
             song.song_title = request.POST["song_title"]
             song.artist = request.POST["artist"]
