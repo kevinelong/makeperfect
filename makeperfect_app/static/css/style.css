@@ -24,6 +24,7 @@ body {
     background: lightseagreen;
 }
 
+
 /*--------------------------------------------
 HEADER STYLES
 ---------------------------------------------*/
@@ -115,6 +116,11 @@ a:hover {
     height: 35px;
 }
 
+#register-link {
+    color: mediumblue;
+    font-weight: bold;
+    text-decoration: underline;
+}
 /*--------------------------------------------
 SONG DETAIL STYLES
 ---------------------------------------------*/
@@ -182,14 +188,16 @@ label {
     border-radius: 10px;
 }
 
-#login-form, #registration-form {
+#login-form, #registration-form, #about {
     background: white;
-    width: auto;
-    margin: 50px;
-    padding: 50px;
+    max-width: 50%;
+    margin: auto;
+    margin-top: 50px;
+
+    padding: 20px;
     text-align: center;
     border-radius: 25px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 #login-form input, #registration-form input {
@@ -197,24 +205,24 @@ label {
     margin: 0;
     padding: 15px;
     background: whitesmoke;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
+}
+
+#login-form h1, #registration-form h1 {
+    font-size: 30px;
+    font-family: 'Just Another Hand', cursive;
 }
 
 /*--------------------------------------------
 LIST STYLES
 ---------------------------------------------*/
-/*removes styling, padding, and margin from unordered lists*/
+/*remove styling, padding, and margin from unordered lists*/
 ul {
     list-style: none;
     padding:0;
     margin:0;
 
 }
-/*controls the padding and indentation of each list element*/
-/*li {*/
-    /*padding-left: 1.35em;*/
-    /*text-indent: -.7em;*/
-/*}*/
 
 /*--------------------------------------------
 BUTTON STYLES
