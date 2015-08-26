@@ -39,6 +39,7 @@ def register_view(request):
     if request.POST:
         user = User()
         user.username = request.POST['username']
+        user.email = request.POST['username']
         user.set_password(request.POST['password'])
         user.save()
         return HttpResponseRedirect("/login.html")
