@@ -18,7 +18,7 @@ body {
 }
 
 .main-content pre, .main-content span {
-    padding-left: 25px;
+    padding-left: 15px;
 }
 .selected {
     background: lightseagreen;
@@ -40,8 +40,8 @@ header {
 }
 
 header span {
-    font-family: 'Just Another Hand', cursive;
-    font-size: 35px;
+    font-family: 'Just Another Hand', sans-serif;
+    font-size: 45px;
     font-weight: bold;
     color: black;
     letter-spacing: 3px;
@@ -72,15 +72,15 @@ header span:after {
  HEADING STYLES
 ---------------------------------------------*/
 h1 {
-    font-size: 18px;
+    font-size: 26px;
 }
 
 h2 {
-    font-size: 16px;
+    font-size: 22px;
 }
 
 h3 {
-    font-size: 14px;
+    font-size: 18px;
 }
 
 /*--------------------------------------------
@@ -129,7 +129,7 @@ SONG DETAIL STYLES
 }
 
 #song-details h2 {
-    display: inline;
+    display: inline-block;
 }
 
 pre {
@@ -157,7 +157,7 @@ input {
 }
 
 textarea {
-    width: 700px;
+    width: 500px;
     height: 500px;
 }
 
@@ -233,7 +233,7 @@ button {
     border: 0;
     border-radius: 25px;
     font-size: 14px;
-    padding: 5px 10px;
+    padding: 4px 7px;
     margin: 0;
 }
 

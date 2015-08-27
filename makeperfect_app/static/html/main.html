@@ -6,6 +6,7 @@
     <title>
             Make Perfect
     </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href='/css/normalize.css'/>
     <link rel="stylesheet" type="text/css" href='/css/style.css'/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,400,700|Roboto' rel='stylesheet' type='text/css'>
@@ -21,8 +22,8 @@
         <nav>
             <button onclick="getAllSongs()">ALL SONGS</button>
             <button onclick="showNewSongForm()">NEW SONG</button>
-            <button onclick="showAllSetlists()">ALL SETLISTS</button>
-            <button onclick="showNewSetForm()">NEW SETLIST</button>
+            <button onclick="showAllSetlists()">ALL SETS</button>
+            <button onclick="showNewSetForm()">NEW SET</button>
 
         </nav>
 
@@ -31,7 +32,7 @@
     <!--------------------LIST OF ALL SONGS---------------->
 
     <div class="main-content" id="all-songs">
-        <h1>All Songs in Your Repertoire</h1>
+        <h1>Repertoire</h1>
         <ul id = "all-songs-list" class="lists"></ul>
     </div>
 
@@ -40,6 +41,8 @@
     <div class="main-content" id="song-details">
         <div>
             <h1 id="song-title"></h1>
+            <button onclick="showSongEditForm()"><i class="fa fa-pencil-square-o"></i> EDIT</button>
+            <button onclick="confirmDeleteSong()"><i class="fa fa-trash"></i> DELETE</button>
             <div id="confirm-delete-song">Do you really want to delete this song?
                 <button id = "delete-song-btn-true">yes</button>
                 <button id = "delete-song-btn-false">no</button>
@@ -62,9 +65,6 @@
                 <h2>notes</h2>
                 <pre id="notes"></pre>
             </div>
-
-            <button onclick="showSongEditForm()">EDIT SONG</button>
-            <button onclick="confirmDeleteSong()">DELETE SONG</button>
 
         </div>
     </div>
@@ -103,8 +103,8 @@
     <div class="main-content" id="set-details">
         <div>
             <h1 id="set-title"></h1>
-            <button id ="edit-set-button" onclick="showSetEditForm()">EDIT</button>
-            <button id ="delete-set-button" onclick="confirmSetDelete()">DELETE</button>
+            <button id ="edit-set-button" onclick="showSetEditForm()"><i class="fa fa-pencil-square-o"></i> EDIT</button>
+            <button id ="delete-set-button" onclick="confirmSetDelete()"><i class="fa fa-trash"></i> DELETE</button>
             <hr>
             <div id="confirm-delete-set">Do you really want to delete this set?
                 <button id ="delete-set-btn-true">yes</button>
