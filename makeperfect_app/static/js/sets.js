@@ -20,12 +20,14 @@ function createSetlistElements(setlistItem) {
 //---------------SET LISTENERS and DRAW FUNCTIONS--------------
 //--------------------------------------------------------------
 
+// called by showAllSetlists()
 function reqAllSetsListener() {
     console.log(this.responseText);
     window.listOfSets = JSON.parse(this.responseText);
     drawAllSetlists();
 }
 
+// called by showSetDetails()
 function reqSetListener() {
     console.log(this.responseText);
     window.setlist = JSON.parse(this.responseText);
@@ -33,6 +35,7 @@ function reqSetListener() {
     drawSetlistEditForm();
 }
 
+// called by reqAllSetsListener()
 function drawAllSetlists() {
    // draw all sets in main window
     var allSets = document.getElementById("all-sets-list");
@@ -44,6 +47,7 @@ function drawAllSetlists() {
     }
 }
 
+//called by reqSetListener()
 function drawSetlist(){
     //var setlist = window.setlist;
     var songList = document.getElementById("songs-in-set");
@@ -70,6 +74,7 @@ function drawSetlist(){
     }
 }
 
+// called by reqSetListener()
 function drawSetlistEditForm(){
     document.getElementById("edit-set-title").innerHTML=setlist.setlist_title;
     document.getElementById("edit-set-title").value=setlist.setlist_title;
@@ -106,15 +111,13 @@ function drawSongsInSetlist(){
         songContainer.setAttribute("data-setlistItemId", setlistItemId);
         songContainer.setAttribute("data-position", setlistItemPosition);
         songContainer.setAttribute("class", "setlist-items");
+
         //create anchor elements
         var songInSet = document.createElement("a");
         songInSet.setAttribute("href", "#");
         songInSet.setAttribute("data-id", id);
         songInSet.setAttribute("data-setlistItemId", setlistItemId);
         songInSet.setAttribute("data-position", setlistItemPosition);
-        //songInSet.addEventListener("click", function(e){
-        //    selectSong(e.target.getAttribute("data-id"));
-        //});
 
         //create buttons to remove songs from the setlist
         var removeButton = document.createElement("button");
@@ -144,13 +147,15 @@ function drawSongsInSetlist(){
 
 //--------------------AVAILABLE SONG LISTENER AND DRAW FUNCTION-------
 //--------------------------------------------------------------------
+
+// called by showAvailableSongs()
 function reqAvailableSongsListener() {
     //console.log(this.responseText);
     window.songs = JSON.parse(this.responseText);
     drawAvailableSongs();
 }
 
-// called by showAvailableSongs()
+// called by reqAvailableSongsListener()
 function drawAvailableSongs() {
     var availableSongsList = document.getElementById("available-songs");
     availableSongsList.innerHTML="";
@@ -189,6 +194,7 @@ function drawAvailableSongs() {
 //---------------------SETS & SET FORMS---------------------------------
 //----------------------------------------------------------------------
 
+// called by button click
 function showAllSetlists() {
     content = document.getElementById("all-sets");
     hideOtherContent();
@@ -198,6 +204,7 @@ function showAllSetlists() {
     xhr.send();
 }
 
+// called by sendSetDetails()
 function showSetDetails(id) {
     window.currentSetId = id;
     content = document.getElementById("set-details");
@@ -234,7 +241,7 @@ function showSetEditForm() {
     showAvailableSongs(id);
 }
 
-// clears the form
+// clears the form, called by button click
 function showNewSetForm() {
     window.currentSetId = 0;
     document.getElementById("set-title-h1").innerHTML="";
@@ -245,6 +252,7 @@ function showNewSetForm() {
     showSetEditForm();
 }
 
+// called by showSetEditForm()
 function showAvailableSongs(id) {
     var xhr = new XMLHttpRequest();
     xhr.onload = reqAvailableSongsListener;
@@ -256,6 +264,7 @@ function showAvailableSongs(id) {
 //---------------------EDITING AND ADDING SETS---------------------
 //------------------------------------------------------------------
 
+// called by sendSetDetails()
 function sendSetPost(item, url) {
     var form_data = new FormData();
     // adds each key-value pair to the FormData
@@ -269,6 +278,7 @@ function sendSetPost(item, url) {
     request.send(form_data);
 }
 
+// called on button click
 function sendSetDetails() {
     id = window.currentSetId;
     var item = {
@@ -284,6 +294,7 @@ function sendSetDetails() {
 //---------------------DELETING SETS-------------------------------
 //------------------------------------------------------------------
 
+// called by deleteSet()
 function sendSetDelete(id) {
     var form_data = new FormData();
     form_data.append("id", id);
@@ -293,12 +304,14 @@ function sendSetDelete(id) {
     request.send(form_data);
 }
 
+// called by confirmSetDelete()
 function deleteSet() {
     id = window.currentSetId;
     sendSetDelete(id);
     showAllSetlists();
 }
 
+// called by delete button in view
 function confirmSetDelete() {
     document.getElementById('confirm-delete-set').style.display="block";
 
@@ -317,6 +330,7 @@ function confirmSetDelete() {
 //---------------------ADDING AND REMOVING SONGS FROM SETS---------
 //------------------------------------------------------------------
 
+// called by clicking on a button on the set edit page
 function addSongToSet(songId) {
     var setId = window.currentSetId;
     window.currentSongId = songId;
@@ -336,9 +350,11 @@ function addSongToSet(songId) {
     window.setlist.songs.push(song);
     createNewAssociation();
     drawAvailableSongs();
+    drawSongsInSetlist();
     refreshOrder();
 }
 
+// called by clicking on a button on the set edit page
 function removeSongFromSet(songId){
     var setId = window.currentSetId;
     window.currentSongId = songId;
@@ -367,6 +383,7 @@ function removeSongFromSet(songId){
 //---------------------SET-SONG-ASSOCIATIONS-----------------------
 //-----------------------------------------------------------------
 
+//called by createNewAssociation()
 function sendAssociation(item, url) {
     var form_data = new FormData();
     for (var key in item) {
@@ -377,6 +394,7 @@ function sendAssociation(item, url) {
     request.send(form_data);
 }
 
+// called by addSongToSet()
 function createNewAssociation() {
         var id=0;
         var item = {
@@ -388,6 +406,7 @@ function createNewAssociation() {
     sendAssociation(item, "/api_association/" + id + '/');
 }
 
+//called by removeSongFromSet()
 function deleteAssociation(id) {
     var item = {
         "action": "DELETE",
@@ -399,12 +418,14 @@ function deleteAssociation(id) {
 //---------------------SETLIST SONG ORDER-------------------------
 //-----------------------------------------------------------------
 
+// called by loadList()
 function reqSongsInSetListener() {
     console.log(this.responseText);
     window.setlist = JSON.parse(this.responseText);
     drawSongsInSetlist();
 }
 
+// called by refreshOrder()
 function loadList() {
     var xhr = new XMLHttpRequest();
     xhr.onload = reqSongsInSetListener;
@@ -412,6 +433,7 @@ function loadList() {
     xhr.send();
 }
 
+// called by the Refresh Order button in setlist edit form
 function refreshOrder() {
     id = currentSetId;
     var setlistItems = document.getElementsByClassName("setlist-items");
