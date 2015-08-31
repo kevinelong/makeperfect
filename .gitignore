@@ -1,7 +1,5 @@
 *.pyc
 
-settings.py
-
 .idea/
 
 db.sqlite3
